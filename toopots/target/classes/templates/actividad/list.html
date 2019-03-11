@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Gestionar Actividades</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"     
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+   <h1>Lista de Actividades</h1>
+   <table class="table table-striped">
+     <thead>
+       <tr>
+         <th>Nombre</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr th:each="actividad: ${actividades}"> 
+         <td th:text="${actividad.nombre}"></td>
+         <td><a th:href="@{/actividad/update/{nombre}(nombre=${actividad.nombre})}" class="btn btn-warning">Editar</a></td>
+         <td><a th:href="@{/actividad/delete/{nombre}(nombre=${actividad.nombre})}" class="btn btn-danger">Borrar</a></td>
+       </tr>
+     </tbody>
+   </table>
+   <a href="add.html" class="btn btn-success">Añadir actividad</a> 
+</body>
+</html>
