@@ -42,11 +42,11 @@ public class ActividadDao {
         jdbcTemplate.update("UPDATE actividad SET estado=?, nombre=?, descripcion=?, duracion=?, fecha=?,"
         		+ " precio=?, minAsistentes=?, maxAsistentes=?, lugar=?, puntoDeEncuentro=?,"
         		+ " horaDeEncuentro=?, textoCliente=?, idTipoActividad=? where idActividad=?",
-        		actividad.getIdTipoActividad(), actividad.getEstado(), actividad.getNombre(),
+        		actividad.getEstado(), actividad.getNombre(),
                 actividad.getDescripcion(), actividad.getDuracion(), actividad.getFecha(),
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),
-                actividad.getTextoCliente(), actividad.getIdActividad());
+                actividad.getTextoCliente(), actividad.getIdTipoActividad(),  actividad.getIdActividad());
     }
 
     public Actividad getActividad(String idActividad) {
