@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"> 
 <head>
-   <title>Modificar un cliente</title>
+   <title>Modificar una actividad</title>
    <meta charset="UTF-8" />
    <link rel="stylesheet"       
      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 </head>
 <body>
-    <h2>Editar cliente</h2>
-    <form action="#" th:action="@{/cliente/update/{idCliente}(idCliente=${cliente.idCliente})}"
-                     th:object="${cliente}" method="post">
+    <h2>Editar actividad</h2>
+    <form action="#" th:action="@{/actividad/update/{idActividad}(idActividad=${actividad.idActividad})}"
+                     th:object="${actividad}" method="post">
       <table>
         <tr>
             <td><label>idActividad</label></td>
@@ -74,7 +74,7 @@
             <td><input type="number" th:field="*{idTipoActividad}" /></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Editar cliente" /></td>
+            <td colspan="2"><input type="submit" value="Editar actividad" /></td>
         </tr>
       </table>
     </form>
