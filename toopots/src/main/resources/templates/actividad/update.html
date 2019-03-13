@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Modificar un cliente</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"       
+     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+    <h2>Editar cliente</h2>
+    <form action="#" th:action="@{/cliente/update/{idCliente}(idCliente=${cliente.idCliente})}"
+                     th:object="${cliente}" method="post">
+      <table>
+        <tr>
+            <td><label>idActividad</label></td>
+            <td><input type="number" th:field="*{idActividad}" /></td>
+        </tr>
+        <tr>
+            <td><label>Estado</label></td>
+            <td><input type="text" th:field="*{estado}" /></td>
+        </tr>
+        <tr>
+            <td><label>Nombre</label></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+        </tr>
+        <tr>
+            <td><label>Descripcion</label></td>
+            <td><input type="text" th:field="*{descripcion}" /></td>
+        </tr>
+        <tr>
+            <td><label>Duracion</label></td>
+            <td><input type="time" th:field="*{duracion}" /></td>
+        </tr>
+        <tr>
+            <td><label>Fecha</label></td>
+            <td><input type="date" th:field="*{fecha}" /></td>
+        </tr>
+        <tr>
+            <td><label>Precio</label></td>
+            <td><input type="number" th:field="*{precio}" /></td>
+        </tr>
+        <tr>
+            <td><label>minAsistentes</label></td>
+            <td><input type="number" th:field="*{minAsistentes}" /></td>
+        </tr>
+        <tr>
+            <td><label>maxAsistentes</label></td>
+            <td><input type="number" th:field="*{maxAsistentes}" /></td>
+        </tr>
+        <tr>
+            <td><label>Lugar</label></td>
+            <td><input type="text" th:field="*{lugar}" /></td>
+        </tr>
+        <tr>
+            <td><label>Punto de encuentro</label></td>
+            <td><input type="text" th:field="*{puntoDeEncuentro}" /></td>
+        </tr>
+        <tr>
+            <td><label>Hora de encuentro</label></td>
+            <td><input type="time" th:field="*{horaDeEncuentro}" /></td>
+        </tr>
+        <tr>
+            <td><label>Texto cliente</label></td>
+            <td><input type="text" th:field="*{textoCliente}" /></td>
+        </tr>
+        <tr>
+            <td><label>idTipoActividad</label></td>
+            <td><input type="number" th:field="*{idTipoActividad}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Editar cliente" /></td>
+        </tr>
+      </table>
+    </form>
+</body>
+</html>

@@ -8,20 +8,49 @@
 </head>
 <body>
    <h1>Lista de Actividades</h1>
-   <table class="table table-striped">
+   <div th:if="${#lists.isEmpty(actividades)}">
+         No hay actividades en la base de datos
+   </div>
+   <table th:unless="${#lists.isEmpty(actividades)}" class="table table-striped">
      <thead>
        <tr>
+         <th>idActividad</th>
+         <th>Estado</th>
          <th>Nombre</th>
+         <th>Descripcion</th>
+         <th>Duracion</th>
+         <th>Fecha</th>
+         <th>Precio</th>
+         <th>minAsistentes</th>
+         <th>maxAsistentes</th>
+         <th>Lugar</th>
+         <th>Punto de encuentro</th>
+         <th>Hora de encuentro</th>
+         <th>Texto cliente</th>
+         <th>idTipoActividad</th>
        </tr>
      </thead>
      <tbody>
        <tr th:each="actividad: ${actividades}"> 
+         <td th:text="${actividad.idActividad}"></td>
+         <td th:text="${actividad.estado}"></td>
          <td th:text="${actividad.nombre}"></td>
+         <td th:text="${actividad.descripcion}"></td>
+         <td th:text="${actividad.duracion}"></td>
+         <td th:text="${actividad.fecha}"></td>
+         <td th:text="${actividad.precio}"></td>
+         <td th:text="${actividad.minAsistentes}"></td>
+         <td th:text="${actividad.maxAsistentes}"></td>
+         <td th:text="${actividad.lugar}"></td>
+         <td th:text="${actividad.puntoDeEncuentro}"></td>
+         <td th:text="${actividad.horaDeEncuentro}"></td>
+         <td th:text="${actividad.textoCliente}"></td>
+         <td th:text="${actividad.idTipoActividad}"></td>
          <td><a th:href="@{/actividad/update/{nombre}(nombre=${actividad.nombre})}" class="btn btn-warning">Editar</a></td>
          <td><a th:href="@{/actividad/delete/{nombre}(nombre=${actividad.nombre})}" class="btn btn-danger">Borrar</a></td>
        </tr>
      </tbody>
    </table>
-   <a href="add.html" class="btn btn-success">Añadir actividad</a> 
+   <a href="add" class="btn btn-success">Añadir actividad</a> 
 </body>
 </html>
