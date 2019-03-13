@@ -12,7 +12,7 @@ public final class ClienteRowMapper implements RowMapper<Cliente> {
         cliente.setIdCliente(rs.getString("idCliente"));
         cliente.setNombre(rs.getString("nombre"));
         cliente.setEmail(rs.getString("email"));
-        cliente.setSexo((char) rs.getObject("sexo"));
+        cliente.setSexo(rs.getString("sexo"));
         cliente.setFechaNacimiento(rs.getDate("fechaNacimiento"));
         return cliente;
     }

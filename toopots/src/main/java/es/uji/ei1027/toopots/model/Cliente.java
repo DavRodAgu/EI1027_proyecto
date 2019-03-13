@@ -6,7 +6,7 @@ public class Cliente {
 	private String idCliente;
 	private String nombre;
 	private String email;
-	private char sexo;
+	private String sexo;
 	private Date fechaNacimiento;
 	
 	
@@ -28,10 +28,10 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public char getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(char sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 	public Date getFechaNacimiento() {

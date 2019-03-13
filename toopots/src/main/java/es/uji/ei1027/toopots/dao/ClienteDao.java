@@ -37,8 +37,8 @@ public class ClienteDao {
 
     public void updateCliente(Cliente cliente) {
         jdbcTemplate.update("UPDATE cliente SET nombre=?, email=?, sexo=?, fechaNacimiento=? where idCliente=?",
-        		cliente.getIdCliente(), cliente.getNombre(), cliente.getEmail(),
-                cliente.getSexo(),cliente.getFechaNacimiento());
+        		cliente.getNombre(), cliente.getEmail(), cliente.getSexo(),
+                cliente.getFechaNacimiento(), cliente.getIdCliente());
     }
 
     public Cliente getCliente(String idCliente) {
