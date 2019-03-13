@@ -17,7 +17,13 @@
         </tr>
         <tr>
             <td><label>Estado</label></td>
-            <td><input type="text" th:field="*{estado}" /></td>
+            <td><select class="form_control" type="text" th:field="*{estado}" >
+					<option value="abierta">Abierta</option>
+					<option value="cerrada">Cerrada</option>
+					<option value="completa">Completa</option>
+					<option value="cancelada">Cancelada</option>
+		    	</select>
+		    </td>
         </tr>
         <tr>
             <td><label>Nombre</label></td>
