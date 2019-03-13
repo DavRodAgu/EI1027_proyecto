@@ -46,8 +46,8 @@
          <td th:text="${actividad.horaDeEncuentro}"></td>
          <td th:text="${actividad.textoCliente}"></td>
          <td th:text="${actividad.idTipoActividad}"></td>
-         <td><a th:href="@{/actividad/update/{nombre}(nombre=${actividad.nombre})}" class="btn btn-warning">Editar</a></td>
-         <td><a th:href="@{/actividad/delete/{nombre}(nombre=${actividad.nombre})}" class="btn btn-danger">Borrar</a></td>
+         <td><a th:href="@{/actividad/update/{idActividad}(idActividad=${actividad.idActividad})}" class="btn btn-warning">Editar</a></td>
+         <td><a th:href="@{/actividad/delete/{idActividad}(idActividad=${actividad.idActividad})}" class="btn btn-danger">Borrar</a></td>
        </tr>
      </tbody>
    </table>

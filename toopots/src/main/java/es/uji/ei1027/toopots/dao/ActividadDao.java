@@ -52,7 +52,7 @@ public class ActividadDao {
     public Actividad getActividad(String idActividad) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from Actividad WHERE idActividad=?",
-                    new ActividadRowMapper(), idActividad);
+                    new ActividadRowMapper(), Integer.valueOf(idActividad));
         }
         catch(EmptyResultDataAccessException e) {
             return null;
