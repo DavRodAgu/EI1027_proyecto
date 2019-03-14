@@ -20,7 +20,7 @@ public class InstructorController {
    private InstructorDao instructorDao;
 
    @Autowired
-   public void setInsructorDao(InstructorDao instructorDao) { 
+   public void setInstructorDao(InstructorDao instructorDao) { 
        this.instructorDao=instructorDao;
    }
 
@@ -40,7 +40,7 @@ public class InstructorController {
    public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor,
                                    BindingResult bindingResult) {  
    	 if (bindingResult.hasErrors()) 
-   			return "isntructor/add";
+   			return "instructor/add";
    	 instructorDao.addInstructor(instructor);
    	 return "redirect:list"; 
     }
