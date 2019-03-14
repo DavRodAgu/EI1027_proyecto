@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Gestionar Reservas</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"     
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+   <h1>Lista de Reservas</h1>
+   <div th:if="${#lists.isEmpty(reservas)}">
+         No hay Reservas en la base de datos
+    </div>
+   <table th:unless="${#lists.isEmpty(reservas)}" class="table table-striped">
+     <thead>
+       <tr>
+         <th>idReserva</th>
+         <th>estadoPago</th>
+         <th>numTransaccion</th>
+         <th>fecha</th>
+         <th>numAsistentes</th>
+         <th>precioPorPersona</th>
+         <th>idActividad</th>
+         <th>idCliente</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr th:each="reserva: ${reservas}"> 
+         <td th:text="${reserva.idReserva}"></td>
+         <td th:text="${reserva.estadoPago}"></td>
+         <td th:text="${reserva.numTransaccion}"></td>
+         <td th:text="${reserva.fecha}"></td>
+         <td th:text="${reserva.numAsistentes}"></td>
+         <td th:text="${reserva.precioPorPersona}"></td>
+         <td th:text="${reserva.idActividad}"></td>
+         <td th:text="${reserva.idCliente}"></td>
+         <td><a th:href="@{/reserva/update/{idReserva}(idReserva=${reserva.idReserva})}" class="btn btn-warning">Editar</a></td>
+         <td><a th:href="@{/reserva/delete/{idReserva}(idReserva=${reserva.idReserva})}" class="btn btn-danger">Borrar</a></td>
+       </tr>
+     </tbody>
+   </table>
+   <a href="add" class="btn btn-success">Añadir Reserva</a> 
+</body>
+</html>
