@@ -35,7 +35,7 @@ public class ActividadDao {
     }
     
     public void deleteActividad(String idActividad) {
-        jdbcTemplate.update("DELETE from Actividad where idActividad=?", idActividad);
+        jdbcTemplate.update("DELETE from Actividad where idActividad=?", Integer.valueOf(idActividad));
     }
 
     public void updateActividad(Actividad actividad) {
