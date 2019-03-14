@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Gestionar Instructores</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"     
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+   <h1>Lista de Instructores</h1>
+   <div th:if="${#lists.isEmpty(instructores)}">
+         No hay Instructores en la base de datos
+    </div>
+   <table th:unless="${#lists.isEmpty(instructores)}" class="table table-striped">
+     <thead>
+       <tr>
+         <th>idInstructor</th>
+         <th>estado</th>
+         <th>nombre</th>
+         <th>email</th>
+         <th>iban</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr th:each="instructor: ${instructores}"> 
+         <td th:text="${instructor.idInstructor}"></td>
+         <td th:text="${instructor.estado}"></td>
+         <td th:text="${instructor.nombre}"></td>
+         <td th:text="${instructor.email}"></td>
+         <td th:text="${instructor.iban}"></td>
+         <td><a th:href="@{/instructor/update/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-warning">Editar</a></td>
+         <td><a th:href="@{/instructor/delete/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-danger">Borrar</a></td>
+       </tr>
+     </tbody>
+   </table>
+   <a href="add" class="btn btn-success">Añadir Instructor</a> 
+</body>
+</html>
