@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public final class InstructorRowMapper implements RowMapper<Instructor> {
     public Instructor mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Instructor instructor = new Instructor();
+        Instructor instructor =new Instructor();
         instructor.setIdInstructor(rs.getString("idInstructor"));
         instructor.setEstado(rs.getString("estado"));
         instructor.setNombre(rs.getString("nombre"));

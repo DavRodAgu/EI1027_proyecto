@@ -18,7 +18,7 @@ public class InstructorDao {
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate =new JdbcTemplate(dataSource);
     }
 
     public void addInstructor(Instructor instructor) {

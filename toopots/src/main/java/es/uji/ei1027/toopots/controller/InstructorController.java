@@ -21,7 +21,7 @@ public class InstructorController {
 
    @Autowired
    public void setInsructorDao(InstructorDao instructorDao) { 
-       this.instructorDao=instructorDao;
+       this.instructorDao= instructorDao;
    }
 
    @RequestMapping("/list")
