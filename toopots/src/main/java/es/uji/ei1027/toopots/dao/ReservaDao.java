@@ -22,8 +22,8 @@ public class ReservaDao {
     }
 
     public void addReserva(Reserva reserva) {
-        jdbcTemplate.update("INSERT INTO Reserva VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                reserva.getIdReserva(), reserva.getEstadoPago(), reserva.getNumTransaccion(),
+        jdbcTemplate.update("INSERT INTO Reserva VALUES(nextval('reserva_idreserva_seq'), ?, ?, ?, ?, ?, ?, ?)",
+                reserva.getEstadoPago(), reserva.getNumTransaccion(),
                 reserva.getFecha(),reserva.getNumAsistentes(), reserva.getPrecioPorPersona(),
                 reserva.getIdActividad(), reserva.getIdCliente());
     }

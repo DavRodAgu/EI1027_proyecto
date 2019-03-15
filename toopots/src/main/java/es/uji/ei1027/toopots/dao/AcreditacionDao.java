@@ -22,8 +22,8 @@ public class AcreditacionDao {
     }
 
     public void addAcreditacion(Acreditacion acreditacion) {
-        jdbcTemplate.update("INSERT INTO Acreditacion VALUES(?, ?, ?, ?)",
-                acreditacion.getIdAcreditacion(), acreditacion.getCertificado(), acreditacion.getEstado(),
+        jdbcTemplate.update("INSERT INTO Acreditacion VALUES(nextval('acreditacion_idacreditacion_seq'), ?, ?, ?)",
+                acreditacion.getCertificado(), acreditacion.getEstado(),
                 acreditacion.getIdInstructor());
     }
 

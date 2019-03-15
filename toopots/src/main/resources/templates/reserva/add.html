@@ -12,10 +12,6 @@
                      th:object="${reserva}" method="post">
       <table>
         <tr>
-            <td><label>idReserva</label></td>
-            <td><input type="number" th:field="*{idReserva}" /></td>
-        </tr>
-        <tr>
             <td><label>EstadoPago</label></td>
             <td><select class="form_control" type="text" th:field="*{estadoPago}" >
 					<option value="pendiente">Pendiente</option>
