@@ -22,8 +22,8 @@ public class ActividadDao {
     }
 
     public void addActividad(Actividad actividad) {
-        jdbcTemplate.update("INSERT INTO Actividad VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                actividad.getIdActividad(), actividad.getEstado(), actividad.getNombre(),
+        jdbcTemplate.update("INSERT INTO Actividad VALUES(nextval('sequence_actividad'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                actividad.getEstado(), actividad.getNombre(),
                 actividad.getDescripcion(), actividad.getDuracion(), actividad.getFecha(),
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),

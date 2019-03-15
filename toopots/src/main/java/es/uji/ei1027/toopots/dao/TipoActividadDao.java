@@ -22,8 +22,8 @@ public class TipoActividadDao {
     }
 
     public void addTipoActividad(TipoActividad tipoActividad) {
-        jdbcTemplate.update("INSERT INTO TipoActividad VALUES(?, ?, ?)",
-                tipoActividad.getIdTipoActividad(), tipoActividad.getNombre(), tipoActividad.getNivel());
+        jdbcTemplate.update("INSERT INTO TipoActividad VALUES(nextval('sequence_tipoactividad'), ?, ?)",
+                tipoActividad.getNombre(), tipoActividad.getNivel());
     }
 
     public void deleteTipoActividad(TipoActividad tipoActividad) {
