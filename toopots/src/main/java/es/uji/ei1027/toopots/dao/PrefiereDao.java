@@ -30,6 +30,10 @@ public class PrefiereDao {
 				prefiere.getIdTipoActividad(), prefiere.getIdCliente());
 	}
 
+	public void deletePrefiere(int idTipoActividad, String idCliente) {
+		jdbcTemplate.update("DELETE from Prefiere where idTipoActividad=? AND idCliente=?", idTipoActividad, idCliente);
+	}
+
 	public Prefiere getPrefiere(int idTipoActividad, String idCliente) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * from Prefiere WHERE idTipoActividad=? AND idCliente=?",

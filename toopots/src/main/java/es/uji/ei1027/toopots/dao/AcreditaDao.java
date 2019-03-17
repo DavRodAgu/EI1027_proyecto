@@ -25,9 +25,8 @@ public class AcreditaDao {
 				acredita.getIdAcreditacion());
 	}
 
-	public void deleteAcredita(Acredita acredita) {
-		jdbcTemplate.update("DELETE from Acredita where idTipoActividad=? AND idAcreditacion=?",
-				acredita.getIdTipoActividad(), acredita.getIdAcreditacion());
+	public void deleteAcredita(int idAcreditacion) {
+		jdbcTemplate.update("DELETE from Acredita where idAcreditacion=?", idAcreditacion);
 	}
 
 	public Acredita getAcredita(int idTipoActividad, int idAcreditacion) {

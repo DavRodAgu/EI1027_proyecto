@@ -29,6 +29,10 @@ public class OfertaDao {
 				oferta.getIdActividad());
 	}
 
+	public void deleteOferta(String idInstructor, int idActividad) {
+		jdbcTemplate.update("DELETE from Oferta where idInstructor=? AND idActividad=?", idInstructor, idActividad);
+	}
+
 	public Oferta getOferta(String idInstructor, int idActividad) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * from Oferta WHERE idInstructor=? AND idActividad=?",
@@ -45,7 +49,7 @@ public class OfertaDao {
 			return new ArrayList<Oferta>();
 		}
 	}
-	
+
 	public List<Oferta> getOfertasActividad(int idActividad) {
 		try {
 			return jdbcTemplate.query("SELECT * from Oferta WHERE idActividad=?", new OfertaRowMapper(), idActividad);
