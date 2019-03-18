@@ -13,7 +13,7 @@ import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.model.ImagenPromocional;
 
 @Controller
-@RequestMapping("/ImagenPromocional")
+@RequestMapping("/imagen")
 public class ImagenPromocionalController {
 
 	private ImagenPromocionalDao imagenPromocionalDao;
