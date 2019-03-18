@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Gestionar preferencias</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+</head>
+<body>
+	<h1>Lista de Preferencias</h1>
+	<div th:if="${#lists.isEmpty(preferencias)}">No hay Preferencias
+		en la base de datos</div>
+	<table th:unless="${#lists.isEmpty(preferencias)}"
+		class="table table-striped">
+		<thead>
+			<tr>
+				<th>idTipoActividad</th>
+				<th>idCliente</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="preferencia: ${preferencias}">
+				<td th:text="${preferencia.idTipoActividad}"></td>
+				<td th:text="${preferencia.idCliente}"></td>
+				<td><a
+					th:href="@{/preferencia/delete/{idTipoActividad}/{idCliente}(idTipoActividad=${preferencia.idTipoActividad}, idCliente=${preferencia.idCliente})}"
+					class="btn btn-danger">Borrar</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="add" class="btn btn-success">Añadir Preferencia</a>
+</body>
+</html>
