@@ -29,6 +29,11 @@ public class AcreditaDao {
 		jdbcTemplate.update("DELETE from Acredita where idAcreditacion=?", idAcreditacion);
 	}
 
+	public void deleteAcredita(int idTipoActividad, int idAcreditacion) {
+		jdbcTemplate.update("DELETE from Acredita where idTipoActividad =?, idAcreditacion=?", idTipoActividad,
+				idAcreditacion);
+	}
+
 	public Acredita getAcredita(int idTipoActividad, int idAcreditacion) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * from Acredita WHERE idTipoActividad=? AND idAcreditacion=?",
