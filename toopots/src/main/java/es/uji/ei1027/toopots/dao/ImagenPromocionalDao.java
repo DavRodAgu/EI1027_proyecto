@@ -23,8 +23,8 @@ public class ImagenPromocionalDao {
 	}
 
 	public void addImagenPromocional(ImagenPromocional imagenPromocional) {
-		jdbcTemplate.update("INSERT INTO ImagenPromocional VALUES(?, ?, ?)", 
-				imagenPromocional.getIdImagen(), imagenPromocional.getImagen(),
+		jdbcTemplate.update("INSERT INTO ImagenPromocional VALUES(nextval('imagenpromocional_idimagen_seq'), ?, ?)", 
+				imagenPromocional.getImagen(),
 				imagenPromocional.getIdActividad());
 	}
 
