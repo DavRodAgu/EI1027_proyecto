@@ -45,9 +45,9 @@ public class AcreditaController {
    	 return "redirect:list"; 
     }
    
-   @RequestMapping(value="/delete/{idAcreditacion}")
-	public String processDelete(@PathVariable int idAcreditacion) {
-          acreditaDao.deleteAcredita(idAcreditacion);
+   @RequestMapping(value="/delete/{idTipoActividad}/{idAcreditacion}")
+	public String processDelete(@PathVariable int idTipoActividad, @PathVariable int idAcreditacion) {
+          acreditaDao.deleteAcredita(idTipoActividad, idAcreditacion);
           return "redirect:../list"; 
 	}
 }
