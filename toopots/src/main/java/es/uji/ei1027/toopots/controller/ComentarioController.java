@@ -13,7 +13,7 @@ import es.uji.ei1027.toopots.dao.ComentarioDao;
 import es.uji.ei1027.toopots.model.Comentario;
 
 @Controller
-@RequestMapping("/Comentario")
+@RequestMapping("/comentario")
 public class ComentarioController {
 	
 	private ComentarioDao comentarioDao;
