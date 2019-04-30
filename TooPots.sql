@@ -1,5 +1,4 @@
 -- tablas
-
 CREATE TABLE Acredita (
     idTipoActividad int  NOT NULL,
     idAcreditacion int  NOT NULL,
@@ -30,7 +29,12 @@ CREATE TABLE Actividad (
     horaDeEncuentro time  NOT NULL,
     textoCliente varchar(50)  NOT NULL,
     idTipoActividad int  NOT NULL,
+    idInstructor varchar(10)  NOT NULL,
     CONSTRAINT estadoActividad CHECK (estado IN ('abierta','cerrada','completa','cancelada')) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT precio CHECK (precio >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT minAsistentes CHECK (minAsistentes >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT maxAsistentes CHECK (maxAsistentes >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT minMenorMaxAsistentes CHECK (minAsistentes <= maxAsistentes) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT Actividad_pk PRIMARY KEY (idActividad)
 );
 
@@ -51,6 +55,7 @@ CREATE TABLE Comentario (
     idCliente varchar(10)  NOT NULL,
     idActividad int  NULL,
     idInstructor varchar(10)  NULL,
+    CONSTRAINT valoracion CHECK (valoracion >= 1 and valoracion <= 5) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT Comentario_pk PRIMARY KEY (idComentario)
 );
 
@@ -63,18 +68,13 @@ CREATE TABLE ImagenPromocional (
 
 CREATE TABLE Instructor (
     idInstructor varchar(10)  NOT NULL,
-    estado varchar(15)  NOT NULL,
+    estado varchar(15)  NOT NULL DEFAULT 'pendiente',
     nombre varchar(50)  NOT NULL,
     email varchar(50)  NOT NULL,
     iban varchar(20)  NOT NULL,
+    foto varchar(100)  NOT NULL,
     CONSTRAINT estadoInstructor CHECK (estado IN ('aceptada','rechazada', 'pendiente')) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT Instructor_pk PRIMARY KEY (idInstructor)
-);
-
-CREATE TABLE Oferta (
-    idInstructor varchar(10)  NOT NULL,
-    idActividad int  NOT NULL,
-    CONSTRAINT Oferta_pk PRIMARY KEY (idInstructor,idActividad)
 );
 
 CREATE TABLE Prefiere (
@@ -85,7 +85,7 @@ CREATE TABLE Prefiere (
 
 CREATE TABLE Reserva (
     idReserva serial  NOT NULL,
-    estadoPago varchar(15)  NOT NULL,
+    estadoPago varchar(15)  NOT NULL DEFAULT 'pendiente',
     numTransaccion int  NOT NULL,
     fecha date  NOT NULL,
     numAsistentes int  NOT NULL,
@@ -93,6 +93,9 @@ CREATE TABLE Reserva (
     idActividad int  NOT NULL,
     idCliente varchar(10)  NOT NULL,
     CONSTRAINT estadoPago CHECK (estadoPago IN ('pendiente','pagado')) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT precio CHECK (precioPorPersona >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT transaccion CHECK (numTransaccion >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
+    CONSTRAINT asistentes CHECK (numAsistentes >= 0) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT Reserva_pk PRIMARY KEY (idReserva)
 );
 
@@ -104,9 +107,7 @@ CREATE TABLE TipoActividad (
     CONSTRAINT TipoActividad_pk PRIMARY KEY (idTipoActividad)
 );
 
-
 -- claves ajenas
-
 ALTER TABLE Acredita ADD CONSTRAINT Acredita_Acreditacion
     FOREIGN KEY (idAcreditacion)
     REFERENCES Acreditacion (idAcreditacion)
@@ -128,7 +129,16 @@ ALTER TABLE Acredita ADD CONSTRAINT Acredita_TipoActividad
 ALTER TABLE Acreditacion ADD CONSTRAINT Acreditacion_Instructor
     FOREIGN KEY (idInstructor)
     REFERENCES Instructor (idInstructor)
-    ON DELETE  CASCADE 
+    ON DELETE  RESTRICT 
+    ON UPDATE  CASCADE 
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+ALTER TABLE Actividad ADD CONSTRAINT Actividad_Instructor
+    FOREIGN KEY (idInstructor)
+    REFERENCES Instructor (idInstructor)
+    ON DELETE  RESTRICT 
     ON UPDATE  CASCADE 
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
@@ -164,7 +174,7 @@ ALTER TABLE Comentario ADD CONSTRAINT Comentario_Cliente
 ALTER TABLE Comentario ADD CONSTRAINT Comentario_Instructor
     FOREIGN KEY (idInstructor)
     REFERENCES Instructor (idInstructor)
-    ON DELETE  CASCADE 
+    ON DELETE  RESTRICT 
     ON UPDATE  CASCADE 
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
@@ -173,25 +183,7 @@ ALTER TABLE Comentario ADD CONSTRAINT Comentario_Instructor
 ALTER TABLE ImagenPromocional ADD CONSTRAINT ImagenPromocional_Actividad
     FOREIGN KEY (idActividad)
     REFERENCES Actividad (idActividad)
-    ON DELETE  CASCADE 
-    ON UPDATE  CASCADE 
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Oferta ADD CONSTRAINT Oferta_Actividad
-    FOREIGN KEY (idActividad)
-    REFERENCES Actividad (idActividad)
-    ON DELETE  CASCADE 
-    ON UPDATE  CASCADE 
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Oferta ADD CONSTRAINT Oferta_Instructor
-    FOREIGN KEY (idInstructor)
-    REFERENCES Instructor (idInstructor)
-    ON DELETE  CASCADE 
+    ON DELETE  RESTRICT 
     ON UPDATE  CASCADE 
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
@@ -232,3 +224,4 @@ ALTER TABLE Reserva ADD CONSTRAINT Reserva_Cliente
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
+
