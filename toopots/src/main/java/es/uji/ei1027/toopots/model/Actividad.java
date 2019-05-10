@@ -19,6 +19,7 @@ public class Actividad {
 	private Time horaDeEncuentro;
 	private String textoCliente;
 	private int idTipoActividad;
+	private String idInstructor;
 	
 	
 	public int getIdActividad() {
@@ -133,14 +134,21 @@ public class Actividad {
 	}
 	
 	
+	public String getIdInstructor() {
+		return idInstructor;
+	}
+	public void setIdInstructor(String idInstructor) {
+		this.idInstructor = idInstructor;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Actividad [idActividad=" + idActividad + ", estado=" + estado + ", nombre=" + nombre + ", descripcion="
 				+ descripcion + ", duracion=" + duracion + ", fecha=" + fecha + ", precio=" + precio
 				+ ", minAsistentes=" + minAsistentes + ", maxAsistentes=" + maxAsistentes + ", lugar=" + lugar
 				+ ", puntoDeEncuentro=" + puntoDeEncuentro + ", horaDeEncuentro=" + horaDeEncuentro + ", textoCliente="
-				+ textoCliente + ", idTipoActividad=" + idTipoActividad + "]";
+				+ textoCliente + ", idTipoActividad=" + idTipoActividad + ", idInstructor=" + idInstructor + "]";
 	}
-	
 	
 }

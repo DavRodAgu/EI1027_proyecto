@@ -28,6 +28,7 @@
          <th>Hora de encuentro</th>
          <th>Texto cliente</th>
          <th>idTipoActividad</th>
+         <th>idInstructor</th>
        </tr>
      </thead>
      <tbody>
@@ -46,6 +47,7 @@
          <td th:text="${actividad.horaDeEncuentro}"></td>
          <td th:text="${actividad.textoCliente}"></td>
          <td th:text="${actividad.idTipoActividad}"></td>
+         <td th:text="${actividad.idInstructor}"></td>
          <td><a th:href="@{/actividad/update/{idActividad}(idActividad=${actividad.idActividad})}" class="btn btn-warning">Editar</a></td>
          <td><a th:href="@{/actividad/delete/{idActividad}(idActividad=${actividad.idActividad})}" class="btn btn-danger">Borrar</a></td>
        </tr>

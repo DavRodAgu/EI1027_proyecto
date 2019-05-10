@@ -23,6 +23,7 @@ public final class ActividadRowMapper implements RowMapper<Actividad> {
         actividad.setHoraDeEncuentro(rs.getTime("horaDeEncuentro"));
         actividad.setTextoCliente(rs.getString("textoCliente"));
         actividad.setIdTipoActividad(rs.getInt("idTipoActividad"));
+        actividad.setIdInstructor(rs.getString("idInstructor"));
         return actividad;
     }
 }

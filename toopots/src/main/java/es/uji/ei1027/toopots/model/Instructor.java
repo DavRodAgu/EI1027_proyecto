@@ -6,6 +6,7 @@ public class Instructor {
 	private String nombre;
 	private String email;
 	private String iban;
+	private String foto;
 	
 	
 	public String getIdInstructor() {
@@ -38,12 +39,19 @@ public class Instructor {
 	public void setIban(String iban) {
 		this.iban = iban;
 	}
-	
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
 	
 	@Override
 	public String toString() {
 		return "Instructor [idInstructor=" + idInstructor + ", estado=" + estado + ", nombre=" + nombre + ", email="
-				+ email + ", iban=" + iban + "]";
+				+ email + ", iban=" + iban + ", foto=" + foto + "]";
 	}
+	
+	
 	
 }

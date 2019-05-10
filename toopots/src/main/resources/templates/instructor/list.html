@@ -19,6 +19,7 @@
          <th>nombre</th>
          <th>email</th>
          <th>iban</th>
+         <th>foto</th>
        </tr>
      </thead>
      <tbody>
@@ -28,6 +29,7 @@
          <td th:text="${instructor.nombre}"></td>
          <td th:text="${instructor.email}"></td>
          <td th:text="${instructor.iban}"></td>
+         <td th:text="${instructor.foto}"></td>
          <td><a th:href="@{/instructor/update/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-warning">Editar</a></td>
          <td><a th:href="@{/instructor/delete/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-danger">Borrar</a></td>
        </tr>

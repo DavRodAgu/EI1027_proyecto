@@ -22,12 +22,12 @@ public class ActividadDao {
     }
 
     public void addActividad(Actividad actividad) {
-        jdbcTemplate.update("INSERT INTO Actividad VALUES(nextval('actividad_idactividad_seq'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO Actividad VALUES(nextval('actividad_idactividad_seq'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 actividad.getEstado(), actividad.getNombre(),
                 actividad.getDescripcion(), actividad.getDuracion(), actividad.getFecha(),
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),
-                actividad.getTextoCliente(), actividad.getIdTipoActividad());
+                actividad.getTextoCliente(), actividad.getIdTipoActividad(), actividad.getIdInstructor());
     }
 
     public void deleteActividad(Actividad actividad) {
@@ -41,12 +41,12 @@ public class ActividadDao {
     public void updateActividad(Actividad actividad) {
         jdbcTemplate.update("UPDATE actividad SET estado=?, nombre=?, descripcion=?, duracion=?, fecha=?,"
         		+ " precio=?, minAsistentes=?, maxAsistentes=?, lugar=?, puntoDeEncuentro=?,"
-        		+ " horaDeEncuentro=?, textoCliente=?, idTipoActividad=? where idActividad=?",
+        		+ " horaDeEncuentro=?, textoCliente=?, idTipoActividad=?, idInstructor=? where idActividad=?",
         		actividad.getEstado(), actividad.getNombre(),
                 actividad.getDescripcion(), actividad.getDuracion(), actividad.getFecha(),
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),
-                actividad.getTextoCliente(), actividad.getIdTipoActividad(),  actividad.getIdActividad());
+                actividad.getTextoCliente(), actividad.getIdTipoActividad(), actividad.getIdInstructor(),  actividad.getIdActividad());
     }
 
     public Actividad getActividad(String idActividad) {

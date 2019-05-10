@@ -22,9 +22,9 @@ public class InstructorDao {
     }
 
     public void addInstructor(Instructor instructor) {
-        jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
                 instructor.getIdInstructor(), instructor.getEstado(), instructor.getNombre(),
-                instructor.getEmail(), instructor.getIban());
+                instructor.getEmail(), instructor.getIban(), instructor.getFoto());
     }
 
     public void deleteInstructor(Instructor instructor) {
@@ -36,9 +36,9 @@ public class InstructorDao {
     }
 
     public void updateInstructor(Instructor instructor) {
-        jdbcTemplate.update("UPDATE instructor SET estado=?, nombre=?, email=?, iban=? where idInstructor=?",
+        jdbcTemplate.update("UPDATE instructor SET estado=?, nombre=?, email=?, iban=?, foto=? where idInstructor=?",
         		instructor.getEstado(), instructor.getNombre(), instructor.getEmail(),
-                instructor.getIban(), instructor.getIdInstructor());
+                instructor.getIban(), instructor.getFoto(), instructor.getIdInstructor());
     }
 
     public Instructor getInstructor(String idInstructor) {
