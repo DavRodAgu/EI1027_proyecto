@@ -55,6 +55,7 @@ public class LoginController {
 	       // Comprova que el login siga correcte 
 		// intentant carregar les dades de l'usuari 
 		user = loginDao.getLogin(user.getUsuario(), user.getContraseña()); 
+		
 		if (user == null) {
 			bindingResult.rejectValue("contraseña", "badpw", "Contraseña incorrecta"); 
 			return "login";
@@ -62,11 +63,20 @@ public class LoginController {
 		// Autenticats correctament. 
 		// Guardem les dades de l'usuari autenticat a la sessió
 		session.setAttribute("user", user);
-		
-		if(session.getAttribute("nextUrl") != null){
+		Object url = session.getAttribute("nextUrl");
+		if(url != null){
         	session.removeAttribute("nextUrl");
-        	return "redirect:/user/list";
-        }		
+        	return "redirect:/" + url;
+        }
+		
+		switch (user.getRol()) {
+		case "cliente":
+			return "redirect:/cliente/home.html";
+		case "administrador":
+			return "redirect:/administrador/home.html";
+		case "instructor":
+			return "redirect:/instructor/home.html";
+		}
 			
 		// Torna a la pàgina principal
 		return "redirect:/";
