@@ -3,6 +3,7 @@ package es.uji.ei1027.toopots.model;
 public class Login {
 	private String usuario;
 	private String contraseña;
+	private String rol;
 	
 	public String getUsuario() {
 		return usuario;
@@ -15,6 +16,12 @@ public class Login {
 	}
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
+	}
+	public String getRol() {
+		return rol;
+	}
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 	
 }
