@@ -20,7 +20,11 @@ public class InstructorController {
    private InstructorDao instructorDao;
 
    @Autowired
+<<<<<<< HEAD
    public void setInstructorDao(InstructorDao instructorDao) { 
+=======
+   public void setInsructorDao(InstructorDao instructorDao) { 
+>>>>>>> 1139f95944f94cda77751406b2360b9e6b5474b8
        this.instructorDao=instructorDao;
    }
 
@@ -40,7 +44,11 @@ public class InstructorController {
    public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor,
                                    BindingResult bindingResult) {  
    	 if (bindingResult.hasErrors()) 
+<<<<<<< HEAD
    			return "instructor/add";
+=======
+   			return "isntructor/add";
+>>>>>>> 1139f95944f94cda77751406b2360b9e6b5474b8
    	 instructorDao.addInstructor(instructor);
    	 return "redirect:list"; 
     }

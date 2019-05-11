@@ -22,9 +22,15 @@ public class InstructorDao {
     }
 
     public void addInstructor(Instructor instructor) {
+<<<<<<< HEAD
         jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
                 instructor.getIdInstructor(), instructor.getEstado(), instructor.getNombre(),
                 instructor.getEmail(), instructor.getIban(), instructor.getFoto());
+=======
+        jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?)",
+                instructor.getIdInstructor(), instructor.getEstado(), instructor.getNombre(),
+                instructor.getEmail(), instructor.getIban());
+>>>>>>> 1139f95944f94cda77751406b2360b9e6b5474b8
     }
 
     public void deleteInstructor(Instructor instructor) {
@@ -36,9 +42,15 @@ public class InstructorDao {
     }
 
     public void updateInstructor(Instructor instructor) {
+<<<<<<< HEAD
         jdbcTemplate.update("UPDATE instructor SET estado=?, nombre=?, email=?, iban=?, foto=? where idInstructor=?",
         		instructor.getEstado(), instructor.getNombre(), instructor.getEmail(),
                 instructor.getIban(), instructor.getFoto(), instructor.getIdInstructor());
+=======
+        jdbcTemplate.update("UPDATE instructor SET estado=?, nombre=?, email=?, iban=? where idInstructor=?",
+        		instructor.getEstado(), instructor.getNombre(), instructor.getEmail(),
+                instructor.getIban(), instructor.getIdInstructor());
+>>>>>>> 1139f95944f94cda77751406b2360b9e6b5474b8
     }
 
     public Instructor getInstructor(String idInstructor) {
