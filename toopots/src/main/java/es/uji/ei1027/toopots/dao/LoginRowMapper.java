@@ -12,6 +12,7 @@ public final class LoginRowMapper implements RowMapper<Login> {
         Login login = new Login();
         login.setUsuario(rs.getString("usuario"));
         login.setContraseña(rs.getString("contraseña"));
+        login.setRol(rs.getString("rol"));
         return login;
     }
 }
