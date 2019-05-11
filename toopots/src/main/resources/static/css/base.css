@@ -1,0 +1,43 @@
+.nav1 a:hover {
+	background-color: white;
+/*     background-color: #efefef; */
+    color: black !important;
+    border-radius: 5px;
+}
+
+.nav1 li:hover > div.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    background-color: #343a40;
+    padding: 10px 10px;
+}
+
+.nav1 li {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* quizas descomentar en un futuro */
+/* .nav1 a:hover {
+    background-color: azure;
+    color: black !important;
+} */
+
+
+.dropdown-toggle {
+    /* color: #007bff !important; */
+    color: white !important;
+}
+
+.dropdown-menu a {
+    color: white;
+    border-radius: 5px;
+}
+
+#footer {
+    width: 100%;
+    padding: 5px;
+    background-color: #efefef;
+}
