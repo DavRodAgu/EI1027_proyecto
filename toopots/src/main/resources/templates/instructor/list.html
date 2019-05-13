@@ -1,23 +1,12 @@
 <!DOCTYPE html>
-<!-- <html xmlns:th="http://www.thymeleaf.org" -->
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" -->
-<!--      layout:decorate="~{fragments/base}"> -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org"> 
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<link rel="stylesheet" type="text/css" href="/css/base.css"
-	th:href="@{/css/base.css}" />
-<title>Gestionar Instructores</title>
-<meta charset="UTF-8" />
-<!-- <link -->
-<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" /> -->
-
-
+   <title>Gestionar Instructores</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"     
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
 </head>
 <body>
-
-<!--
    <h1>Lista de Instructores</h1>
    <div th:if="${#lists.isEmpty(instructores)}">
          No hay Instructores en la base de datos
@@ -46,89 +35,6 @@
        </tr>
      </tbody>
    </table>
-   <a href="add" class="btn btn-success">Añadir Instructor</a>
-  --> 
-  
-	<!-- Navbar -->
-	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">TooPots</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto nav1">
-					<!-- <ul class="nav nav-tabs mr-auto nav1"> -->
-					<li class="nav-item dropdown pl-5"><a
-						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-						role="button" aria-haspopup="true" aria-expanded="false">Instructores</a>
-				</ul>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle btn btn-outline-primary" href="#"
-						id="navbarDropdown" role="button" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false"> <span
-							class="fa fa-user"></span> Usuario
-					</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Perfil</a> <a
-								class="dropdown-item" href="#">...</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Cerrar Sesión</a>
-						</div></li>
-					<!-- No se utiliza en esta página -->
-					<!-- <li class="nav-item">
-            <a class="nav-link" href="#"><span class="fas fa-sign-in-alt"></span> Login</a>
-            </li> -->
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- /Navbar -->
-	
-	<!--  Instructores -->
-	<div class="container h-100">
-		<div>
-			<p class="font-weight-bold"> Instructores </p>
-		</div>
-		<div class="d-flex justify-content-center h-100">
-			<div class="searchbar">
-				<input class="search-input" type="text" name="" placeholder="Buscar por NIF del monitor">
-				<a href="list" class="search_icon"><i class="fas fa-search"></i></a>
-			</div>
-		</div>	
-	</div>
-	<div th:if="${#lists.isEmpty(instructores)}">
-         No hay Instructores en la base de datos
-    </div>
-   	<table th:unless="${#lists.isEmpty(instructores)}" class="table text-center table-striped">
-	<thead class=thead-dark>
-		<tr>
-			<th scope="col">Nombre y Apellidos</th>
-			<th scope="col">NIF</th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr th:each="instructor: ${instructores}"> 
-         <td th:text="${instructor.nombre}"></td>
-         <td th:text="${instructor.idInstructor}"></td>
-         <td><a th:href="@{/instructor/update/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-secondary">Modificar</a></td>
-         <td><a th:href="@{/instructor/delete/{idInstructor}(idInstructor=${instructor.idInstructor})}" class="btn btn-danger">Eliminar</a></td>
-       </tr>
-	</tbody>
-	</table>
-	<div class="text-center">
-	<a href="add" class="btn btn-light">Crear nuevo instructor</a>
-	<a href="#" class="btn btn-light">Gestionar solicitudes</a>
-	</div>
-	<!--  /Instructores -->
-	
-
-
+   <a href="add" class="btn btn-success">Añadir Instructor</a> 
 </body>
 </html>
