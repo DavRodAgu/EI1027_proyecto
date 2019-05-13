@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/cliente/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="/css/base.css"
+	th:href="@{/css/base.css}" />
+<meta charset="UTF-8" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
+		<div th:unless="${#lists.isEmpty(actividades)}">
+			<div class="titulo_form">
+				<h2>Lista de actividades</h2>
+			</div>
+		</div>
+		<table id="tabla" th:unless="${#lists.isEmpty(actividades)}"
+			class="table table-striped">
+			<thead>
+				<tr>
+					<th class="align-middle">Actividad</th>
+					<th class="align-middle">Instructor</th>
+					<th class="align-middle">Fecha</th>
+					<th class="align-middle">Precio</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="actividad: ${actividades}">
+					<td th:text="${actividad.nombre}"></td>
+					<td th:text="${actividad.idInstructor}"></td>
+					<td th:text="${actividad.fecha}"></td>
+					<td th:text="${actividad.precio}"></td>
+					<td><a class="btn btn-outline-secondary"
+						th:href="@{/reserva/añadirReserva/{idActividad}(idActividad=${actividad.idActividad})}">Reservar</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
