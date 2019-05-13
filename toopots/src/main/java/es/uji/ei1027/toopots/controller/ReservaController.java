@@ -40,7 +40,7 @@ public class ReservaController {
 		if (session.getAttribute("user") == null) 
 	       { 
 	          model.addAttribute("user", new Login()); 
-	          session.setAttribute("nextUrl", "user/list");
+	          session.setAttribute("nextUrl", "reservas/list");
 	          return "login";
 	       } 
 		model.addAttribute("reservas", reservaDao.getReservas());

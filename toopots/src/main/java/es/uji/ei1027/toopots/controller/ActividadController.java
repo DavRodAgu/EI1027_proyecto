@@ -32,7 +32,7 @@ public class ActividadController {
 	   if (session.getAttribute("user") == null) 
        { 
           model.addAttribute("user", new Login()); 
-          session.setAttribute("nextUrl", "user/list");
+          session.setAttribute("nextUrl", "actividades/list");
           return "login";
        } 
       model.addAttribute("actividades", actividadDao.getActividades());

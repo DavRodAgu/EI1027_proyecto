@@ -66,7 +66,7 @@
 			<div class="modal-content">
 
 				<div class="col-12 user-icon">
-					<img src="icons/user-icon.png" alt="user">
+					<img src="/icons/user-icon.png" alt="user">
 <!-- 					<img th:src="@{icons/user-icon.png}" alt="user"> -->
 <!-- 					th:href="@{/css/login.css}" -->
 				</div>
@@ -77,25 +77,25 @@
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
 									<div class="input-group-text img-wrapper">
-										<img src="icons/email-icon.png" alt="email">
+										<img src="/icons/email-icon.png" alt="email">
 									</div>
 								</div>
 								<input type="text" class="form-control"
 									id="inlineFormInputGroup" placeholder="Usuario" th:field="*{usuario}">
-								<div class="error" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
 								</div>
+								<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
 						</div>
 						<div class="form-group">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
 									<div class="input-group-text img-wrapper2">
-										<img src="icons/icons8-lock-28.png" alt="password">
+										<img src="/icons/icons8-lock-28.png" alt="password">
 									</div>
 								</div>
 								<input type="password" class="form-control"
 									placeholder="Contraseña" th:field="*{contraseña}">
-								<div class="error" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
 							</div>
+								<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
 						</div>
 						<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 					</form>
