@@ -47,6 +47,7 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String checkLogin(@ModelAttribute("user") Login user,  		
 				BindingResult bindingResult, HttpSession session) {
+		System.out.println("-------------" + user.toString());
 		UserValidator userValidator = new UserValidator(); 
 		userValidator.validate(user, bindingResult); 
 		if (bindingResult.hasErrors()) {
@@ -63,6 +64,7 @@ public class LoginController {
 		// Autenticats correctament. 
 		// Guardem les dades de l'usuari autenticat a la sessió
 		session.setAttribute("user", user);
+		System.out.println("asdassadsadsad");
 		Object url = session.getAttribute("nextUrl");
 		if(url != null){
         	session.removeAttribute("nextUrl");
@@ -71,7 +73,7 @@ public class LoginController {
 		
 		switch (user.getRol()) {
 		case "cliente":
-			return "redirect:/cliente/home.html";
+			return "redirect:/cliente/home";
 		case "administrador":
 			return "redirect:/administrador/home.html";
 		case "instructor":

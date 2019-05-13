@@ -8,62 +8,91 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
+import es.uji.ei1027.toopots.model.Actividad;
+import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Reserva;
 
-
 @Controller
-@RequestMapping("/reserva") 
+@RequestMapping("/reserva")
 public class ReservaController {
 
-   private ReservaDao reservaDao;
+	private ReservaDao reservaDao;
+	private ActividadDao actividadDao;
 
-   @Autowired
-   public void setReservaDao(ReservaDao reservaDao) { 
-       this.reservaDao=reservaDao;
-   }
+	@Autowired
+	public void setReservaDao(ReservaDao reservaDao) {
+		this.reservaDao = reservaDao;
+	}
 
-   @RequestMapping("/list")
-   public String listReservas(Model model) {
-      model.addAttribute("reservas", reservaDao.getReservas());
-      return "reserva/list";
-   }
+	@Autowired
+	public void setActividadDao(ActividadDao actividadDao) {
+		this.actividadDao = actividadDao;
+	}
 
-   @RequestMapping(value="/add") 
+	@RequestMapping("/list")
+	public String listReservas(Model model) {
+		model.addAttribute("reservas", reservaDao.getReservas());
+		return "reserva/list";
+	}
+
+	@RequestMapping(value = "/add")
 	public String addReserva(Model model) {
 		model.addAttribute("reserva", new Reserva());
 		return "reserva/add";
 	}
 
-   @RequestMapping(value="/add", method=RequestMethod.POST) 
-   public String processAddSubmit(@ModelAttribute("reserva") Reserva reserva,
-                                   BindingResult bindingResult) {  
-   	 if (bindingResult.hasErrors()) 
-   			return "reserva/add";
-   	 reservaDao.addReserva(reserva);
-   	 return "redirect:list"; 
-    }
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String processAddSubmit(@ModelAttribute("user") Login user, @ModelAttribute("reserva") Reserva reserva,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return "reserva/add";
+		reserva.setIdCliente(user.getUsuario());
+		reservaDao.addReserva(reserva);
+		return "redirect:list";
+	}
 
-   @RequestMapping(value="/update/{idReserva}", method = RequestMethod.GET) 
-	public String editReserva(Model model, @PathVariable String idReserva) { 
+	@RequestMapping(value = "/update/{idReserva}", method = RequestMethod.GET)
+	public String editReserva(Model model, @PathVariable String idReserva) {
 		model.addAttribute("reserva", reservaDao.getReserva(idReserva));
-		return "reserva/update"; 
+		return "reserva/update";
 	}
 
-   @RequestMapping(value="/update/{idReserva}", method = RequestMethod.POST) 
-	public String processUpdateSubmit(@PathVariable String idReserva, 
-                           @ModelAttribute("reserva") Reserva reserva, 
-                           BindingResult bindingResult) {
-		 if (bindingResult.hasErrors()) 
-			 return "reserva/update";
-		 reservaDao.updateReserva(reserva);
-		 return "redirect:../list"; 
+	@RequestMapping(value = "/update/{idReserva}", method = RequestMethod.POST)
+	public String processUpdateSubmit(@PathVariable String idReserva, @ModelAttribute("reserva") Reserva reserva,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return "reserva/update";
+		reservaDao.updateReserva(reserva);
+		return "redirect:../list";
 	}
-   
-   @RequestMapping(value="/delete/{idReserva}")
+
+	@RequestMapping(value = "/delete/{idReserva}")
 	public String processDelete(@PathVariable String idReserva) {
-          reservaDao.deleteReserva(idReserva);
-          return "redirect:../list"; 
+		reservaDao.deleteReserva(idReserva);
+		return "redirect:../list";
+	}
+
+	@RequestMapping(value = "/añadirReserva/{idActividad}")
+	public String añadirReserva(Model model, @PathVariable int idActividad) {
+		Actividad actividad = actividadDao.getActividad(idActividad + "");
+		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
+		return "reserva/añadirReserva";
+	}
+
+	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
+	public String processAñadirSubmit(@ModelAttribute("reserva") Reserva reserva,
+			@RequestParam(name = "idCliente") String idCliente, @RequestParam(name = "nPersonas") int nPersonas,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors())
+			return "reserva/añadirReserva";
+		reserva.setNumAsistentes(nPersonas);
+		reserva.setIdCliente(idCliente);
+		reserva.setEstadoPago("pendiente");
+		reservaDao.addReserva(reserva);
+		return "redirect:list";
 	}
 }

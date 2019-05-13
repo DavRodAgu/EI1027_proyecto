@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.model.Cliente;
 
@@ -18,12 +19,23 @@ import es.uji.ei1027.toopots.model.Cliente;
 public class ClienteController {
 
    private ClienteDao clienteDao;
+   private ActividadDao actividadDao;
 
    @Autowired
    public void setClienteDao(ClienteDao clienteDao) { 
        this.clienteDao=clienteDao;
    }
+   
+   @Autowired
+   public void setActividadDao(ActividadDao actividadDao) { 
+       this.actividadDao=actividadDao;
+   }
 
+   @RequestMapping("/home")
+   public String homeClientes(Model model) {
+      return "cliente/home";
+   }
+   
    @RequestMapping("/list")
    public String listClientes(Model model) {
       model.addAttribute("clientes", clienteDao.getClientes());
@@ -67,4 +79,9 @@ public class ClienteController {
           return "redirect:../list"; 
 	}
 
+   @RequestMapping("/listarActividades")
+   public String listActividades(Model model) {
+      model.addAttribute("actividades", actividadDao.getActividades());
+      return "cliente/listarActividades";
+   }
 }
