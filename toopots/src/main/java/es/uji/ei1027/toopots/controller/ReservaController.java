@@ -1,5 +1,7 @@
 package es.uji.ei1027.toopots.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,13 @@ public class ReservaController {
 	}
 
 	@RequestMapping("/list")
-	public String listReservas(Model model) {
+	public String listReservas(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) 
+	       { 
+	          model.addAttribute("user", new Login()); 
+	          session.setAttribute("nextUrl", "user/list");
+	          return "login";
+	       } 
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
