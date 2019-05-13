@@ -24,4 +24,8 @@ public class Login {
 		this.rol = rol;
 	}
 	
+	@Override
+	public String toString() {
+		return "Login [usuario=" + usuario + ", contraseña=" + contraseña + ", rol=" + rol + "]";
+	}
 }

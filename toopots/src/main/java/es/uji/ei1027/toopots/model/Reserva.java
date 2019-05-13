@@ -12,7 +12,16 @@ public class Reserva {
 	private int idActividad;
 	private String idCliente;
 	
-	
+
+	public Reserva() {
+		super();
+	}
+	public Reserva(Date fecha, float precioPorPersona, int idActividad) {
+		super();
+		this.fecha = fecha;
+		this.precioPorPersona = precioPorPersona;
+		this.idActividad = idActividad;
+	}
 	public int getIdReserva() {
 		return idReserva;
 	}
