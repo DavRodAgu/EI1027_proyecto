@@ -1,5 +1,7 @@
 package es.uji.ei1027.toopots.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
+import es.uji.ei1027.toopots.model.Login;
 
 
 @Controller
@@ -25,7 +28,13 @@ public class ActividadController {
    }
 
    @RequestMapping("/list")
-   public String listActividades(Model model) {
+   public String listActividades(HttpSession session, Model model) {
+	   if (session.getAttribute("user") == null) 
+       { 
+          model.addAttribute("user", new Login()); 
+          session.setAttribute("nextUrl", "actividades/list");
+          return "login";
+       } 
       model.addAttribute("actividades", actividadDao.getActividades());
       return "actividad/list";
    }

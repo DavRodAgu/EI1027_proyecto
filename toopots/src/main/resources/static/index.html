@@ -38,7 +38,7 @@
 	<!-- Navbar -->
 	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
-			<a class="navbar-brand" href="#">TooPots</a>
+			<a class="navbar-brand" href="/" th:href="@{/}">TooPots</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,38 +52,22 @@
 						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
 						role="button" aria-haspopup="true" aria-expanded="false">Actividades</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Listar Actividades</a> <a
-								class="dropdown-item" href="#">Gestionar Reservas</a>
-						</div> <!-- <a class="nav-link" href="#">Actividades</a> --> <!-- <nav class="nav subnav">
-              <button class="subnavbtn">Actividades</button>
-              <ul class="nav subnav-content">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Listar Actividades</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Gestionar Reservas</a>
-                </li>
-              </ul>
-            </nav> --></li>
-					<!-- <li class="nav-item">
-            <a class="nav-link" href="#">...</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">...</a>
-          </li> -->
+							<a class="dropdown-item" href="/cliente/listarActividades" th:href="@{/cliente/listarActividades}">Listar Actividades</a> 
+							<a class="dropdown-item" href="/cliente/listarReservas" th:href="@{/cliente/listarReservas}">Gestionar Reservas</a>
+						</div> 
 				</ul>
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle btn btn-outline-primary" href="#"
 						id="navbarDropdown" role="button" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"> <span
-							class="fa fa-user"></span> Usuario
+							class="fa fa-user"></span> Nombre Usuario
 					</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="#">Perfil</a> <a
 								class="dropdown-item" href="#">...</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Cerrar Sesión</a>
+							<a class="dropdown-item" href="logout" th:href="@{/logout}">Cerrar Sesión</a>
 						</div></li>
 					<!-- No se utiliza en esta página -->
 					<!-- <li class="nav-item">
@@ -95,6 +79,7 @@
 	</nav>
 	<!-- /Navbar -->
 
+	<!-- 
 	<h1>TooPots - Spring MVC</h1>
 	<h2>Pruebas de la aplicación</h2>
 	<ul>
@@ -112,13 +97,12 @@
 		<li><a href="login">Iniciar sesión</a></li>
 		<li><a href="instructor/list">Gestionar instructores</a></li>
 	</ul>
-
+	 -->
 	<!-- Footer -->
 	<footer id="footer" class="fixed-bottom">
 		<div class="container">
 			<div class="row text-muted text-center">
-				<div class="col-12 col-lg">Proyecto para la asignatura EI1027
-					- Curso 18/19</div>
+				<div class="col-12 col-lg">Proyecto para la asignatura EI1027 - Curso 18/19</div>
 			</div>
 		</div>
 	</footer>

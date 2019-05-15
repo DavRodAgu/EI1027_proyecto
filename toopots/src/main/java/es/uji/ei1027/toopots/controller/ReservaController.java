@@ -1,5 +1,7 @@
 package es.uji.ei1027.toopots.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,13 @@ public class ReservaController {
 	}
 
 	@RequestMapping("/list")
-	public String listReservas(Model model) {
+	public String listReservas(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) 
+	       { 
+	          model.addAttribute("user", new Login()); 
+	          session.setAttribute("nextUrl", "reservas/list");
+	          return "login";
+	       } 
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
@@ -73,7 +81,7 @@ public class ReservaController {
 	@RequestMapping(value = "/delete/{idReserva}")
 	public String processDelete(@PathVariable String idReserva) {
 		reservaDao.deleteReserva(idReserva);
-		return "redirect:../list";
+		return "redirect:../../cliente/listarReservas";
 	}
 
 	@RequestMapping(value = "/añadirReserva/{idActividad}")
@@ -84,15 +92,15 @@ public class ReservaController {
 	}
 
 	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
-	public String processAñadirSubmit(@ModelAttribute("reserva") Reserva reserva,
-			@RequestParam(name = "idCliente") String idCliente, @RequestParam(name = "nPersonas") int nPersonas,
+	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return "reserva/añadirReserva";
 		reserva.setNumAsistentes(nPersonas);
-		reserva.setIdCliente(idCliente);
+		Login usuario = (Login) session.getAttribute("user");
+		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
 		reservaDao.addReserva(reserva);
-		return "redirect:list";
+		return "redirect:../cliente/listarReservas";
 	}
 }
