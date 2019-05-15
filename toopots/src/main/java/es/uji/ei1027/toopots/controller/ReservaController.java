@@ -81,7 +81,7 @@ public class ReservaController {
 	@RequestMapping(value = "/delete/{idReserva}")
 	public String processDelete(@PathVariable String idReserva) {
 		reservaDao.deleteReserva(idReserva);
-		return "redirect:../list";
+		return "redirect:../../cliente/listarReservas";
 	}
 
 	@RequestMapping(value = "/añadirReserva/{idActividad}")
@@ -92,15 +92,15 @@ public class ReservaController {
 	}
 
 	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
-	public String processAñadirSubmit(@ModelAttribute("reserva") Reserva reserva,
-			@RequestParam(name = "idCliente") String idCliente, @RequestParam(name = "nPersonas") int nPersonas,
+	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return "reserva/añadirReserva";
 		reserva.setNumAsistentes(nPersonas);
-		reserva.setIdCliente(idCliente);
+		Login usuario = (Login) session.getAttribute("user");
+		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
 		reservaDao.addReserva(reserva);
-		return "redirect:list";
+		return "redirect:../cliente/listarReservas";
 	}
 }
