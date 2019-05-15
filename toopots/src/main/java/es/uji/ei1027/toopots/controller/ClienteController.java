@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
+import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Login;
 
@@ -22,6 +23,7 @@ public class ClienteController {
 
 	private ClienteDao clienteDao;
 	private ActividadDao actividadDao;
+	private ReservaDao reservaDao;
 
 	@Autowired
 	public void setClienteDao(ClienteDao clienteDao) {
@@ -31,6 +33,11 @@ public class ClienteController {
 	@Autowired
 	public void setActividadDao(ActividadDao actividadDao) {
 		this.actividadDao = actividadDao;
+	}
+	
+	@Autowired
+	public void setReservaDao(ReservaDao reservaDao) {
+		this.reservaDao = reservaDao;
 	}
 
 	@RequestMapping("/home")
@@ -88,5 +95,17 @@ public class ClienteController {
 		}
 		model.addAttribute("actividades", actividadDao.getActividades());
 		return "cliente/listarActividades";
+	}
+	
+	@RequestMapping("/listarReservas")
+	public String listReservas(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/listarReservas");
+			return "login";
+		}
+		Login usuario = (Login) session.getAttribute("user");
+		model.addAttribute("reservas", reservaDao.getReservasUsuario(usuario.getUsuario()));
+		return "cliente/listarReservas";
 	}
 }
