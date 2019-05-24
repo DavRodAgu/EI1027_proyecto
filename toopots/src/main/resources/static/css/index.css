@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+body {
+	overflow: hidden;
+}
+
+.navbar-nav .btn {
+    color: white !important;
+}
+
+#carousel {
+    position: relative;
+}
+
+.carousel-item {
+    height: 91.5vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    background-size: cover;
+}
+
+#carousel .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+#carousel .overlay .container,
+#carousel .overlay .row {
+    height: 100%;
+} 
+
+.btn {
+    width: 140px;
+}
+
+#footer {
+    width: 100%;
+    padding: 5px;
+    background-color: #efefef;
+}

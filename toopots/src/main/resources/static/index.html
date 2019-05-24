@@ -1,23 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- <title>TooPots</title> -->
-<!-- <meta charset="UTF-8"/> -->
-<!-- <link rel="stylesheet"      -->
-<!--      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/> -->
-
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-<link th:href="@{/css/base.css}" href="/css/base.css" rel="stylesheet" />
+<link th:href="@{/css/index.css}" href="/css/index.css" rel="stylesheet" />
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
 	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
 	crossorigin="anonymous">
 
-<!-- Optional JavaScript -->
+<title>TooPots - Deportes de riesgo</title>
+
+</head>
+<body>
+	<!-- Navbar -->
+	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	      <a class="navbar-brand" href="#">TooPots</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="navbar-toggler-icon"></span>
+	      </button>
+	    </div>
+  	</nav>
+	<!-- /Navbar -->
+
+	<!-- Main -->
+  <!-- Carousel -->
+  <main>
+    <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-pause="false">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="assets/imagen5.jpg" class="d-block w-100" alt="Imagen 1">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen2.jpg" class="d-block w-100" alt="Imagen 2">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen6.jpg" class="d-block w-100" alt="Imagen 3">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen9.jpg" class="d-block w-100" alt="Imagen 4">
+        </div>
+        <div class="overlay carousel-caption">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-6 offset-md-6 text-center text-md-right">
+                <h1>TooPots - Deportes de riesgo</h1>
+                <p class="d-none d-md-block">
+                    Bienvenido a TooPots, la página web con las mejores ofertas en deportes de riesgo. 
+                    Si eres amante de los deportes de riesgo, esta es tú página. Puenting, paracaidismo,
+                    rafting, etc. Con los mejores instructores y el mejor precio.<br><br>
+                    ¿A qué esperas?. Registrate o Inicia sesión, y reserva tus actividades.
+                </p>
+                <!-- Por implementar -->
+                <a class="btn btn-primary" href="#">Registrarse</a>
+                <!--  -->
+                <a class="btn btn-success" href="login">Iniciar Sesión</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- /Carousel -->
+  <!-- /Main -->
+  
+  <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -30,98 +82,5 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
-
-<title>TooPots - Deportes de riesgo</title>
-
-</head>
-<body>
-	<!-- Navbar -->
-	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">TooPots</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto nav1">
-					<!-- <ul class="nav nav-tabs mr-auto nav1"> -->
-					<li class="nav-item dropdown pl-5"><a
-						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-						role="button" aria-haspopup="true" aria-expanded="false">Actividades</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Listar Actividades</a> <a
-								class="dropdown-item" href="#">Gestionar Reservas</a>
-						</div> <!-- <a class="nav-link" href="#">Actividades</a> --> <!-- <nav class="nav subnav">
-              <button class="subnavbtn">Actividades</button>
-              <ul class="nav subnav-content">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Listar Actividades</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Gestionar Reservas</a>
-                </li>
-              </ul>
-            </nav> --></li>
-					<!-- <li class="nav-item">
-            <a class="nav-link" href="#">...</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">...</a>
-          </li> -->
-				</ul>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle btn btn-outline-primary" href="#"
-						id="navbarDropdown" role="button" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false"> <span
-							class="fa fa-user"></span> Usuario
-					</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Perfil</a> <a
-								class="dropdown-item" href="#">...</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Cerrar Sesión</a>
-						</div></li>
-					<!-- No se utiliza en esta página -->
-					<!-- <li class="nav-item">
-            <a class="nav-link" href="#"><span class="fas fa-sign-in-alt"></span> Login</a>
-            </li> -->
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- /Navbar -->
-
-	<h1>TooPots - Spring MVC</h1>
-	<h2>Pruebas de la aplicación</h2>
-	<ul>
-		<li><a href="actividad/list">Gestionar actividades</a></li>
-		<li><a href="cliente/list">Gestionar clientes</a></li>
-		<li><a href="tipoActividad/list">Gestionar tipos de
-				actividades</a></li>
-		<li><a href="reserva/list">Gestionar reservas</a></li>
-		<li><a href="comentario/list">Gestionar comentarios</a></li>
-		<li><a href="instructor/list">Gestionar instructores</a></li>
-		<li><a href="acreditacion/list">Gestionar acreditaciones</a></li>
-		<li><a href="imagen/list">Gestionar imagenes</a></li>
-		<li><a href="prefiere/list">Ver preferencias</a></li>
-		<li><a href="acredita/list">Ver acreditaciones</a></li>
-		<li><a href="login">Iniciar sesión</a></li>
-		<li><a href="instructor/list">Gestionar instructores</a></li>
-	</ul>
-
-	<!-- Footer -->
-	<footer id="footer" class="fixed-bottom">
-		<div class="container">
-			<div class="row text-muted text-center">
-				<div class="col-12 col-lg">Proyecto para la asignatura EI1027
-					- Curso 18/19</div>
-			</div>
-		</div>
-	</footer>
-	<!-- /Footer -->
 </body>
 </html>

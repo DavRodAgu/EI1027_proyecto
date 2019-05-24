@@ -1,99 +1,71 @@
 <!DOCTYPE html>
-<!-- <html xmlns:th="http://www.thymeleaf.org" -->
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" -->
-<!--      layout:decorate="~{fragments/base}"> -->
 <html>
 <head>
+<!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+<!-- Login CSS -->
 <link rel="stylesheet" type="text/css" href="/css/login.css"
 	th:href="@{/css/login.css}" />
 <title>Login</title>
 <meta charset="UTF-8" />
-<!-- <link -->
-<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" /> -->
-
 
 </head>
 <body>
-	<!-- 
-<div layout:fragment="content">
-	<h2>Accés</h2>
-	<form action="#" th:action="@{/login}" 
-	      th:object="${user}" method="post">
-		<p>
-		   	<label>Nom d'usuari:</label>
-            <input class="form_control" type="text" th:field="*{usuario}"/>
-            <div class="error" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
-		</p>
-		<p>
-		   	<label>Contrasenya:</label>
-            <input class="form_control" type="password" th:field="*{contraseña}"/>
-            <div class="error" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
-		</p>		
-		<input type="submit" value="Accedir" />
-	</form>
-</div>
- -->
-	<!-- Navbar -->
-	<header>
-		<nav id="header"
-			class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<div class="container">
-				<a class="navbar-brand" href="#">TooPots</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item"><a
-							class="nav-link btn btn-outline-success" href="#">Registrarse</a>
-							<!-- <a href="" class="nav-link my-2 my-sm-0" href="#"><span class="fas fa-user"></span>Registrase</a>  -->
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<!-- /Navbar -->
+	 <!-- Navbar -->
+    <header>
+      <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="/">TooPots</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link btn btn-outline-success" href="#">Registrarse</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- /Navbar -->
 
 	<!-- Login -->
-	<div class="modal-dialog text-center">
+	<div class="modal-dialog modal-dialog-centered text-center">
 		<div class="col-sm-9 main-section">
 			<div class="modal-content">
 
 				<div class="col-12 user-icon">
-					<img src="icons/user-icon.png" alt="user">
-<!-- 					<img th:src="@{icons/user-icon.png}" alt="user"> -->
-<!-- 					th:href="@{/css/login.css}" -->
+					<img src="/icons/user-icon.png" alt="user">
 				</div>
 
 				<div class="col-12 form-input">
-					<form action="#">
+					<form action="#" th:action="@{/login}" th:object="${user}" method="post">
 						<div class="form-group">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
 									<div class="input-group-text img-wrapper">
-										<img src="icons/email-icon.png" alt="email">
+										<img src="/icons/email-icon.png" alt="email">
 									</div>
 								</div>
 								<input type="text" class="form-control"
-									id="inlineFormInputGroup" placeholder="Email">
-							</div>
+									id="inlineFormInputGroup" placeholder="Usuario" th:field="*{usuario}">
+								</div>
+								<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
 						</div>
 						<div class="form-group">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
 									<div class="input-group-text img-wrapper2">
-										<img src="icons/icons8-lock-28.png" alt="password">
+										<img src="/icons/icons8-lock-28.png" alt="password">
 									</div>
 								</div>
 								<input type="password" class="form-control"
-									placeholder="Contraseña">
+									placeholder="Contraseña" th:field="*{contraseña}">
 							</div>
+								<div class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('contraseña')}" th:errors="*{contraseña}"></div>
 						</div>
 						<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
 					</form>
@@ -105,31 +77,23 @@
 		</div>
 	</div>
 	<!-- /Login -->
-
+	
 	<!-- Footer -->
-	<footer id="footer" class="fixed-bottom">
-		<div class="container">
-			<div class="row text-muted text-center">
-				<div class="col-12 col-lg">Proyecto para la asignatura EI1027
-					- Curso 18/19</div>
-			</div>
-		</div>
-	</footer>
-	<!-- /Footer -->
+    <footer id="footer" class="fixed-bottom">
+        <div class="container">
+            <div class="row text-muted text-center">
+                <div class="col-12 col-lg">
+                    Proyecto para la asignatura EI1027 - Curso 18/19
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /Footer -->
 
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

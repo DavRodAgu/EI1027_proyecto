@@ -1,5 +1,7 @@
 package es.uji.ei1027.toopots.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,13 @@ public class ReservaController {
 	}
 
 	@RequestMapping("/list")
-	public String listReservas(Model model) {
+	public String listReservas(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) 
+	       { 
+	          model.addAttribute("user", new Login()); 
+	          session.setAttribute("nextUrl", "reservas/list");
+	          return "login";
+	       } 
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
@@ -73,26 +81,32 @@ public class ReservaController {
 	@RequestMapping(value = "/delete/{idReserva}")
 	public String processDelete(@PathVariable String idReserva) {
 		reservaDao.deleteReserva(idReserva);
-		return "redirect:../list";
+		return "redirect:../../cliente/listarReservas";
 	}
 
-	@RequestMapping(value = "/añadirReserva/{idActividad}")
+	@RequestMapping(value = "/añadirReserva/{idActividad}", method = RequestMethod.GET)
 	public String añadirReserva(Model model, @PathVariable int idActividad) {
+		System.out.println("ID Actividad: " + idActividad);
 		Actividad actividad = actividadDao.getActividad(idActividad + "");
 		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
-		return "reserva/añadirReserva";
+		return "cliente/actividades";
+//		return model;
 	}
 
 	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
-	public String processAñadirSubmit(@ModelAttribute("reserva") Reserva reserva,
-			@RequestParam(name = "idCliente") String idCliente, @RequestParam(name = "nPersonas") int nPersonas,
+	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
-			return "reserva/añadirReserva";
+			return "cliente/actividades";
 		reserva.setNumAsistentes(nPersonas);
-		reserva.setIdCliente(idCliente);
+		Login usuario = (Login) session.getAttribute("user");
+		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
 		reservaDao.addReserva(reserva);
-		return "redirect:list";
+		return "redirect:../cliente/reservas";
 	}
+	
 }
+
+
+

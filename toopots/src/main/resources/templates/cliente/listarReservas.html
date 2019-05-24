@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/cliente/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="/css/base.css"
+	th:href="@{/css/base.css}" />
+<meta charset="UTF-8" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div th:if="${#lists.isEmpty(reservas)}">No hay reservas</div>
+		<div th:unless="${#lists.isEmpty(reservas)}">
+			<div class="titulo_form">
+				<h2>Lista de reservas</h2>
+			</div>
+		</div>
+		<table id="tabla" th:unless="${#lists.isEmpty(reservas)}"
+			class="table table-striped">
+			<thead>
+				<tr>
+					<th class="align-middle">Fecha</th>
+					<th class="align-middle">Estado del pago</th>
+					<th class="align-middle">Precio por persona</th>
+					<th class="align-middle">Asistentes</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="reserva: ${reservas}">
+					<td th:text="${reserva.fecha}"></td>
+					<td th:text="${reserva.estadoPago}"></td>
+					<td th:text="${reserva.precioPorPersona}"></td>
+					<td th:text="${reserva.numAsistentes}"></td>
+					<td><a class="btn btn-outline-danger"
+						th:href="@{/reserva/delete/{idReserva}(idReserva=${reserva.idReserva})}">Anular reserva</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

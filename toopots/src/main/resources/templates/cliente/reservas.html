@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:if="${#lists.isEmpty(reservas)}">No tienes todavía ninguna reserva</div>
+				<div th:unless="${#lists.isEmpty(reservas)}">
+					<div class="titulo_form">
+						<!-- 					<h2>Mis reservas</h2> -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<table th:unless="${#lists.isEmpty(reservas)}" class="table">
+							<thead>
+							<!-- TODO: Añadir el resto de campos -->
+								<tr>
+									<th scope="col">#</th>
+									<th class="text-center" scope="col">Fecha</th>
+									<th class="text-center" scope="col">Nº Asistentes</th>
+									<th class="text-center" scope="col">Estado</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="reserva: ${reservas}">
+									<th th:text="${reserva.idReserva}" scope="row"></th>
+									<td th:text="${reserva.numAsistentes}" class="text-center"></td>
+									<td th:text="${reserva.estadoPago}" class="text-center"></td>
+									<td><a th:href="@{/reserva/delete/{idReserva}(idReserva=${reserva.idReserva})}" class="btn btn-danger">Cancelar</a></td>
+<!-- 									<td><button class="btn btn-danger">Cancelar</button></td> -->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,39 +1,44 @@
-.nav1 a:hover {
-	background-color: white;
-/*     background-color: #efefef; */
-    color: black !important;
-    border-radius: 5px;
+@media only screen and (min-width: 991px) {
+    .navbar {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .nav1 .nav-link {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
 }
 
-.nav1 li:hover > div.dropdown-menu {
-    display: block;
+.nav1 li:first-child {
+    padding-left: 40px;
 }
 
-.dropdown-menu {
-    background-color: #343a40;
-    padding: 10px 10px;
+.nav1 li > a:hover {
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
 }
 
-.nav1 li {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-/* quizas descomentar en un futuro */
-/* .nav1 a:hover {
-    background-color: azure;
-    color: black !important;
-} */
-
-
-.dropdown-toggle {
-    /* color: #007bff !important; */
+.navbar-nav .btn {
     color: white !important;
 }
 
-.dropdown-menu a {
-    color: white;
-    border-radius: 5px;
+.btn {
+    width: 140px;
+}
+
+.dropdown a:hover {
+    background-color: rgba(0, 0, 0, .2)
+}
+
+#breadcrumb {
+    height: 50px;
+    background-color: #e9ecef !important;
+}
+
+.breadcrumb {
+    padding-bottom: 0px;
+    margin-bottom: 12px;
 }
 
 #footer {
