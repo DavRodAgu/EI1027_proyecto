@@ -86,26 +86,26 @@ public class ClienteController {
 		return "redirect:../list";
 	}
 
-	@RequestMapping("/listarActividades")
+	@RequestMapping("/actividades")
 	public String listActividades(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/listarActividades");
+			session.setAttribute("nextUrl", "cliente/actividades");
 			return "login";
 		}
 		model.addAttribute("actividades", actividadDao.getActividades());
-		return "cliente/listarActividades";
+		return "cliente/actividades";
 	}
 	
-	@RequestMapping("/listarReservas")
+	@RequestMapping("/reservas")
 	public String listReservas(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/listarReservas");
+			session.setAttribute("nextUrl", "cliente/reservas");
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
 		model.addAttribute("reservas", reservaDao.getReservasUsuario(usuario.getUsuario()));
-		return "cliente/listarReservas";
+		return "cliente/reservas";
 	}
 }

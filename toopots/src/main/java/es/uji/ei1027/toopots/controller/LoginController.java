@@ -72,7 +72,7 @@ public class LoginController {
 		
 		switch (user.getRol()) {
 		case "cliente":
-			return "redirect:/cliente/home";
+			return "redirect:/cliente/actividades";
 		case "administrador":
 			return "redirect:/administrador/home.html";
 		case "instructor":

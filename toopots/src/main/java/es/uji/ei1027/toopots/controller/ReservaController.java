@@ -84,23 +84,29 @@ public class ReservaController {
 		return "redirect:../../cliente/listarReservas";
 	}
 
-	@RequestMapping(value = "/añadirReserva/{idActividad}")
+	@RequestMapping(value = "/añadirReserva/{idActividad}", method = RequestMethod.GET)
 	public String añadirReserva(Model model, @PathVariable int idActividad) {
+		System.out.println("ID Actividad: " + idActividad);
 		Actividad actividad = actividadDao.getActividad(idActividad + "");
 		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
-		return "reserva/añadirReserva";
+		return "cliente/actividades";
+//		return model;
 	}
 
 	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
 	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
-			return "reserva/añadirReserva";
+			return "cliente/actividades";
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
 		reservaDao.addReserva(reserva);
-		return "redirect:../cliente/listarReservas";
+		return "redirect:../cliente/reservas";
 	}
+	
 }
+
+
+
