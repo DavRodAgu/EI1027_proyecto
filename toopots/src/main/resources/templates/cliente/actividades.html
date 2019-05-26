@@ -2,24 +2,36 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <style>
 body {
-    background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
 
 #main {
-    margin-top: 20px;
+	margin-top: 20px;
 	margin-bottom: 30px;
 }
 
 .card-img-top {
-    max-width: 100%;
+	max-width: 100%;
 }
 
 .card-title {
 	text-transform: capitalize;
 }
 </style>
+<script type="text/javascript">
+	$(document).on("click", ".open-compra", function() {
+		var myActivityId = $(this).data('id');
+		$(".modal-body #idActividad").val(myActivityId);
+		// As pointed out in comments, 
+		// it is unnecessary to have to manually call the modal.
+		// $('#addBookDialog').modal('show');
+	});
+</script>
 </head>
 
 <body>
@@ -57,66 +69,73 @@ body {
 							</p>
 							<div class="text-center">
 								<!-- TODO: Modificar -->
-								<a href="#" id="addReserva" class="btn btn-success" data-toggle="modal" 
-										th:attrappend="idActividad=${actividad.idActividad}"
-										data-target="#modalCompra">Reservar</a>
-<!-- 								<a class="btn btn-success" data-toggle="modal" -->
-<!-- 									data-target="#modalReserva" -->
-<!-- 									th:href="@{/reserva/añadirReserva/{idActividad}(idActividad=${actividad.idActividad})}">Reservar</a> -->
+								<a href="#" id="addReserva" class="open-compra btn btn-success"
+									data-toggle="modal"
+									th:attrappend="idActividad=${actividad.idActividad}"
+									data-target="#modalCompra" th:data-id="${actividad.idActividad}">Reservar</a>
+								<!-- 								<a class="btn btn-success" data-toggle="modal" -->
+								<!-- 									data-target="#modalReserva" -->
+								<!-- 									th:href="@{/reserva/añadirReserva/{idActividad}(idActividad=${actividad.idActividad})}">Reservar</a> -->
 							</div>
 						</div>
 						<!-- Modal -->
-		<div class="modal fade" id="modalCompra" tabindex="-1" role="dialog" 
-		th:attrappend="idActividad=${actividad.idActividad}"
-			aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar Reserva</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form action="#" th:action="@{/reserva/añadirReserva}"
-                     			th:object="${reserva}" method="post">
-							<div class="form-row justify-content-center">
-								<div class="form-group">
-									<label for="id-actividad" class="control-label">ID de la actividad</label>
-<!-- 									<span th:field="*{idActividad}"></span> -->
-								</div>
-								<div class="form-group">
-<!-- 									TODO: Ajustar al número de plazas disponibles -->
-									<label for="exampleSelect1">Número de tickets:</label> 
-									<select class="form-control" id="exampleSelect1">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
-								<div class="mt-2 mb-2">
-									<small>Al hacer click en Reservar se le redireccionará a
-										una pasarela de pago donde podrá continuar con la compra de sus
-										tickets. </small>
+						<div class="modal fade" id="modalCompra" tabindex="-1"
+							role="dialog"
+							th:attrappend="idActividad=${actividad.idActividad}"
+							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar
+											Reserva</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form action="#" th:action="@{/reserva/anadirReserva}"
+											th:object="${reserva}" method="post">
+											<div class="form-row justify-content-center">
+												<div class="form-group">
+													<label for="id-actividad" class="control-label">ID
+														de la actividad</label>
+													<!-- <input type="number" th:field="*{idActividad}"> -->
+													<input type="text" name="idActividad" id="idActividad" />
+													<span id="idHolder"></span>
+												</div>
+												<div class="form-group">
+													<!-- 									TODO: Ajustar al número de plazas disponibles -->
+													<label for="exampleSelect1">Número de tickets:</label> <select
+														name="nPersonas" class="form-control" id="exampleSelect1">
+														<option value=1>1</option>
+														<option value=2>2</option>
+														<option value=3>3</option>
+														<option value=4>4</option>
+														<option value=5>5</option>
+													</select>
+												</div>
+												<div class="mt-2 mb-2">
+													<small>Al hacer click en Reservar se le
+														redireccionará a una pasarela de pago donde podrá
+														continuar con la compra de sus tickets. </small>
+												</div>
+											</div>
+											<div class="pt-2 text-right">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+												<!-- 								<a class="btn btn-success"  -->
+												<!-- 									th:href="@{/reserva/añadirReserva}">Reservar</a> -->
+												<input class="btn btn-success" type="submit"
+													value="Reservar" />
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
-							<div class="pt-2 text-right">
-								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Cancelar</button>
-<!-- 								<a class="btn btn-success"  -->
-<!-- 									th:href="@{/reserva/añadirReserva}">Reservar</a> -->
-								<input class="btn btn-success" type="submit" value="Reservar" />
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /Modal -->
-						
+						</div>
+						<!-- /Modal -->
+
 					</div>
 				</div>
 			</div>
