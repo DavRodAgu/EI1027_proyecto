@@ -1,5 +1,6 @@
 package es.uji.ei1027.toopots.controller;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,11 @@ public class ReservaController {
 
 	@RequestMapping("/list")
 	public String listReservas(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) 
-	       { 
-	          model.addAttribute("user", new Login()); 
-	          session.setAttribute("nextUrl", "reservas/list");
-	          return "login";
-	       } 
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "reservas/list");
+			return "login";
+		}
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
@@ -93,20 +93,24 @@ public class ReservaController {
 //		return model;
 	}
 
-	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
-	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
+	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
+	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
+			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return "cliente/actividades";
+
+		System.out.println("dsadasdas" + idActividad);
+		Actividad actividad = actividadDao.getActividad(idActividad + "");
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
+		reserva.setFecha(actividad.getFecha());
+		reserva.setPrecioPorPersona(actividad.getPrecio());
+		System.out.println("Reserva vista: " + reserva);
 		reservaDao.addReserva(reserva);
 		return "redirect:../cliente/reservas";
 	}
-	
+
 }
-
-
-
