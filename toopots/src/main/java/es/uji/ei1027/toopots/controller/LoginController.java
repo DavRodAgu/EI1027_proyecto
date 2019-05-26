@@ -47,7 +47,6 @@ public class LoginController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String checkLogin(@ModelAttribute("user") Login user,  		
 				BindingResult bindingResult, HttpSession session) {
-		System.out.println("-------------" + user.toString());
 		UserValidator userValidator = new UserValidator(); 
 		userValidator.validate(user, bindingResult); 
 		if (bindingResult.hasErrors()) {
@@ -55,12 +54,12 @@ public class LoginController {
 		}
 	       // Comprova que el login siga correcte 
 		// intentant carregar les dades de l'usuari 
-		user = loginDao.getLogin(user.getUsuario(), user.getContraseña()); 
-		
+		user = loginDao.getLogin(user.getUsuario(), user.getContraseña()); 		
 		if (user == null) {
-			bindingResult.rejectValue("contraseña", "badpw", "Contraseña incorrecta"); 
+			bindingResult.rejectValue("contraseña", "badpw", "Usuario y/o contraseña incorrectos"); 
 			return "login";
 		}
+		System.out.println("-------------" + user.toString());
 		// Autenticats correctament. 
 		// Guardem les dades de l'usuari autenticat a la sessió
 		session.setAttribute("user", user);

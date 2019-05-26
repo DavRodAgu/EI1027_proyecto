@@ -90,7 +90,6 @@ public class ReservaController {
 		Actividad actividad = actividadDao.getActividad(idActividad + "");
 		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
 		return "cliente/actividades";
-//		return model;
 	}
 
 	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)

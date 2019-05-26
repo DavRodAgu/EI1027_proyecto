@@ -36,52 +36,51 @@ body {
 
 <body>
 	<div id="main" layout:fragment="content">
-		<div class="container">
-			<!-- Main -->
-			<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
-			<div th:unless="${#lists.isEmpty(actividades)}">
-				<div class="titulo_form">
-					<!-- 					<h2>Lista de actividades</h2> -->
+		<section class="mt-4 mb-4">
+			<div class="container">
+				<!-- Main -->
+				<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
+				<div th:unless="${#lists.isEmpty(actividades)}">
+					<div class="titulo_form">
+						<!-- 					<h2>Lista de actividades</h2> -->
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-4">
-					<div th:each="actividad: ${actividades}" class="card">
-						<img class="card-img-top" src="assets/paracaidismo.jpg"
-							height="200" alt="imagen-actividad">
-						<div class="card-body">
-							<h5 th:text="${actividad.nombre}" class="card-title text-center"></h5>
-							<p class="card-text">
+				<div class="row">
+					<div th:each="actividad: ${actividades}"
+						class="col-12 col-md-4 mb-5">
+						<div class="card">
+							<img class="card-img-top" src="assets/paracaidismo.jpg"
+								height="200" alt="imagen-actividad">
+							<div class="card-body">
+								<h5 th:text="${actividad.nombre}" class="card-title text-center"></h5>
 								<!-- Podria utilizarse un Collapse -->
 								<!-- TODO: Añadir el resto de información -->
-							<ul>
-								<li><span>Nº de plazas: </span><span
-									th:text="${actividad.maxAsistentes}"></span></li>
-								<li><span>Instructor: </span><span th:text="${instructor}"></span>
-								</li>
-								<li><span>Lugar de encuentro: </span><span
-									th:text="${actividad.lugar}"></span></li>
-								<li><span>Fecha y Hora: </span><span
-									th:text="${actividad.fecha}"></span></li>
-								<li><span>ID Actividad: </span><span
-									th:text="${actividad.idActividad}"></span></li>
-							</ul>
-							</p>
-							<div class="text-center">
-								<!-- TODO: Modificar -->
-								<a href="#" id="addReserva" class="open-compra btn btn-success"
-									data-toggle="modal"
-									th:attrappend="idActividad=${actividad.idActividad}"
-									data-target="#modalCompra" th:data-id="${actividad.idActividad}">Reservar</a>
-								<!-- 								<a class="btn btn-success" data-toggle="modal" -->
-								<!-- 									data-target="#modalReserva" -->
-								<!-- 									th:href="@{/reserva/añadirReserva/{idActividad}(idActividad=${actividad.idActividad})}">Reservar</a> -->
+								<p class="card-text">
+								<ul>
+									<li><span>Nº de plazas: </span><span
+										th:text="${actividad.maxAsistentes}"></span></li>
+									<li><span>Instructor: </span><span th:text="${instructor}"></span>
+									</li>
+									<li><span>Lugar de encuentro: </span><span
+										th:text="${actividad.lugar}"></span></li>
+									<li><span>Fecha y Hora: </span><span
+										th:text="${actividad.fecha}"></span></li>
+									<li><span>ID Actividad: </span><span
+										th:text="${actividad.idActividad}"></span></li>
+								</ul>
+								</p>
+								<div class="text-center">
+									<!-- TODO: Modificar -->
+									<a href="#" id="addReserva" class="open-compra btn btn-success"
+										data-toggle="modal"
+										data-target="#modalCompra"
+										th:data-id="${actividad.idActividad}">Reservar</a>
+								</div>
 							</div>
 						</div>
 						<!-- Modal -->
 						<div class="modal fade" id="modalCompra" tabindex="-1"
 							role="dialog"
-							th:attrappend="idActividad=${actividad.idActividad}"
 							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
@@ -100,9 +99,7 @@ body {
 												<div class="form-group">
 													<label for="id-actividad" class="control-label">ID
 														de la actividad</label>
-													<!-- <input type="number" th:field="*{idActividad}"> -->
-													<input type="text" name="idActividad" id="idActividad" />
-													<span id="idHolder"></span>
+													<input type="text" name="idActividad" id="idActividad" disabled/>
 												</div>
 												<div class="form-group">
 													<!-- 									TODO: Ajustar al número de plazas disponibles -->
@@ -124,22 +121,20 @@ body {
 											<div class="pt-2 text-right">
 												<button type="button" class="btn btn-secondary"
 													data-dismiss="modal">Cancelar</button>
-												<!-- 								<a class="btn btn-success"  -->
-												<!-- 									th:href="@{/reserva/añadirReserva}">Reservar</a> -->
 												<input class="btn btn-success" type="submit"
-													value="Reservar" />
+													value="Continuar" />
 											</div>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- /Modal -->
 
+						<!-- /Modal -->
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 		<!-- /Main -->
 	</div>
 </body>
