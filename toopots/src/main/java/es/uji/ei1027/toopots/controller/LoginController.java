@@ -73,7 +73,7 @@ public class LoginController {
 		case "cliente":
 			return "redirect:/cliente/actividades";
 		case "administrador":
-			return "redirect:/administrador/home.html";
+			return "redirect:/admin/solicitudes";
 		case "instructor":
 			return "redirect:/instructor/home.html";
 		}

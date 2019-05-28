@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/estilos-admin.css"
+	th:href="@{/css/estilos-admin.css}" />
+<link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
+	th:href="@{/css/estilos-tabla.css}" />
+<title>Solicitudes</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Main -->
+		<div id="main">
+			<div class="container">
+				<div th:if="${#lists.isEmpty(solicitudes)}">No hay ninguna
+					solicitud</div>
+				<div th:unless="${#lists.isEmpty(solicitudes)}">
+					<div class="titulo_form">
+						<header class="table-header">
+							<span class="header-title">Solicitudes</span>
+						</header>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<table class="table table-hover">
+								<thead class="tbl-header">
+									<tr>
+										<th scope="col">#</th>
+										<th class="text-center" scope="col">Nombre</th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Ordenar las solicitudes por fecha -->
+									<tr th:each="solicitud: ${solicitudes}">
+										<th th:text="${solicitud.idSolicitud" scope="row"></th>
+										<td th:text="${solicitud.nombre}" class="text-center"></td>
+										<td><a href="#" class="btn btn-success">Aceptar</a> <a
+											href="#" class="open-modal btn btn-danger">Cancelar</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Main -->
+	</div>
+</body>
+</html>

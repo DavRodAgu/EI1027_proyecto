@@ -16,6 +16,7 @@ import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Login;
+import es.uji.ei1027.toopots.services.ClienteService;
 
 @Controller
 @RequestMapping("/cliente")
@@ -24,6 +25,7 @@ public class ClienteController {
 	private ClienteDao clienteDao;
 	private ActividadDao actividadDao;
 	private ReservaDao reservaDao;
+	private ClienteService clienteService;
 
 	@Autowired
 	public void setClienteDao(ClienteDao clienteDao) {
@@ -39,10 +41,10 @@ public class ClienteController {
 	public void setReservaDao(ReservaDao reservaDao) {
 		this.reservaDao = reservaDao;
 	}
-
-	@RequestMapping("/home")
-	public String homeClientes(Model model) {
-		return "cliente/home";
+	
+	@Autowired
+	public void setClienteService(ClienteService clienteService) {
+		this.clienteService = clienteService;
 	}
 
 	@RequestMapping("/list")
@@ -105,7 +107,7 @@ public class ClienteController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
-		model.addAttribute("reservas", reservaDao.getReservasUsuario(usuario.getUsuario()));
+		model.addAttribute("reservas", clienteService.getReservaByClient(usuario.getUsuario()));
 		return "cliente/reservas";
 	}
 }

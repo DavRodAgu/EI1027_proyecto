@@ -11,7 +11,7 @@ body {
 }
 
 #main {
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-bottom: 30px;
 }
 
@@ -22,14 +22,15 @@ body {
 .card-title {
 	text-transform: capitalize;
 }
+
+.inf-actividad {
+	list-style-type: none;
+}
 </style>
 <script type="text/javascript">
 	$(document).on("click", ".open-compra", function() {
 		var myActivityId = $(this).data('id');
 		$(".modal-body #idActividad").val(myActivityId);
-		// As pointed out in comments, 
-		// it is unnecessary to have to manually call the modal.
-		// $('#addBookDialog').modal('show');
 	});
 </script>
 </head>
@@ -45,6 +46,7 @@ body {
 						<!-- 					<h2>Lista de actividades</h2> -->
 					</div>
 				</div>
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
 				<div class="row">
 					<div th:each="actividad: ${actividades}"
 						class="col-12 col-md-4 mb-5">
@@ -56,21 +58,24 @@ body {
 								<!-- Podria utilizarse un Collapse -->
 								<!-- TODO: Añadir el resto de información -->
 								<p class="card-text">
-								<ul>
+								<ul class="inf-actividad">
 									<li><span>Nº de plazas: </span><span
 										th:text="${actividad.maxAsistentes}"></span></li>
-									<li><span>Instructor: </span><span th:text="${instructor}"></span>
+									<li>
+										<span>Instructor: </span><span th:text="${actividad.idInstructor}"></span>
 									</li>
-									<li><span>Lugar de encuentro: </span><span
-										th:text="${actividad.lugar}"></span></li>
-									<li><span>Fecha y Hora: </span><span
-										th:text="${actividad.fecha}"></span></li>
-									<li><span>ID Actividad: </span><span
-										th:text="${actividad.idActividad}"></span></li>
+									<li>
+										<span>Lugar de encuentro: </span><span
+										th:text="${actividad.lugar}"></span>
+									</li>
+									<li>
+										<span>Fecha y Hora: </span><span
+										th:text="${actividad.fecha}"></span>
+										<span th:text="${actividad.horaDeEncuentro}"></span>
+									</li>
 								</ul>
 								</p>
 								<div class="text-center">
-									<!-- TODO: Modificar -->
 									<a href="#" id="addReserva" class="open-compra btn btn-success"
 										data-toggle="modal"
 										data-target="#modalCompra"
@@ -97,14 +102,12 @@ body {
 											th:object="${reserva}" method="post">
 											<div class="form-row justify-content-center">
 												<div class="form-group">
-													<label for="id-actividad" class="control-label">ID
-														de la actividad</label>
-													<input type="text" name="idActividad" id="idActividad" disabled/>
+													<input type="hidden" name="idActividad" id="idActividad"/>
 												</div>
 												<div class="form-group">
 													<!-- 									TODO: Ajustar al número de plazas disponibles -->
-													<label for="exampleSelect1">Número de tickets:</label> <select
-														name="nPersonas" class="form-control" id="exampleSelect1">
+													<label for="numTickets">Número de tickets:</label> <select
+														name="nPersonas" class="form-control" id="numTickets">
 														<option value=1>1</option>
 														<option value=2>2</option>
 														<option value=3>3</option>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
@@ -79,27 +80,33 @@ public class ReservaController {
 	}
 
 	@RequestMapping(value = "/delete/{idReserva}")
-	public String processDelete(@PathVariable String idReserva) {
+	public String processDelete(@PathVariable String idReserva,
+			RedirectAttributes redirectAttributes) {
+		Reserva reserva = reservaDao.getReserva(idReserva);
+		// Convertir int a string
+		String idActividad = Integer.toString(reserva.getIdActividad());
+		String nombre = actividadDao.getActividad(idActividad).getNombre();
 		reservaDao.deleteReserva(idReserva);
-		return "redirect:../../cliente/listarReservas";
-	}
-
-	@RequestMapping(value = "/añadirReserva/{idActividad}", method = RequestMethod.GET)
-	public String añadirReserva(Model model, @PathVariable int idActividad) {
-		System.out.println("ID Actividad: " + idActividad);
-		Actividad actividad = actividadDao.getActividad(idActividad + "");
-		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
-		return "cliente/actividades";
+		redirectAttributes.addFlashAttribute("message", "La reserva de la actividad \"" + nombre + "\" ha sido cancelada.");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:../../cliente/reservas";
 	}
 
 	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
 	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
 			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/actividades");
+			return "login";
+		}
+		if (bindingResult.hasErrors()) {
+			redirectAttributes.addFlashAttribute("message", "Error reservando actividad");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 			return "cliente/actividades";
+		}
 
-		System.out.println("dsadasdas" + idActividad);
 		Actividad actividad = actividadDao.getActividad(idActividad + "");
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
@@ -107,9 +114,11 @@ public class ReservaController {
 		reserva.setEstadoPago("pendiente");
 		reserva.setFecha(actividad.getFecha());
 		reserva.setPrecioPorPersona(actividad.getPrecio());
-		System.out.println("Reserva vista: " + reserva);
 		reservaDao.addReserva(reserva);
-		return "redirect:../cliente/reservas";
+		
+		redirectAttributes.addFlashAttribute("message", "Se ha reservado la actividad \"" + actividad.getNombre() + "\"");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:../cliente/actividades";
 	}
 
 }

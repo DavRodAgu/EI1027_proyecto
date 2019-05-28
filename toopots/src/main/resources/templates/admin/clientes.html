@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/estilos-admin.css"
+	th:href="@{/css/estilos-admin.css}" />
+<link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
+	th:href="@{/css/estilos-tabla.css}" />
+<title>Clientes</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- Main -->
+		<div id="main">
+			<div class="container">
+				<div th:if="${#lists.isEmpty(clientes)}">No hay clientes
+					registrados en la aplicación</div>
+				<div th:unless="${#lists.isEmpty(clientes)}">
+					<div class="titulo_form">
+						<header class="table-header">
+							<span class="header-title">Clientes</span>
+						</header>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<table class="table table-hover">
+								<thead class="tbl-header">
+									<tr>
+										<th scope="col">DNI</th>
+										<th class="text-center" scope="col">Nombre</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Ordenar las solicitudes por fecha -->
+									<tr th:each="cliente: ${#lists.sort(clientes)}">
+										<th th:text="${cliente.nombre}" scope="row"></th>
+										<td th:text="${cliente.idCliente}" class="text-center"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Main -->
+	</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package es.uji.ei1027.toopots.model;
 
-public class Instructor {
+public class Instructor implements Comparable<Instructor> {
 	private String idInstructor;
 	private String estado;
 	private String nombre;
@@ -52,6 +52,8 @@ public class Instructor {
 				+ email + ", iban=" + iban + ", foto=" + foto + "]";
 	}
 	
-	
+	public int compareTo(Instructor altre) {
+		return this.getNombre().compareTo(altre.getNombre());
+	}
 	
 }
