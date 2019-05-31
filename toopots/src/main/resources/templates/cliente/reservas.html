@@ -38,7 +38,7 @@ body {
 }
 
 .tbl-header th:last-child {
-	width: 350px;
+	width: 200px;
 }
 
 .table tbody {
@@ -53,8 +53,8 @@ tr td:last-child {
 	text-align: right;
 }
 
-tr td:last-child {
-	text-align: right;
+.collapse-row {
+	border: none;
 }
 </style>
 </head>
@@ -78,19 +78,26 @@ tr td:last-child {
 						<table
 							class="table table-hover">
 							<thead class="tbl-header">
-								<!-- TODO: Añadir el resto de campos -->
 								<tr>
 									<th scope="col">Actividad</th>
-									<th class="text-center" scope="col">Fecha</th>
+									<th scope="col"></th>
+									<th class="text-center" scope="col">Fecha de la reserva</th>
 									<th class="text-center" scope="col">Estado</th>
+									<th class="text-center" scope="col">Precio</th>
 									<th scope="col"></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="reserva: ${reservas.keySet()}">
-									<th th:text="${reservas.get(reserva)}" scope="row"></th>
-									<td th:text="${reserva.fecha}" class="text-center"></td>
+							<tbody th:each="reserva: ${#lists.sort(reservas.keySet())}">
+								<tr>
+									<th th:text="${reservas.get(reserva)[0].nombre}" scope="row"></th>
+									<td>
+										  <a class="fas fa-plus" type="button" data-toggle="collapse" 
+										  th:attr="data-target='#multiCollapse'+${reserva.idReserva}" 
+										  aria-expanded="false" aria-controls="multiCollapse"></a>
+									</td>
+									<td th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}" class="text-center"></td>
 									<td th:text="${reserva.estadoPago}" class="text-center"></td>
+									<td th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €" class="text-center"></td>
 									<td><a href="#" class="open-modal btn btn-danger"
 										data-toggle="modal" data-target="#modal-cancelar"
 										th:attr="data-target='#modal-cancelar'+${reserva.idReserva }">Cancelar</a>
@@ -111,7 +118,10 @@ tr td:last-child {
 													</button>
 												</div>
 												<div class="modal-body">
-													¿Estás seguro de que quieres cancelar la reserva de la actividad "<span style="font-weight: bold;" th:text="${reservas.get(reserva)}"></span>"?.
+													¿Estás seguro de que quieres cancelar la reserva de la actividad 
+													"<span style="font-weight: bold; text-transform: capitalize;" th:text="${reservas.get(reserva)[0].nombre}"></span>"
+													con fecha "<span style="font-weight: bold; text-transform: capitalize;" th:text="${#dates.format(reservas.get(reserva)[0].fecha, 'dd/MM/yyyy')}"></span>"
+													 y hora "<span style="font-weight: bold; text-transform: capitalize;" th:text="${#dates.format(reservas.get(reserva)[0].horaDeEncuentro, 'HH:mm')}"></span>"?.
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary"
@@ -124,6 +134,18 @@ tr td:last-child {
 										</div>
 									</div>
 									<!-- /Modal -->
+								</tr>
+								<tr class="collapse multi-collapse collapse-row" th:id="multiCollapse+${reserva.idReserva}">
+									<td colspan="2" class="text-left" th:text="${'Instructor: ' + reservas.get(reserva)[1]}">
+									</td>
+									<td class="text-left" th:text="${'Fecha: ' + #dates.format(reservas.get(reserva)[0].fecha, 'dd/MM/yyyy')}">	
+									</td>
+									<td class="text-left" th:text="${'Hora: ' + #dates.format(reservas.get(reserva)[0].horaDeEncuentro, 'HH:mm')}">	
+									</td>
+									<td class="text-left" th:text="${'Lugar: ' + reservas.get(reserva)[0].lugar}">	
+									</td>
+									<td class="text-left" th:text="${'Duración: ' + reservas.get(reserva)[0].duracion + ' horas'}">	
+									</td>
 								</tr>
 							</tbody>
 						</table>

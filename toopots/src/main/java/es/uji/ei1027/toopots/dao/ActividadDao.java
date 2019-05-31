@@ -68,4 +68,13 @@ public class ActividadDao {
             return new ArrayList<Actividad>();
         }
     }
+    
+    public List<Actividad> getActividadesByType(int idTipoActividad) {
+    	try {
+    		return jdbcTemplate.query("SELECT * from Actividad WHERE idTipoActividad=?",
+                    new ActividadRowMapper(), idTipoActividad);
+    	} catch(EmptyResultDataAccessException e) {
+    		return new ArrayList<Actividad>();
+    	}
+    }
 }

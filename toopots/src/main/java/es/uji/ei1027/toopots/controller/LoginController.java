@@ -59,7 +59,7 @@ public class LoginController {
 			bindingResult.rejectValue("contraseña", "badpw", "Usuario y/o contraseña incorrectos"); 
 			return "login";
 		}
-		System.out.println("-------------" + user.toString());
+//		System.out.println("-------------" + user.toString());
 		// Autenticats correctament. 
 		// Guardem les dades de l'usuari autenticat a la sessió
 		session.setAttribute("user", user);

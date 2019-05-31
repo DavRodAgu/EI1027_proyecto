@@ -1,6 +1,10 @@
 package es.uji.ei1027.toopots.controller;
 
 
+import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +98,7 @@ public class ReservaController {
 
 	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
 	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
-			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas,
+			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas, @RequestParam(name = "preferencias") boolean preferencias,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
@@ -112,13 +116,15 @@ public class ReservaController {
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
-		reserva.setFecha(actividad.getFecha());
+		Date date = new Date();
+		Timestamp ts = new Timestamp(date.getTime());
+		reserva.setFecha(ts);
 		reserva.setPrecioPorPersona(actividad.getPrecio());
 		reservaDao.addReserva(reserva);
 		
 		redirectAttributes.addFlashAttribute("message", "Se ha reservado la actividad \"" + actividad.getNombre() + "\"");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-		return "redirect:../cliente/actividades";
+		
+		return "redirect:../cliente/actividades/"+preferencias;
 	}
-
 }

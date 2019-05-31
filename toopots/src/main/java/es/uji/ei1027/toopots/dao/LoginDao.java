@@ -26,4 +26,14 @@ public class LoginDao {
 			return null;
 		}
 	}
+	
+	public boolean updatePassword(Login user) {
+		try {
+			jdbcTemplate.update("UPDATE login SET contraseña=? where usuario=?",
+        		user.getContraseña(), user.getUsuario());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }
