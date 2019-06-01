@@ -77,4 +77,13 @@ public class ActividadDao {
     		return new ArrayList<Actividad>();
     	}
     }
+    
+    public List<Actividad> getActividadesByInstructor(String idInstructor) {
+    	try {
+    		return jdbcTemplate.query("SELECT * from Actividad WHERE idInstructor=?",
+                    new ActividadRowMapper(), idInstructor);
+    	} catch(EmptyResultDataAccessException e) {
+    		return new ArrayList<Actividad>();
+    	}
+    }
 }

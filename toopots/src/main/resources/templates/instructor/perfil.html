@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Perfil</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.profile-picture img{
+	box-sizing: border-box;
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+}
+
+.body-wrapper:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+.user-details, .sol-acreditacion {
+	width: 100%;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+.field-label {
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+td input[type="text"], input[type="email"] {
+	width: 350px;
+}
+
+td input[type="file"] {
+	width: 500px;
+}
+
+.prueba {
+	padding-right: 75px;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper" th:object="${session}">
+							<header class="profile-header">
+								<span class="header-title"> Perfil del Instructor - <span th:text="*{user.usuario}"></span> </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="profile-body">
+								<div class="profile-picture text-center pb-5">
+									<!-- Añadir la foto del instructor correspondiente -->
+									<img src="https://robohash.org/hicvitaedolorem.jpg?size=50x50&set=set1" alt="foto-perfil" width="250" height="250">
+								</div>
+								<form action="#" th:action="@{/instructor/perfil/{idInstructor}(idInstructor=${instructor.idInstructor})}"
+									th:object="${instructor}" method="post">
+									<table class="user-details">
+										<tr>
+											<td class="field-label text-right"><label for="nombre-usuario">Nombre</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="nombre-instructor" th:field="*{nombre}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="estado-usuario">Estado solicitud</label></td>
+											<td class="text-left" th:switch="${instructor.estado}">
+												<span th:case="'pendiente'" class="badge badge-warning" th:text="*{estado}"></span>
+												<span th:case="'aceptada'" class="badge badge-success" th:text="*{estado}"></span>
+												<span th:case="'rechazada'" class="badge badge-danger" th:text="*{estado}"></span>
+												<input type="hidden" th:field="*{estado}" />
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="email-usuario">Email</label></td>
+											<td class="text-left"><input class="form-control" type="email" id="email-instructor" th:field="*{email}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="iban-instructor">IBAN</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="iban-instructor" th:field="*{iban}" required/>
+												<small>Ejemplo: ES60 0049 1500 0512 3456 7892</small>
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="foto-instructor">Foto</label></td>
+											<td class="custom-file text-left">
+												<input class="custom-file-input" type="file" id="foto-instructor"/>
+												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Archivo</label>
+											</td>
+										</tr>
+										<tr><td></td></tr>
+										<tr class="text-right">
+											<td style="padding-bottom: 0;" colspan="2">
+											<input class="btn btn-warning"
+												type="submit" value="Modificar datos" /></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+						<div class="footer-wrapper">
+							<header class="profile-header">
+								<a class="pl-1" href="perfil/password" th:href="@{perfil/password}">
+									<img alt="psswd" src="/icons/change-password.png" width="30" height="30">
+									Cambiar contraseña
+								</a>
+							</header>
+						</div>
+					</div>
+				</div>
+				<div class="row pt-3 pb-10">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Solicitar Acreditación </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="pref-body">
+								<form>
+									<table class="sol-acreditacion">
+										<tr class="text-right">
+											<td style="padding-bottom: 0;" colspan="2">
+											<input class="btn btn-success"
+												type="submit" value="Solicitar" /></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -2,15 +2,6 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<<<<<<< HEAD
-<style>
-body {
-    background-color: #f0f0f0;
-}
-
-#main {
-    margin-top: 20px;
-=======
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <script
@@ -22,14 +13,10 @@ body {
 
 #main {
 	margin-top: 30px;
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 	margin-bottom: 30px;
 }
 
 .card-img-top {
-<<<<<<< HEAD
-    max-width: 100%;
-=======
 	max-width: 100%;
 	user-drag: none;
 	user-select: none;
@@ -56,15 +43,11 @@ body {
     font-size: 18px;
     font-weight: 700;
     z-index: 1;
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 }
 
 .card-title {
 	text-transform: capitalize;
 }
-<<<<<<< HEAD
-</style>
-=======
 
 .inf-actividad {
 	list-style-type: none;
@@ -93,112 +76,10 @@ body {
 		$(".modal-body #idActividad").val(myActivityId);
 	});
 </script>
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </head>
 
 <body>
 	<div id="main" layout:fragment="content">
-<<<<<<< HEAD
-		<div class="container">
-			<!-- Main -->
-			<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
-			<div th:unless="${#lists.isEmpty(actividades)}">
-				<div class="titulo_form">
-					<!-- 					<h2>Lista de actividades</h2> -->
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-4">
-					<div th:each="actividad: ${actividades}" class="card">
-						<img class="card-img-top" src="assets/paracaidismo.jpg"
-							height="200" alt="imagen-actividad">
-						<div class="card-body">
-							<h5 th:text="${actividad.nombre}" class="card-title text-center"></h5>
-							<p class="card-text">
-								<!-- Podria utilizarse un Collapse -->
-								<!-- TODO: Añadir el resto de información -->
-							<ul>
-								<li><span>Nº de plazas: </span><span
-									th:text="${actividad.maxAsistentes}"></span></li>
-								<li><span>Instructor: </span><span th:text="${instructor}"></span>
-								</li>
-								<li><span>Lugar de encuentro: </span><span
-									th:text="${actividad.lugar}"></span></li>
-								<li><span>Fecha y Hora: </span><span
-									th:text="${actividad.fecha}"></span></li>
-								<li><span>ID Actividad: </span><span
-									th:text="${actividad.idActividad}"></span></li>
-							</ul>
-							</p>
-							<div class="text-center">
-								<!-- TODO: Modificar -->
-								<a href="#" id="addReserva" class="btn btn-success" data-toggle="modal" 
-										th:attrappend="idActividad=${actividad.idActividad}"
-										data-target="#modalCompra">Reservar</a>
-<!-- 								<a class="btn btn-success" data-toggle="modal" -->
-<!-- 									data-target="#modalReserva" -->
-<!-- 									th:href="@{/reserva/añadirReserva/{idActividad}(idActividad=${actividad.idActividad})}">Reservar</a> -->
-							</div>
-						</div>
-						<!-- Modal -->
-		<div class="modal fade" id="modalCompra" tabindex="-1" role="dialog" 
-		th:attrappend="idActividad=${actividad.idActividad}"
-			aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar Reserva</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form action="#" th:action="@{/reserva/añadirReserva}"
-                     			th:object="${reserva}" method="post">
-							<div class="form-row justify-content-center">
-								<div class="form-group">
-									<label for="id-actividad" class="control-label">ID de la actividad</label>
-<!-- 									<span th:field="*{idActividad}"></span> -->
-								</div>
-								<div class="form-group">
-<!-- 									TODO: Ajustar al número de plazas disponibles -->
-									<label for="exampleSelect1">Número de tickets:</label> 
-									<select class="form-control" id="exampleSelect1">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-									</select>
-								</div>
-								<div class="mt-2 mb-2">
-									<small>Al hacer click en Reservar se le redireccionará a
-										una pasarela de pago donde podrá continuar con la compra de sus
-										tickets. </small>
-								</div>
-							</div>
-							<div class="pt-2 text-right">
-								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">Cancelar</button>
-<!-- 								<a class="btn btn-success"  -->
-<!-- 									th:href="@{/reserva/añadirReserva}">Reservar</a> -->
-								<input class="btn btn-success" type="submit" value="Reservar" />
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /Modal -->
-						
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /Main -->
-	</div>
-=======
 		<section class="mt-4 mb-4">
 			<div class="container">
 				<!-- Main -->
@@ -385,6 +266,5 @@ body {
 	<th:block layout:fragment="script">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 	</th:block>
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </body>
 </html>

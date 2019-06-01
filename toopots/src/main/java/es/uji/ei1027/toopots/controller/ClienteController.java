@@ -1,11 +1,8 @@
 package es.uji.ei1027.toopots.controller;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.List;
 
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
-<<<<<<< HEAD
-import es.uji.ei1027.toopots.dao.ReservaDao;
-import es.uji.ei1027.toopots.model.Cliente;
-import es.uji.ei1027.toopots.model.Login;
-=======
 import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
@@ -37,7 +29,6 @@ import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.services.ClienteService;
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 
 @Controller
 @RequestMapping("/cliente")
@@ -45,93 +36,6 @@ public class ClienteController {
 
 	private ClienteDao clienteDao;
 	private ActividadDao actividadDao;
-<<<<<<< HEAD
-	private ReservaDao reservaDao;
-
-	@Autowired
-	public void setClienteDao(ClienteDao clienteDao) {
-		this.clienteDao = clienteDao;
-	}
-
-	@Autowired
-	public void setActividadDao(ActividadDao actividadDao) {
-		this.actividadDao = actividadDao;
-	}
-	
-	@Autowired
-	public void setReservaDao(ReservaDao reservaDao) {
-		this.reservaDao = reservaDao;
-	}
-
-	@RequestMapping("/home")
-	public String homeClientes(Model model) {
-		return "cliente/home";
-	}
-
-	@RequestMapping("/list")
-	public String listClientes(Model model) {
-		model.addAttribute("clientes", clienteDao.getClientes());
-		return "cliente/list";
-	}
-
-	@RequestMapping(value = "/add")
-	public String addCliente(Model model) {
-		model.addAttribute("cliente", new Cliente());
-		return "cliente/add";
-	}
-
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String processAddSubmit(@ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return "cliente/add";
-		clienteDao.addCliente(cliente);
-		return "redirect:list";
-	}
-
-	@RequestMapping(value = "/update/{idCliente}", method = RequestMethod.GET)
-	public String editCliente(Model model, @PathVariable String idCliente) {
-		model.addAttribute("cliente", clienteDao.getCliente(idCliente));
-		return "cliente/update";
-	}
-
-	@RequestMapping(value = "/update/{idCliente}", method = RequestMethod.POST)
-	public String processUpdateSubmit(@PathVariable String idCliente, @ModelAttribute("cliente") Cliente cliente,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return "cliente/update";
-		clienteDao.updateCliente(cliente);
-		return "redirect:../list";
-	}
-
-	@RequestMapping(value = "/delete/{idCliente}")
-	public String processDelete(@PathVariable String idCliente) {
-		clienteDao.deleteCliente(idCliente);
-		return "redirect:../list";
-	}
-
-	@RequestMapping("/actividades")
-	public String listActividades(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/actividades");
-			return "login";
-		}
-		model.addAttribute("actividades", actividadDao.getActividades());
-		return "cliente/actividades";
-	}
-	
-	@RequestMapping("/reservas")
-	public String listReservas(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/reservas");
-			return "login";
-		}
-		Login usuario = (Login) session.getAttribute("user");
-		model.addAttribute("reservas", reservaDao.getReservasUsuario(usuario.getUsuario()));
-		return "cliente/reservas";
-	}
-=======
 	private ClienteService clienteService;
 	private LoginDao loginDao;
 	private TipoActividadDao tipoActividadDao;
@@ -209,7 +113,7 @@ public class ClienteController {
 		return "cliente/reservas";
 	}
 	
-	@RequestMapping(value = "/perfil")
+	@RequestMapping("/perfil")
 	public String perfilUsuario(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
@@ -302,5 +206,4 @@ public class ClienteController {
 		}
 		return "redirect:../perfil/password";
 	}
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 }

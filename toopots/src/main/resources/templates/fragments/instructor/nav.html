@@ -1,16 +1,13 @@
 <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="/cliente/actividades">TooPots</a>
+      <a class="navbar-brand" href="/instructor/perfil" th:href="@{/instructor/actividades}">TooPots</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto nav1">
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="/cliente/actividades" th:href="@{/cliente/actividades}">Actividades</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" href="/cliente/reservas" th:href="@{/cliente/reservas}">Mis Reservas</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/instructor/actividades" th:href="@{/instructor/actividades}">Actividades</a>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto" th:object="${session}">
@@ -20,7 +17,7 @@
               <span th:text="*{user.usuario}"></span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/cliente/perfil" th:href="@{/cliente/perfil}">Perfil</a>
+              <a class="dropdown-item" href="/instructor/perfil" th:href="@{/instructor/perfil}">Perfil</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/logout" th:href="@{/logout}">Cerrar Sesión</a>
             </div>

@@ -1,13 +1,10 @@
 package es.uji.ei1027.toopots.controller;
 
-<<<<<<< HEAD
-=======
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,20 +43,11 @@ public class ReservaController {
 
 	@RequestMapping("/list")
 	public String listReservas(HttpSession session, Model model) {
-<<<<<<< HEAD
-		if (session.getAttribute("user") == null) 
-	       { 
-	          model.addAttribute("user", new Login()); 
-	          session.setAttribute("nextUrl", "reservas/list");
-	          return "login";
-	       } 
-=======
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
 			session.setAttribute("nextUrl", "reservas/list");
 			return "login";
 		}
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
@@ -103,25 +91,6 @@ public class ReservaController {
 		String idActividad = Integer.toString(reserva.getIdActividad());
 		String nombre = actividadDao.getActividad(idActividad).getNombre();
 		reservaDao.deleteReserva(idReserva);
-<<<<<<< HEAD
-		return "redirect:../../cliente/listarReservas";
-	}
-
-	@RequestMapping(value = "/añadirReserva/{idActividad}", method = RequestMethod.GET)
-	public String añadirReserva(Model model, @PathVariable int idActividad) {
-		System.out.println("ID Actividad: " + idActividad);
-		Actividad actividad = actividadDao.getActividad(idActividad + "");
-		model.addAttribute("reserva", new Reserva(actividad.getFecha(), actividad.getPrecio(), idActividad));
-		return "cliente/actividades";
-//		return model;
-	}
-
-	@RequestMapping(value = "/añadirReserva", method = RequestMethod.POST)
-	public String processAñadirSubmit(HttpSession session, @ModelAttribute("reserva") Reserva reserva, @RequestParam(name = "nPersonas") int nPersonas,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return "cliente/actividades";
-=======
 		redirectAttributes.addFlashAttribute("message", "La reserva de la actividad \"" + nombre + "\" ha sido cancelada.");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../../cliente/reservas";
@@ -143,7 +112,6 @@ public class ReservaController {
 		}
 
 		Actividad actividad = actividadDao.getActividad(idActividad + "");
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());
@@ -153,15 +121,6 @@ public class ReservaController {
 		reserva.setFecha(ts);
 		reserva.setPrecioPorPersona(actividad.getPrecio());
 		reservaDao.addReserva(reserva);
-<<<<<<< HEAD
-		return "redirect:../cliente/reservas";
-	}
-	
-}
-
-
-
-=======
 		
 		redirectAttributes.addFlashAttribute("message", "Se ha reservado la actividad \"" + actividad.getNombre() + "\"");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
@@ -169,4 +128,3 @@ public class ReservaController {
 		return "redirect:../cliente/actividades/"+preferencias;
 	}
 }
->>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f

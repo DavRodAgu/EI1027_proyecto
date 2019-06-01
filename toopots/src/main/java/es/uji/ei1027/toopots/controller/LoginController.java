@@ -75,7 +75,7 @@ public class LoginController {
 		case "administrador":
 			return "redirect:/admin/solicitudes";
 		case "instructor":
-			return "redirect:/instructor/home.html";
+			return "redirect:/instructor/actividades";
 		}
 			
 		// Torna a la pàgina principal

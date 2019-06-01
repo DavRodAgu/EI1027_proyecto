@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Información Actividad</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.profile-picture img{
+	box-sizing: border-box;
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+}
+
+.body-wrapper:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+.actividad-details {
+	width: 100%;
+}
+
+.nombre-actividad {
+	text-transform: capitalize;
+}
+
+td {
+	padding-bottom: 5px;
+}
+
+.field-label {
+	width: 380px;
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Información de la actividad</span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="profile-body">
+								<div class="profile-picture text-center pb-5">
+									<!-- Añadir la foto de la actividad correspondiente -->
+									<img src="/assets/paracaidismo.jpg" alt="foto-promocional" width="350" height="250">
+								</div>
+									<table class="actividad-details">
+										<tr>
+											<td class="field-label text-right"><label>Nombre:</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.nombre}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Tipo Actividad:</label></td>
+											<td class="text-left campo-actividad" th:text="${tipoactividad + ' ' + nivel}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Estado:</label></td>
+											<td class="text-left campo-actividad" th:switch="${actividad.estado}">
+												<span th:case="'abierta'" class="badge badge-primary" th:text="${actividad.estado}"></span>
+												<span th:case="'cerrada'" class="badge badge-dark" th:text="${actividad.estado}"></span>
+												<span th:case="'completa'" class="badge badge-success" th:text="${actividad.estado}"></span>
+												<span th:case="'cancelada'" class="badge badge-danger" th:text="${actividad.estado}"></span>
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Fecha y Hora:</label></td>
+											<td class="text-left campo-actividad" th:text="${#dates.format(actividad.fecha, 'dd/MM/yyyy') + ' - ' + #dates.format(actividad.horaDeEncuentro, 'HH:mm')}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Min. Asistentes:</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.minAsistentes}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Asistentes:</label></td>
+											<td class="text-left campo-actividad" th:text="${asistentes + '/'+ actividad.maxAsistentes}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Lugar y Punto de encuentro:</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.lugar + ', ' + actividad.puntoDeEncuentro}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Duración (horas):</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.duracion}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Precio:</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.precio + '€'}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Descripción:</label></td>
+											<td class="text-left campo-actividad" th:text="${actividad.descripcion}"></td>
+										</tr>
+										<tr><td></td></tr>
+										<tr>
+											<td class="text-left" style="padding-bottom: 0;" colspan="2">
+												<a th:href="@{/instructor/actividades}" class="btn btn-primary" role="button">Volver</a> 
+											</td>
+											<td class="text-right" style="padding-bottom: 0;" colspan="2">
+												<a th:href="@{/instructor/actividad/{idActividad}/update(idActividad=${actividad.idActividad})}" class="btn btn-warning" role="button">Modificar datos</a> 
+											</td>
+										</tr>
+									</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row pt-3 pb-10">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Reservas de la actividad </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+								<div th:if="${#lists.isEmpty(actividades)}">Esta actividad aún no tiene ninguna reserva</div>								
+						</div>
+						<table th:unless="${#lists.isEmpty(actividades)}" class="table table-hover">
+							<thead class="tbl-header">
+								<tr>
+									<th scope="col">Cliente</th>
+									<th class="text-center" scope="col">Fecha de la reserva</th>
+									<th class="text-center" scope="col">Núm. Asistentes</th>
+									<th class="text-center" scope="col">Estado</th>
+									<th class="text-center" scope="col">Precio</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="reserva: ${#lists.sort(reservas.keySet())}">
+									<th th:text="${reservas.get(reserva)}" scope="row"></th>
+									<td
+										th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}"
+										class="text-center"></td>
+									<td th:text="${reserva.numAsistentes}" class="text-center"></td>
+									<td th:text="${reserva.estadoPago}" class="text-center"></td>
+									<td
+										th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €"
+										class="text-center"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
