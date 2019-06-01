@@ -120,8 +120,8 @@ body {
 				
 				<div class="row" >
 					<div th:each="actividad: ${#lists.sort(actividades.keySet())}"
-						class="col-12 col-md-4 mb-5">
-						<div class="card">
+						class="col-12 col-md-4 mb-5" >
+						<div class="card" th:if="${actividad.estado == 'abierta'}">
 							<div class="card-img-caption">
 								<p th:if="${actividades.get(actividad)[0] == true}"
 									class="card-text">

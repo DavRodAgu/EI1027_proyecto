@@ -87,8 +87,8 @@ tr td:last-child {
 									<th scope="col"></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="reserva: ${#lists.sort(reservas.keySet())}">
+							<tbody th:each="reserva: ${#lists.sort(reservas.keySet())}">
+								<tr>
 									<th th:text="${reservas.get(reserva)[0].nombre}" scope="row"></th>
 									<td>
 										  <a class="fas fa-plus" type="button" data-toggle="collapse" 

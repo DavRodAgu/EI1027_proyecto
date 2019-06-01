@@ -100,7 +100,7 @@ td {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto de la actividad correspondiente -->
-									<img src="/assets/paracaidismo.jpg" alt="foto-promocional" width="350" height="250">
+									<img th:src="${imagen}" alt="foto-promocional" width="350" height="250">
 								</div>
 									<table class="actividad-details">
 										<tr>
@@ -117,7 +117,6 @@ td {
 												<span th:case="'abierta'" class="badge badge-primary" th:text="${actividad.estado}"></span>
 												<span th:case="'cerrada'" class="badge badge-dark" th:text="${actividad.estado}"></span>
 												<span th:case="'completa'" class="badge badge-success" th:text="${actividad.estado}"></span>
-												<span th:case="'cancelada'" class="badge badge-danger" th:text="${actividad.estado}"></span>
 											</td>
 										</tr>
 										<tr>

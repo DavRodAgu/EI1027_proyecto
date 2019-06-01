@@ -16,6 +16,11 @@ body {
 	margin-bottom: 30px;
 }
 
+.add-actividad {
+	padding-top: 6px;
+	float: right;
+}
+
 tbody > tr > th, td {
 	text-transform: capitalize;
 }
@@ -35,6 +40,10 @@ tbody > tr > th, td {
 					<div class="titulo_form">
 						<header class="table-header">
 							<span class="header-title">Mis Actividades</span>
+							<a href="actividad/add">
+								<span class="far fa-plus-square add-actividad">
+                                	Añadir Actividad
+                            	</span></a>
 						</header>
 					</div>
 
@@ -52,7 +61,7 @@ tbody > tr > th, td {
 									</tr>
 								</thead>
 								<tbody >
-									<tr th:each="actividad: ${#lists.sort(actividades.keySet())}">
+									<tr th:each="actividad: ${#lists.sort(actividades.keySet())}" th:if="${actividad.estado == 'abierta'}">
 										<th th:text="${actividad.nombre}" scope="row"></th>
 										<td
 											th:text="${#dates.format(actividad.fecha, 'dd/MM/yyyy') + ' ' + #dates.format(actividad.horaDeEncuentro, 'HH:mm')}"

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.ActividadDao;
+import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
@@ -36,7 +37,13 @@ public class InstructorController {
 	private InstructorService instructorService;
 	private ReservaDao reservaDao;
 	private TipoActividadDao tipoActividadDao;
+	private ImagenPromocionalDao imagenPromocionalDao;
 	
+	
+	@Autowired
+	public void setImagenPromocionalDao(ImagenPromocionalDao imagenPromocionalDao) {
+		this.imagenPromocionalDao = imagenPromocionalDao;
+	}
 
 	@Autowired
 	public void setInsructorDao(InstructorDao instructorDao) {
@@ -168,6 +175,9 @@ public class InstructorController {
 		
 		// Obtener las reservas de una actividad
 		model.addAttribute("reservas", instructorService.getReservasByActividad(idActividad));
+		
+		// Obtener imagen de la actividad
+		model.addAttribute("imagen", imagenPromocionalDao.getImagen(idActividad).getImagen());
 		return "instructor/actividad";
 	}
 	
@@ -196,5 +206,23 @@ public class InstructorController {
 		redirectAttributes.addFlashAttribute("message", "Datos de la actividad modificados correctamente");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../" + idActividad;
+	}
+	
+	@RequestMapping(value = "/actividad/add")
+	public String addActividad(Model model) {
+		model.addAttribute("actividad", new Actividad());
+		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
+		return "instructor/add";
+	}
+	
+	@RequestMapping(value = "/actividad/add", method = RequestMethod.POST)
+	public String processAddSubmit(@ModelAttribute("actividad") Actividad actividad, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "instructor/add";
+		}
+		actividadDao.addActividad(actividad);
+		// Crear objeto ImagenPromocional
+		System.out.println(actividad.getIdActividad());
+		return "redirect:/actividades";
 	}
 }

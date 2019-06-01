@@ -60,4 +60,13 @@ public class ImagenPromocionalDao {
 			return new ArrayList<ImagenPromocional>();
 		}
 	}
+	
+	public ImagenPromocional getImagen(String idActividad) {
+		try {
+			return jdbcTemplate.query("SELECT * from ImagenPromocional WHERE idActividad=?",
+					new ImagenPromocionalRowMapper(), Integer.valueOf(idActividad)).get(0);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 }

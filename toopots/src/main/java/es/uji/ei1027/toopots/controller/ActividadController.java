@@ -37,19 +37,6 @@ public class ActividadController {
 		this.tipoActividadDao = tipoActividadDao;
 	}
 
-	@RequestMapping(value = "/add")
-	public String addActividad(Model model) {
-		model.addAttribute("actividad", new Actividad());
-		return "actividad/add";
-	}
-
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String processAddSubmit(@ModelAttribute("actividad") Actividad actividad, BindingResult bindingResult) {
-		if (bindingResult.hasErrors())
-			return "actividad/add";
-		actividadDao.addActividad(actividad);
-		return "redirect:list";
-	}
 
 	@RequestMapping(value = "/cancelar/{idActividad}")
 	public String processCancelar(@PathVariable String idActividad, RedirectAttributes redirectAttributes) {

@@ -105,7 +105,7 @@ td input[type="file"] {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto del instructor correspondiente -->
-									<img src="https://robohash.org/hicvitaedolorem.jpg?size=50x50&set=set1" alt="foto-perfil" width="250" height="250">
+									<img th:src="${instructor.foto}" alt="foto-perfil" width="250" height="250">
 								</div>
 								<form action="#" th:action="@{/instructor/perfil/{idInstructor}(idInstructor=${instructor.idInstructor})}"
 									th:object="${instructor}" method="post">
@@ -143,8 +143,8 @@ td input[type="file"] {
 										<tr><td></td></tr>
 										<tr class="text-right">
 											<td style="padding-bottom: 0;" colspan="2">
-											<input class="btn btn-warning"
-												type="submit" value="Modificar datos" /></td>
+											<input class="btn btn-success"
+												type="submit" value="Guardar" /></td>
 										</tr>
 									</table>
 								</form>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<meta charset="UTF-8">
+<title>Añadir Actividad</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.profile-picture img{
+	box-sizing: border-box;
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+}
+
+.body-wrapper:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+.actividad-details {
+	width: 100%;
+}
+
+.nombre-actividad {
+	text-transform: capitalize;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+td input[type="text"] {
+	width: 350px;
+}
+
+td input[type="date"], input[type="time"] {
+	width: 200px;
+}
+
+td input[type="number"] {
+	width: 100px;
+}
+
+.field-label {
+	width: 380px;
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Añadir actividad </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="profile-body">
+								<form action="#" th:action="@{/instructor/actividad/add}"
+									th:object="${actividad}" method="post">
+									<table class="actividad-details">
+										<tr>
+											<td class="field-label text-right"><label for="nombre-actividad">Nombre</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="nombre-actividad" th:field="*{nombre}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="estado-actividad">Estado</label></td>
+											<td class="text-left">
+												<select class="selectpicker" type="text" id="estado-actividad" th:field="*{estado}">
+													<option value="abierta">abierta</option>
+													<option value="cerrada">cerrada</option>
+													<option value="completa">completa</option>
+													<option value="cancelada">cancelada</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="fecha-actividad">Fecha</label></td>
+											<td class="text-left"><input class="form-control" type="date" id="fecha-actividad" th:field="*{fecha}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="hora-actividad">Hora</label></td>
+											<td class="text-left"><input class="form-control" type="time" id="hora-actividad" th:field="*{horaDeEncuentro}"/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="lugar-actividad">Lugar</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="lugar-actividad" th:field="*{lugar}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="punto-actividad">Punto de Encuentro</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="punto-actividad" th:field="*{puntoDeEncuentro}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="min-actividad">Min. Asistentes</label></td>
+											<td class="text-left"><input class="form-control" type="number" id="min-actividad" th:field="*{minAsistentes}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="max-actividad">Max. Asistentes</label></td>
+											<td class="text-left"><input class="form-control" type="number" id="max-actividad" th:field="*{maxAsistentes}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="duracion-actividad">Duración</label></td>
+											<td class="text-left"><input class="form-control" type="time" min="1:00" max="6:00" value="00:00:00" id="duracion-actividad" th:field="*{duracion}"/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="tipo-actividad">Tipo Actividad</label></td>
+											<td><select class="selectpicker" name="tipo" data-live-search="true" th:field="*{idTipoActividad}"
+												id="tipo-actividad" title="Ningún tipo seleccionado">
+													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
+													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
+											</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="imagen">Imagen</label></td>
+											<td class="custom-file text-left">
+												<input class="custom-file-input" type="file" id="imagen"/>
+												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Archivo</label>
+											</td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="duracion-actividad">Descripción</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="tipo-actividad" th:field="*{descripcion}" required/></td>
+										</tr>
+										<tr><td></td></tr>
+										<tr>
+											<td class="text-left" style="padding-bottom: 0;" colspan="2">
+												<a th:href="@{/instructor/actividades}" class="btn btn-primary" role="button">Volver</a>
+											</td>
+											<td class="text-right" style="padding-bottom: 0;" colspan="2">
+											<input class="btn btn-success"
+												type="submit" value="Añadir" /></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="script">
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	</th:block>
+</body>
+</html>
