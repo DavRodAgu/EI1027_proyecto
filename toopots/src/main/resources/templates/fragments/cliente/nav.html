@@ -7,10 +7,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto nav1">
           <li class="nav-item dropdown">
+<<<<<<< HEAD
             <a class="nav-link" href="/cliente/actividades">Actividades</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link" href="/cliente/reservas">Mis Reservas</a>
+=======
+            <a class="nav-link" href="/cliente/actividades" th:href="@{/cliente/actividades}">Actividades</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="/cliente/reservas" th:href="@{/cliente/reservas}">Mis Reservas</a>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
           </li>
         </ul>
         <ul class="navbar-nav ml-auto" th:object="${session}">
@@ -20,7 +27,11 @@
               <span th:text="*{user.usuario}"></span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<<<<<<< HEAD
               <a class="dropdown-item" href="#">Perfil</a>
+=======
+              <a class="dropdown-item" href="/cliente/perfil" th:href="@{/cliente/perfil}">Perfil</a>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/logout" th:href="@{/logout}">Cerrar Sesión</a>
             </div>

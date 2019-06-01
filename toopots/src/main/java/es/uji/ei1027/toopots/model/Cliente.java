@@ -2,7 +2,7 @@ package es.uji.ei1027.toopots.model;
 
 import java.sql.Date;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
 	private String idCliente;
 	private String nombre;
 	private String email;
@@ -48,5 +48,7 @@ public class Cliente {
 				+ ", fechaNacimiento=" + fechaNacimiento + "]";
 	}
 	
-	
+	public int compareTo(Cliente altre) {
+		return this.getNombre().compareTo(altre.getNombre());
+	}
 }

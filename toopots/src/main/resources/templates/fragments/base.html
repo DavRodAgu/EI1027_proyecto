@@ -28,6 +28,7 @@
 <!-- <body class="container"> -->
 <body>
 	<!-- Header -->
+<<<<<<< HEAD
 	<header>
 	<div th:replace="fragments/cliente/nav"></div>
 <!-- 		<div th:switch="${user.rol}"> -->
@@ -38,6 +39,21 @@
 <!-- 			  	<div th:replace="fragments/nav"></div> -->
 <!-- 			  </div> -->
 <!-- 		</div> -->
+=======
+	<header th:object="${session}">
+<!-- 	<div th:replace="fragments/cliente/nav"></div> -->
+		<div th:switch="*{user.rol}">
+			  <div th:case="'cliente'">
+			  	<div th:replace="fragments/cliente/nav"></div>
+			  </div>
+			  <div th:case="'administrador'">
+			  	<div th:replace="fragments/admin/nav"></div>
+			  </div>
+			  <div th:case="*">
+			  	<div th:replace="fragments/nav"></div>
+			  </div>
+		</div>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 	</header>
 	<!-- /Header -->
 
@@ -77,5 +93,10 @@
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+<<<<<<< HEAD
+=======
+	
+	<th:block layout:fragment="script"></th:block>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </body>
 </html>

@@ -2,20 +2,90 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< HEAD
+=======
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.titulo_form {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.table {
+	background-color: #fff;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.tbl-header {
+	background-color: #e9ecef;
+	border: 1.5px solid #dee2e6;
+	border-bottom: 2px solid #dee2e6;
+}
+
+.tbl-header th:last-child {
+	width: 200px;
+}
+
+.table tbody {
+	border: 1px solid #dee2e6;
+}
+
+tbody tr th {
+	text-transform: capitalize;
+}
+
+tr td:last-child {
+	text-align: right;
+}
+
+.collapse-row {
+	border: none;
+}
+</style>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div id="main">
 			<div class="container">
+<<<<<<< HEAD
 				<div th:if="${#lists.isEmpty(reservas)}">No tienes todavía ninguna reserva</div>
 				<div th:unless="${#lists.isEmpty(reservas)}">
 					<div class="titulo_form">
 						<!-- 					<h2>Mis reservas</h2> -->
+=======
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+				<div th:if="${#lists.isEmpty(reservas)}">No tienes todavía
+					ninguna reserva</div>
+				<div th:unless="${#lists.isEmpty(reservas)}">
+					<div class="titulo_form">
+						<header class="table-header">
+							<span class="header-title"> Mis Reservas </span>
+						</header>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
+<<<<<<< HEAD
 						<table th:unless="${#lists.isEmpty(reservas)}" class="table">
 							<thead>
 							<!-- TODO: Añadir el resto de campos -->
@@ -34,6 +104,79 @@
 									<td th:text="${reserva.estadoPago}" class="text-center"></td>
 									<td><a th:href="@{/reserva/delete/{idReserva}(idReserva=${reserva.idReserva})}" class="btn btn-danger">Cancelar</a></td>
 <!-- 									<td><button class="btn btn-danger">Cancelar</button></td> -->
+=======
+						<table
+							class="table table-hover">
+							<thead class="tbl-header">
+								<tr>
+									<th scope="col">Actividad</th>
+									<th scope="col"></th>
+									<th class="text-center" scope="col">Fecha de la reserva</th>
+									<th class="text-center" scope="col">Estado</th>
+									<th class="text-center" scope="col">Precio</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody th:each="reserva: ${#lists.sort(reservas.keySet())}">
+								<tr>
+									<th th:text="${reservas.get(reserva)[0].nombre}" scope="row"></th>
+									<td>
+										  <a class="fas fa-plus" type="button" data-toggle="collapse" 
+										  th:attr="data-target='#multiCollapse'+${reserva.idReserva}" 
+										  aria-expanded="false" aria-controls="multiCollapse"></a>
+									</td>
+									<td th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}" class="text-center"></td>
+									<td th:text="${reserva.estadoPago}" class="text-center"></td>
+									<td th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €" class="text-center"></td>
+									<td><a href="#" class="open-modal btn btn-danger"
+										data-toggle="modal" data-target="#modal-cancelar"
+										th:attr="data-target='#modal-cancelar'+${reserva.idReserva }">Cancelar</a>
+									</td>
+									<!-- Modal -->
+									<div class="modal fade" tabindex="-1" role="dialog"
+										aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+										th:id="modal-cancelar+${reserva.idReserva }">
+										<div class="modal-dialog modal-dialog-centered"
+											role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalCenterTitle">Cancelar
+														Reserva</h5>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													¿Estás seguro de que quieres cancelar la reserva de la actividad 
+													"<span style="font-weight: bold; text-transform: capitalize;" th:text="${reservas.get(reserva)[0].nombre}"></span>"
+													con fecha "<span style="font-weight: bold; text-transform: capitalize;" th:text="${#dates.format(reservas.get(reserva)[0].fecha, 'dd/MM/yyyy')}"></span>"
+													 y hora "<span style="font-weight: bold; text-transform: capitalize;" th:text="${#dates.format(reservas.get(reserva)[0].horaDeEncuentro, 'HH:mm')}"></span>"?.
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">No</button>
+													<a
+														th:href="@{/reserva/delete/{idReserva}(idReserva=${reserva.idReserva})}"
+														class="btn btn-danger"> Si </a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /Modal -->
+								</tr>
+								<tr class="collapse multi-collapse collapse-row" th:id="multiCollapse+${reserva.idReserva}">
+									<td colspan="2" class="text-left" th:text="${'Instructor: ' + reservas.get(reserva)[1]}">
+									</td>
+									<td class="text-left" th:text="${'Fecha: ' + #dates.format(reservas.get(reserva)[0].fecha, 'dd/MM/yyyy')}">	
+									</td>
+									<td class="text-left" th:text="${'Hora: ' + #dates.format(reservas.get(reserva)[0].horaDeEncuentro, 'HH:mm')}">	
+									</td>
+									<td class="text-left" th:text="${'Lugar: ' + reservas.get(reserva)[0].lugar}">	
+									</td>
+									<td class="text-left" th:text="${'Duración: ' + reservas.get(reserva)[0].duracion + ' horas'}">	
+									</td>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 								</tr>
 							</tbody>
 						</table>

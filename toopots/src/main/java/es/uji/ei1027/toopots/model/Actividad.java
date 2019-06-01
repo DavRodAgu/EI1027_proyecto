@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 
-public class Actividad {
+public class Actividad implements Comparable<Actividad> {
 	private int idActividad;
 	private String estado;
 	private String nombre;
@@ -151,4 +151,7 @@ public class Actividad {
 				+ textoCliente + ", idTipoActividad=" + idTipoActividad + ", idInstructor=" + idInstructor + "]";
 	}
 	
+	public int compareTo(Actividad altre) {
+		return this.getNombre().compareTo(altre.getNombre());
+	}
 }

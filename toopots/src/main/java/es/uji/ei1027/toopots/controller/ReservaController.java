@@ -1,5 +1,13 @@
 package es.uji.ei1027.toopots.controller;
 
+<<<<<<< HEAD
+=======
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
@@ -37,12 +46,20 @@ public class ReservaController {
 
 	@RequestMapping("/list")
 	public String listReservas(HttpSession session, Model model) {
+<<<<<<< HEAD
 		if (session.getAttribute("user") == null) 
 	       { 
 	          model.addAttribute("user", new Login()); 
 	          session.setAttribute("nextUrl", "reservas/list");
 	          return "login";
 	       } 
+=======
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "reservas/list");
+			return "login";
+		}
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 		model.addAttribute("reservas", reservaDao.getReservas());
 		return "reserva/list";
 	}
@@ -79,8 +96,14 @@ public class ReservaController {
 	}
 
 	@RequestMapping(value = "/delete/{idReserva}")
-	public String processDelete(@PathVariable String idReserva) {
+	public String processDelete(@PathVariable String idReserva,
+			RedirectAttributes redirectAttributes) {
+		Reserva reserva = reservaDao.getReserva(idReserva);
+		// Convertir int a string
+		String idActividad = Integer.toString(reserva.getIdActividad());
+		String nombre = actividadDao.getActividad(idActividad).getNombre();
 		reservaDao.deleteReserva(idReserva);
+<<<<<<< HEAD
 		return "redirect:../../cliente/listarReservas";
 	}
 
@@ -98,11 +121,39 @@ public class ReservaController {
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			return "cliente/actividades";
+=======
+		redirectAttributes.addFlashAttribute("message", "La reserva de la actividad \"" + nombre + "\" ha sido cancelada.");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:../../cliente/reservas";
+	}
+
+	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
+	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
+			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas, @RequestParam(name = "preferencias") boolean preferencias,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/actividades");
+			return "login";
+		}
+		if (bindingResult.hasErrors()) {
+			redirectAttributes.addFlashAttribute("message", "Error reservando actividad");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "cliente/actividades";
+		}
+
+		Actividad actividad = actividadDao.getActividad(idActividad + "");
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());
 		reserva.setEstadoPago("pendiente");
+		Date date = new Date();
+		Timestamp ts = new Timestamp(date.getTime());
+		reserva.setFecha(ts);
+		reserva.setPrecioPorPersona(actividad.getPrecio());
 		reservaDao.addReserva(reserva);
+<<<<<<< HEAD
 		return "redirect:../cliente/reservas";
 	}
 	
@@ -110,3 +161,12 @@ public class ReservaController {
 
 
 
+=======
+		
+		redirectAttributes.addFlashAttribute("message", "Se ha reservado la actividad \"" + actividad.getNombre() + "\"");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:../cliente/actividades/"+preferencias;
+	}
+}
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f

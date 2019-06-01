@@ -24,8 +24,8 @@ public class ReservaDao {
     public void addReserva(Reserva reserva) {
         jdbcTemplate.update("INSERT INTO Reserva VALUES(nextval('reserva_idreserva_seq'), ?, ?, ?, ?, ?, ?, ?)",
                 reserva.getEstadoPago(), reserva.getNumTransaccion(),
-                reserva.getFecha(),reserva.getNumAsistentes(), reserva.getPrecioPorPersona(),
-                reserva.getIdActividad(), reserva.getIdCliente());
+                reserva.getNumAsistentes(), reserva.getPrecioPorPersona(),
+                reserva.getIdActividad(), reserva.getIdCliente(), reserva.getFecha());
     }
 
     public void deleteReserva(Reserva reserva) {
@@ -71,5 +71,24 @@ public class ReservaDao {
         catch(EmptyResultDataAccessException e) {
             return new ArrayList<Reserva>();
         }
+    }
+    
+    public Reserva getIfReservada(String usuario, int idActividad) {
+    	try {
+            return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE idActividad=? AND idCliente=?",
+                    new ReservaRowMapper(), idActividad, usuario);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+    
+    public List<Reserva> getNumReservasActividad(int idActividad) {
+    	try {
+    		return jdbcTemplate.query("SELECT * from Reserva WHERE idActividad=?",
+                    new ReservaRowMapper(), idActividad);
+    	} catch(EmptyResultDataAccessException e) {
+    		return new ArrayList<Reserva>();
+    	}
     }
 }

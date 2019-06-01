@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<title>Perfil</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.body-wrapper:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+.user-details, .pref-details {
+	width: 100%;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+.field-label {
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+td input[type="text"], input[type="email"] {
+	width: 350px;
+}
+
+td input[type="date"] {
+	width: 180px;
+}
+
+.prueba {
+	padding-right: 75px;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper" th:object="${session}">
+							<header class="profile-header">
+								<span class="header-title"> Perfil del Usuario - <span th:text="*{user.usuario}"></span> </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="profile-body">
+								<form action="#" th:action="@{/cliente/perfil/{idCliente}(idCliente=${cliente.idCliente})}"
+									th:object="${cliente}" method="post">
+									<table class="user-details">
+										<tr>
+											<td class="field-label text-right"><label for="nombre-usuario">Nombre</label></td>
+											<td class="text-left"><input class="form-control" type="text" id="nombre-usuario" th:field="*{nombre}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="email-usuario">Email</label></td>
+											<td class="text-left"><input class="form-control" type="email" id="email-usuario" th:field="*{email}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="fecha-usuario">Fecha de nacimiento</label></td>
+											<td class="text-left"><input class="form-control" type="date" id="fecha-usuario" th:field="*{fechaNacimiento}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="sexo-usuario">Sexo</label></td>
+											<td class="text-left">
+												<select class="selectpicker" type="text" id="sexo-usuario" th:field="*{sexo}">
+													<option value="F">Mujer</option>
+													<option value="M">Hombre</option>
+											</select></td>
+										</tr>
+										<tr class="text-right">
+											<td style="padding-bottom: 0;" colspan="2">
+											<input class="btn btn-success"
+												type="submit" value="Modificar datos" /></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+						<div class="footer-wrapper">
+							<header class="profile-header">
+								<a class="pl-1" href="perfil/password">
+									<img alt="psswd" src="/icons/change-password.png" width="30" height="30">
+									Cambiar contraseña
+								</a>
+							</header>
+						</div>
+					</div>
+				</div>
+				<div class="row pt-3 pb-10">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Preferencias </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="pref-body">
+								<form action="#" th:action="@{/cliente/perfil}" method="post">
+									<table class="pref-details">
+										<tr>
+											<td class="field-label text-right"><label for="tipo-actividad">Tipo de actividad</label></td>
+											<td class="text-left prueba">
+												<select class="selectpicker" name="prefiere" data-live-search="true" 
+												id="tipo-actividad" multiple title="Ningún tipo seleccionado">
+													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}" 
+													th:selected="${#lists.contains(preferencias, tipo.idTipoActividad)}" 
+													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
+											</select></td>
+										</tr>
+										<tr class="text-right">
+											<td style="padding-bottom: 0;" colspan="2">
+											<input class="btn btn-success"
+												type="submit" value="Modificar preferencias" /></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="script">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	</th:block>
+</body>
+</html>

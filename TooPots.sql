@@ -77,6 +77,13 @@ CREATE TABLE Instructor (
     CONSTRAINT Instructor_pk PRIMARY KEY (idInstructor)
 );
 
+CREATE TABLE Login(
+	usuario varchar(20) NOT NULL,
+	contraseña varchar(20) NOT NULL,
+	rol varchar(20) NOT NULL,
+	CONSTRAINT Login_pk PRIMARY KEY (usuario)
+);
+
 CREATE TABLE Prefiere (
     idTipoActividad int  NOT NULL,
     idCliente varchar(10)  NOT NULL,

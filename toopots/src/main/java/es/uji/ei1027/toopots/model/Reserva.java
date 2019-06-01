@@ -1,12 +1,12 @@
 package es.uji.ei1027.toopots.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
-public class Reserva {
+public class Reserva implements Comparable<Reserva> {
 	private int idReserva;
 	private String estadoPago;
 	private int numTransaccion;
-	private Date fecha;
+	private Timestamp fecha;
 	private int numAsistentes;
 	private float precioPorPersona;
 	private int idActividad;
@@ -16,7 +16,7 @@ public class Reserva {
 	public Reserva() {
 		super();
 	}
-	public Reserva(Date fecha, float precioPorPersona, int idActividad) {
+	public Reserva(Timestamp fecha, float precioPorPersona, int idActividad) {
 		super();
 		this.fecha = fecha;
 		this.precioPorPersona = precioPorPersona;
@@ -40,10 +40,10 @@ public class Reserva {
 	public void setNumTransaccion(int numTransaccion) {
 		this.numTransaccion = numTransaccion;
 	}
-	public Date getFecha() {
+	public Timestamp getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(Timestamp fecha) {
 		this.fecha = fecha;
 	}
 	public int getNumAsistentes() {
@@ -79,5 +79,10 @@ public class Reserva {
 				+ ", idActividad=" + idActividad + ", idCliente=" + idCliente + "]";
 	}
 	
-	
+	@Override
+	public int compareTo(Reserva altre) {
+		// Cambiamos el orden
+		int x = this.getFecha().compareTo(altre.getFecha());
+		return -x;
+	}
 }

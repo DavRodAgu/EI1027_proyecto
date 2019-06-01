@@ -1,0 +1,35 @@
+.titulo_form {
+	background-color: #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 1.5px solid #dee2e6;
+    border-bottom: none;
+    padding: .95rem;
+}
+.table {
+	background-color: #fff;
+}
+.header-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.tbl-header {
+    background-color: #e9ecef;
+    border: 1.5px solid #dee2e6;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tbl-header th:last-child {
+    width: 350px;
+}
+
+.table tbody {
+    border: 1px solid #dee2e6;
+}
+
+tr td:last-child {
+    text-align: right;
+
+}

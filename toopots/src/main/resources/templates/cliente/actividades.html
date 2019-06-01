@@ -2,6 +2,7 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< HEAD
 <style>
 body {
     background-color: #f0f0f0;
@@ -9,21 +10,95 @@ body {
 
 #main {
     margin-top: 20px;
+=======
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 	margin-bottom: 30px;
 }
 
 .card-img-top {
+<<<<<<< HEAD
     max-width: 100%;
+=======
+	max-width: 100%;
+	user-drag: none;
+	user-select: none;
+}
+
+.card-img-caption .card-img-top {
+    z-index: 0;
+}
+
+.card-img-caption .card-text {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    z-index: 1;
+}
+
+
+.card-text2 {
+	position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    z-index: 1;
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 }
 
 .card-title {
 	text-transform: capitalize;
 }
+<<<<<<< HEAD
 </style>
+=======
+
+.inf-actividad {
+	list-style-type: none;
+}
+
+.actividad-field {
+	font-weight: bold;
+}
+
+.actividad-field-2 {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.actividad-data {
+	font-size: 13px;
+}
+
+.collapse p {
+	margin-bottom: 2px;
+}
+</style>
+<script type="text/javascript">
+	$(document).on("click", ".open-compra", function() {
+		var myActivityId = $(this).data('id');
+		$(".modal-body #idActividad").val(myActivityId);
+	});
+</script>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </head>
 
 <body>
 	<div id="main" layout:fragment="content">
+<<<<<<< HEAD
 		<div class="container">
 			<!-- Main -->
 			<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
@@ -123,5 +198,193 @@ body {
 		</div>
 		<!-- /Main -->
 	</div>
+=======
+		<section class="mt-4 mb-4">
+			<div class="container">
+				<!-- Main -->
+				<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
+				<div th:unless="${#lists.isEmpty(actividades)}">
+					<div class="titulo_form">
+						<!-- 					<h2>Lista de actividades</h2> -->
+					</div>
+				</div>
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-end">
+						<li class="page-item" th:if="${preferencias == true}">
+							<a class="page-link" th:href="@{../../cliente/actividades/{preferencias}(preferencias=${false})}">
+                           		Todas
+                        	</a> 
+						</li>
+						<li class="page-item active" th:if="${preferencias == false}">
+							<span class="page-link" th:if="${preferencias == false}">
+								Todas 
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+						<li class="page-item" th:if="${preferencias == false}">
+							<a class="page-link" th:href="@{../../cliente/actividades/{preferencias}(preferencias=${true})}">
+								Preferencias 
+							</a>
+						</li>
+						<li class="page-item active" th:if="${preferencias == true}">
+							<span class="page-link" th:if="${preferencias == true}" >
+								Preferencias 
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+					</ul>
+				</nav>
+				
+				<div class="row" >
+					<div th:each="actividad: ${#lists.sort(actividades.keySet())}"
+						class="col-12 col-md-4 mb-5">
+						<div class="card">
+							<div class="card-img-caption">
+								<p th:if="${actividades.get(actividad)[0] == true}"
+									class="card-text">
+									<span class="badge badge-info">Reservada</span>
+								</p>
+								<p th:if="${actividades.get(actividad)[2] < actividad.maxAsistentes}"
+									class="card-text2">
+									<span class="badge badge-warning" th:text="${actividades.get(actividad)[2] + '/'+ actividad.maxAsistentes}"></span>
+								</p>
+								<p th:if="${actividades.get(actividad)[2] == actividad.maxAsistentes}"
+									class="card-text2">
+									<span class="badge badge-danger" th:text="${actividades.get(actividad)[2] + '/'+ actividad.maxAsistentes}"></span>
+								</p>
+								<!-- Cambiar por las imagenes correspondientes -->
+								<img class="card-img-top" src="/assets/paracaidismo.jpg"
+									height="200" alt="imagen-actividad">
+							</div>
+							<div class="card-body">
+								<h5 th:text="${actividad.nombre}" class="card-title text-center"></h5>
+								<!-- Podria utilizarse un Collapse -->
+								<!-- TODO: Añadir el resto de información -->
+								<p class="card-text">
+									<ul class="inf-actividad">
+										<li><span class="actividad-field">Instructor: </span><span
+											th:text="${actividades.get(actividad)[1]}"></span></li>
+										<li><span class="actividad-field">Lugar: </span><span
+											th:text="${actividad.lugar}"></span></li>
+										<li><span class="actividad-field">Fecha y Hora: </span><span
+											th:text="${actividad.fecha}"></span> <span
+											th:text="${#dates.format(actividad.horaDeEncuentro, 'HH:mm')}"></span></li>
+										<li><span class="actividad-field">Precio: </span><span
+											th:text="${actividad.precio + '€ (por persona)'}"></span></li>
+									</ul>
+									<a class="btn btn-link" data-toggle="collapse" role="button"
+										th:attr="href='#moreInfo'+${actividad.idActividad}" 
+										aria-expanded="false" aria-controls="collapseExample">
+										<small>Más información</small>
+									</a>
+								</p>
+								<div class="collapse" th:id="moreInfo+${actividad.idActividad}">
+									<div class="card card-body">
+										<p>
+											<span class="actividad-field-2">Tipo actividad: </span>
+											<span class="actividad-data" th:text="${actividades.get(actividad)[3] + ' ' + actividades.get(actividad)[4]}"></span>
+										</p>
+										<p>
+											<span class="actividad-field-2">Min. Asistentes: </span>
+											<span class="actividad-data" th:text="${actividad.minAsistentes}"></span>
+										</p>
+										<p>
+											<span class="actividad-field-2">Duración (horas): </span>
+											<span class="actividad-data" th:text="${actividad.duracion}"></span>
+										</p>
+										<p>
+											<span class="actividad-field-2">Descripción: </span>
+											<span class="actividad-data" th:text="${actividad.descripcion}"></span>
+										</p>
+										<!-- TODO: Añadir descripción? -->
+									</div>
+								</div>
+									<div class="text-center">
+										<a th:if="${actividades.get(actividad)[0] == false && actividades.get(actividad)[2] < actividad.maxAsistentes}" href="#"
+											id="addReserva" class="open-compra btn btn-success"
+											data-toggle="modal" data-target="#modalCompra"
+											th:data-id="${actividad.idActividad}">Reservar</a>
+										<div th:if="${actividades.get(actividad)[0] == true}"
+											class="dropdown-divider"></div>
+										<p th:if="${actividades.get(actividad)[2] == actividad.maxAsistentes}">
+											<span style="font-weight:bold;">Actividad completa</span>
+										</p>
+										<p th:if="${actividades.get(actividad)[0] == true}">
+											Gestione sus reservas en: <a href="/cliente/reservas">Mis
+												reservas</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						<!-- Modal -->
+						<div class="modal fade" id="modalCompra" tabindex="-1"
+							role="dialog" aria-labelledby="exampleModalCenterTitle"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar
+											Reserva</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form action="#" th:action="@{/reserva/anadirReserva}"
+											th:object="${reserva}" method="post">
+											<div class="form-group row justify-content-center">
+												<span class="actividad-field">Precio por persona: </span><span th:text="${actividad.precio + '€'}"></span>
+											</div>
+											<div class="form-row justify-content-center">
+												<div class="form-group">
+													<input type="hidden" name="idActividad" id="idActividad" />
+												</div>
+												<div class="form-group">
+													<input type="hidden" name="preferencias" id="pref" th:value="${preferencias}" />
+												</div>
+												<div class="form-group">
+													<!-- 									TODO: Ajustar al número de plazas disponibles -->
+													<label for="numTickets">Número de tickets:</label>
+													<select class="selectpicker"
+														name="nPersonas" id="numTickets">
+														<option th:each="i : ${#numbers.sequence(1, 5)}" 
+														th:if="${actividades.get(actividad)[2] + i <= actividad.maxAsistentes }"
+														th:value="${i}">
+															<p th:text="${i}"></p>
+														</option>
+													</select>
+												</div>
+												<div class="mt-2 mb-2">
+													<small>Al hacer click en Reservar se le
+														redireccionará a una pasarela de pago donde podrá
+														continuar con la compra de sus tickets. </small>
+												</div>
+											</div>
+											<div class="pt-2 text-right">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+												<input class="btn btn-success" type="submit"
+													value="Continuar" />
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- /Modal -->
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- /Main -->
+	</div>
+	<th:block layout:fragment="script">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	</th:block>
+>>>>>>> ccb15c597526778ce027fc4fea4f675096a61b4f
 </body>
 </html>
