@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<style>
+body {
+	background-color: #f0f0f0;
+}
 
+#main {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.card-img-top {
+	max-width: 100%;
+}
+
+.card-title {
+	text-transform: capitalize;
+}
+
+.inf-actividad {
+	list-style-type: none;
+}
+</style>
+</head>
+
+<body>
+	<div id="main" layout:fragment="content">
+		<section class="mt-4 mb-4">
+			<div class="container">
+				<!-- Main -->
+				<div th:if="${#lists.isEmpty(actividades)}">No hay actividades</div>
+				<div th:unless="${#lists.isEmpty(actividades)}">
+					<div class="titulo_form">
+						<!-- 					<h2>Lista de actividades</h2> -->
+					</div>
+				</div>
+				<div th:class="${'alert ' + alertClass}" role="alert"
+					th:if="${message}" th:text="${message}"></div>
+				<div class="row">
+					<div th:each="actividad: ${actividades}"
+						class="col-12 col-md-4 mb-5">
+						<div class="card">
+							<img class="card-img-top" src="assets/paracaidismo.jpg"
+								height="200" alt="imagen-actividad">
+							<div class="card-body">
+								<h5 th:text="${actividad.nombre}" class="card-title text-center"></h5>
+								<!-- Podria utilizarse un Collapse -->
+								<!-- TODO: Añadir el resto de información -->
+								<p class="card-text">
+								<ul class="inf-actividad">
+									<li><span>Nº de plazas: </span><span
+										th:text="${actividad.maxAsistentes}"></span></li>
+									<li><span>Instructor: </span><span
+										th:text="${actividad.idInstructor}"></span></li>
+									<li><span>Lugar de encuentro: </span><span
+										th:text="${actividad.lugar}"></span></li>
+									<li><span>Fecha y Hora: </span><span
+										th:text="${actividad.fecha}"></span> <span
+										th:text="${actividad.horaDeEncuentro}"></span></li>
+								</ul>
+								</p>
+								<div class="text-center">
+									<a id="listReserva" class="btn btn-success"
+										th:href="@{/admin/reservas/{idActividad}(idActividad=${actividad.idActividad})}">Ver
+										Reservas</a>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- /Main -->
+	</div>
 </body>
 </html>

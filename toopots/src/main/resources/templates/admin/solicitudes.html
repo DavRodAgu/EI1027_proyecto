@@ -29,17 +29,27 @@
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">#</th>
-										<th class="text-center" scope="col">Nombre</th>
+										<th class="text-center" scope="col">Estado</th>
+										<th class="text-center" scope="col">Instructor</th>
 										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<!-- Ordenar las solicitudes por fecha -->
 									<tr th:each="solicitud: ${solicitudes}">
-										<th th:text="${solicitud.idSolicitud" scope="row"></th>
-										<td th:text="${solicitud.nombre}" class="text-center"></td>
-										<td><a href="#" class="btn btn-success">Aceptar</a> <a
-											href="#" class="open-modal btn btn-danger">Cancelar</a></td>
+										<th th:text="${solicitud.key.idAcreditacion}" scope="row"></th>
+										<td th:text="${solicitud.value.estado}" class="text-center"></td>
+										<td th:text="${solicitud.value.idInstructor}"
+											class="text-center"></td>
+										<td>
+											<!-- <button type="button"
+												class="open-detalles btn btn-info" href="#">Detalles</button> -->
+											<a
+											th:href="@{/acreditacion/acepta/{idAcreditacion}(idAcreditacion=${solicitud.key.idAcreditacion})}"
+											class="btn btn-success">Aceptar</a> <a
+											th:href="@{/acreditacion/rechaza/{idAcreditacion}(idAcreditacion=${solicitud.key.idAcreditacion})}"
+											class="open-modal btn btn-danger">Cancelar</a>
+										</td>
 									</tr>
 								</tbody>
 							</table>
