@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public final class AcreditaRowMapper implements RowMapper<Acredita> {
     public Acredita mapRow(ResultSet rs, int rowNum) throws SQLException {
         Acredita acredita = new Acredita();
-        acredita.setIdTipoActividad(rs.getInt("idTipoAcreditacion"));
+        acredita.setIdTipoActividad(rs.getInt("idTipoActividad"));
         acredita.setIdAcreditacion(rs.getInt("idAcreditacion"));
         return acredita;
     }

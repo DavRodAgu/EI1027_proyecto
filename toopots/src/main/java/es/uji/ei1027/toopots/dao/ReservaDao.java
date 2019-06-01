@@ -73,6 +73,16 @@ public class ReservaDao {
         }
     }
     
+    public List<Reserva> getReservasActividad(int idActividad) {
+        try {
+            return jdbcTemplate.query("SELECT * from Reserva where idActividad='" + idActividad + "'",
+                    new ReservaRowMapper());
+        }
+        catch(EmptyResultDataAccessException e) {
+            return new ArrayList<Reserva>();
+        }
+    }
+    
     public Reserva getIfReservada(String usuario, int idActividad) {
     	try {
             return jdbcTemplate.queryForObject("SELECT * from Reserva WHERE idActividad=? AND idCliente=?",
