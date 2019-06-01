@@ -1,15 +1,25 @@
 package es.uji.ei1027.toopots.controller;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import es.uji.ei1027.toopots.dao.AcreditaDao;
+import es.uji.ei1027.toopots.dao.AcreditacionDao;
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
+import es.uji.ei1027.toopots.dao.ReservaDao;
+import es.uji.ei1027.toopots.model.Acredita;
+import es.uji.ei1027.toopots.model.Acreditacion;
 import es.uji.ei1027.toopots.model.Login;
 
 @Controller
@@ -19,6 +29,24 @@ public class AdminController {
 	private ClienteDao clienteDao;
 	private InstructorDao instructorDao;
 	private ActividadDao actividadDao;
+	private AcreditaDao acreditaDao;
+	private AcreditacionDao acreditacionDao;
+	private ReservaDao reservaDao;
+	
+	@Autowired
+	public void setReservaDao(ReservaDao reservaDao) {
+		this.reservaDao = reservaDao;
+	}
+	
+	@Autowired
+	public void setAcreditacionDao(AcreditacionDao acreditacionDao) {
+		this.acreditacionDao = acreditacionDao;
+	}
+	
+	@Autowired
+	public void setAcreditaDao(AcreditaDao acreditaDao) {
+		this.acreditaDao = acreditaDao;
+	}
 	
 	@Autowired
 	public void setClienteDao(ClienteDao clienteDao) {
@@ -30,6 +58,7 @@ public class AdminController {
 		this.instructorDao = instructorDao;
 	}
 	
+	@Autowired
 	public void setActividadDao(ActividadDao actividadDao) {
 		this.actividadDao = actividadDao;
 	}
@@ -41,7 +70,12 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/solicitudes");
 			return "login";
 		}
-		
+		List<Acredita> solicitudes = acreditaDao.getAcreditaciones();
+		LinkedHashMap<Acredita, Acreditacion> diccionario = new LinkedHashMap<Acredita, Acreditacion>();
+		for (Acredita sol : solicitudes) {
+			diccionario.put(sol, acreditacionDao.getAcreditacion(sol.getIdAcreditacion()));
+		}
+		model.addAttribute("solicitudes", diccionario);
 		return "admin/solicitudes";
 	}
 	
@@ -76,5 +110,16 @@ public class AdminController {
 		}
 		model.addAttribute("actividades", actividadDao.getActividades());
 		return "admin/actividades";
+	}
+	
+	@RequestMapping(value = "/reservas/{idActividad}")
+	public String listaReservass(HttpSession session, Model model, @PathVariable int idActividad) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/reservas");
+			return "login";
+		}
+		model.addAttribute("reservas", reservaDao.getReservasActividad(idActividad));
+		return "admin/reservas";
 	}
 }

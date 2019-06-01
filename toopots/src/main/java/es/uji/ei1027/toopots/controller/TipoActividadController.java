@@ -27,13 +27,13 @@ public class TipoActividadController {
    @RequestMapping("/list")
    public String listTipoActividades(Model model) {
       model.addAttribute("tipoActividades", tipoActividadDao.getTipoActividades());
-      return "tipoActividad/list";
+      return "admin/tiposActividad";
    }
 
    @RequestMapping(value="/add") 
 	public String addTipoActividad(Model model) {
 		model.addAttribute("tipoActividad", new TipoActividad());
-		return "tipoActividad/add";
+		return "admin/anadirTipoActividad";
 	}
 
    @RequestMapping(value="/add", method=RequestMethod.POST) 
