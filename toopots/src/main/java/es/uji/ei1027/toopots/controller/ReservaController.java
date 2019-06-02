@@ -98,7 +98,7 @@ public class ReservaController {
 
 	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
 	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
-			@RequestParam(name = "idActividad") int idActividad, @RequestParam(name = "nPersonas") int nPersonas, @RequestParam(name = "preferencias") boolean preferencias,
+			@RequestParam(name = "idActividad") String idActividad, @RequestParam(name = "nPersonas") int nPersonas, @RequestParam(name = "preferencias") boolean preferencias,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
@@ -111,7 +111,7 @@ public class ReservaController {
 			return "cliente/actividades";
 		}
 
-		Actividad actividad = actividadDao.getActividad(idActividad + "");
+		Actividad actividad = actividadDao.getActividad(idActividad);
 		reserva.setNumAsistentes(nPersonas);
 		Login usuario = (Login) session.getAttribute("user");
 		reserva.setIdCliente(usuario.getUsuario());

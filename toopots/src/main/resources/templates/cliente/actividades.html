@@ -223,8 +223,7 @@ body {
 														name="nPersonas" id="numTickets">
 														<option th:each="i : ${#numbers.sequence(1, 5)}" 
 														th:if="${actividades.get(actividad)[2] + i <= actividad.maxAsistentes }"
-														th:value="${i}">
-															<p th:text="${i}"></p>
+														th:value="${i}" th:text="${i}">
 														</option>
 													</select>
 												</div>
