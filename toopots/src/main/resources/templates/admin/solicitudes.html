@@ -28,18 +28,18 @@
 							<table class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
-										<th scope="col">#</th>
+										<th scope="col">Instructor</th>
 										<th class="text-center" scope="col">Estado</th>
-										<th class="text-center" scope="col">Instructor</th>
+										<th class="text-center" scope="col">Tipo actividad</th>
 										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<!-- Ordenar las solicitudes por fecha -->
 									<tr th:each="solicitud: ${solicitudes}">
-										<th th:text="${solicitud.key.idAcreditacion}" scope="row"></th>
+										<th th:text="${solicitud.value.idInstructor}" scope="row"></th>
 										<td th:text="${solicitud.value.estado}" class="text-center"></td>
-										<td th:text="${solicitud.value.idInstructor}"
+										<td th:text="${tipos.get(solicitud.key.idTipoActividad)}"
 											class="text-center"></td>
 										<td>
 											<!-- <button type="button"
