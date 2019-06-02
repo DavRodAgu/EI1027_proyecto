@@ -209,10 +209,9 @@ public class InstructorController {
 	}
 	
 	@RequestMapping(value = "/actividad/add")
-	public String addActividad(HttpSession session, Model model) {
-		Login usuario = (Login)session.getAttribute("user");
+	public String addActividad(Model model) {
 		model.addAttribute("actividad", new Actividad());
-		model.addAttribute("tipos", tipoActividadDao.getTipoActividadesInstructor(usuario.getUsuario()));
+		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
 		return "instructor/add";
 	}
 	

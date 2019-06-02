@@ -2,10 +2,7 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <style>
 body {
 	background-color: #f0f0f0;
@@ -70,12 +67,6 @@ body {
 	margin-bottom: 2px;
 }
 </style>
-<script type="text/javascript">
-	$(document).on("click", ".open-compra", function() {
-		var myActivityId = $(this).data('id');
-		$(".modal-body #idActividad").val(myActivityId);
-	});
-</script>
 </head>
 
 <body>
@@ -179,14 +170,13 @@ body {
 											<span class="actividad-field-2">Descripción: </span>
 											<span class="actividad-data" th:text="${actividad.descripcion}"></span>
 										</p>
-										<!-- TODO: Añadir descripción? -->
 									</div>
 								</div>
 									<div class="text-center">
 										<a th:if="${actividades.get(actividad)[0] == false && actividades.get(actividad)[2] < actividad.maxAsistentes}" href="#"
 											id="addReserva" class="open-compra btn btn-success"
 											data-toggle="modal" data-target="#modalCompra"
-											th:data-id="${actividad.idActividad}">Reservar</a>
+											th:attr="data-target='#modalCompra'+${actividad.idActividad}">Reservar</a>
 										<div th:if="${actividades.get(actividad)[0] == true}"
 											class="dropdown-divider"></div>
 										<p th:if="${actividades.get(actividad)[2] == actividad.maxAsistentes}">
@@ -200,7 +190,7 @@ body {
 								</div>
 							</div>
 						<!-- Modal -->
-						<div class="modal fade" id="modalCompra" tabindex="-1"
+						<div class="modal fade" th:id="modalCompra+${actividad.idActividad}" tabindex="-1"
 							role="dialog" aria-labelledby="exampleModalCenterTitle"
 							aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
@@ -217,7 +207,7 @@ body {
 										<form action="#" th:action="@{/reserva/anadirReserva}"
 											th:object="${reserva}" method="post">
 											<div class="form-group row justify-content-center">
-												<span class="actividad-field">Precio por persona: </span><span th:text="${actividad.precio + '€'}"></span>
+												<span class="actividad-field">Precio por persona: </span><span th:text="' ' + ${actividad.precio + '€'}"></span>
 											</div>
 											<div class="form-row justify-content-center">
 												<div class="form-group">

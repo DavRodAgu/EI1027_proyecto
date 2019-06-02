@@ -169,9 +169,9 @@ td {
 							</header>
 						</div>
 						<div class="body-wrapper">
-								<div th:if="${#lists.isEmpty(reservas)}">Esta actividad aún no tiene ninguna reserva</div>								
+								<div th:if="${#lists.isEmpty(actividades)}">Esta actividad aún no tiene ninguna reserva</div>								
 						</div>
-						<table th:unless="${#lists.isEmpty(reservas)}" class="table table-hover">
+						<table th:unless="${#lists.isEmpty(actividades)}" class="table table-hover">
 							<thead class="tbl-header">
 								<tr>
 									<th scope="col">Cliente</th>
