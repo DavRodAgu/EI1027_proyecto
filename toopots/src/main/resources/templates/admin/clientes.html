@@ -29,6 +29,9 @@
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">Nombre</th>
+										<th class="text-center" scope="col">Dirección de correo</th>
+										<th class="text-center" scope="col">Fecha de nacimiento</th>
+										<th class="text-center" scope="col">Sexo</th>
 										<th class="text-center" scope="col">DNI</th>
 									</tr>
 								</thead>
@@ -36,6 +39,9 @@
 									<!-- Ordenar las solicitudes por fecha -->
 									<tr th:each="cliente: ${#lists.sort(clientes)}">
 										<th th:text="${cliente.nombre}" scope="row"></th>
+										<td th:text="${cliente.email}" class="text-center"></td>
+										<td th:text="${cliente.fechaNacimiento}" class="text-center"></td>
+										<td th:text="${cliente.sexo}" class="text-center"></td>
 										<td th:text="${cliente.idCliente}" class="text-center"></td>
 									</tr>
 								</tbody>

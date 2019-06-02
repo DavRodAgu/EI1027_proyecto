@@ -29,6 +29,8 @@
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">Nombre</th>
+										<th class="text-center" scope="col">Dirección de correo</th>
+										<th class="text-center" scope="col">IBAN</th>
 										<th class="text-center" scope="col">DNI</th>
 									</tr>
 								</thead>
@@ -37,6 +39,8 @@
 <!-- 									<tr th:each="instructor: ${instructores}"> -->
 									<tr th:each="instructor: ${#lists.sort(instructores)}">
 										<th th:text="${instructor.nombre}" scope="row"></th>
+										<td th:text="${instructor.email}" class="text-center"></td>
+										<td th:text="${instructor.iban}" class="text-center"></td>
 										<td th:text="${instructor.idInstructor}" class="text-center"></td>
 									</tr>
 								</tbody>
