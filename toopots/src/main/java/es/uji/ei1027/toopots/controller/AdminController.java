@@ -18,6 +18,7 @@ import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
+import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Acredita;
 import es.uji.ei1027.toopots.model.Acreditacion;
 import es.uji.ei1027.toopots.model.Login;
@@ -29,9 +30,15 @@ public class AdminController {
 	private ClienteDao clienteDao;
 	private InstructorDao instructorDao;
 	private ActividadDao actividadDao;
+	private TipoActividadDao tipoActividadDao;
 	private AcreditaDao acreditaDao;
 	private AcreditacionDao acreditacionDao;
 	private ReservaDao reservaDao;
+	
+	@Autowired
+	public void setTipoActividadDao(TipoActividadDao tipoActividadDao) {
+		this.tipoActividadDao = tipoActividadDao;
+	}
 	
 	@Autowired
 	public void setReservaDao(ReservaDao reservaDao) {
@@ -72,10 +79,13 @@ public class AdminController {
 		}
 		List<Acredita> solicitudes = acreditaDao.getAcreditaciones();
 		LinkedHashMap<Acredita, Acreditacion> diccionario = new LinkedHashMap<Acredita, Acreditacion>();
+		LinkedHashMap<Integer, String> diccionario2 = new LinkedHashMap<Integer, String>();
 		for (Acredita sol : solicitudes) {
 			diccionario.put(sol, acreditacionDao.getAcreditacion(sol.getIdAcreditacion()));
+			diccionario2.put(sol.getIdTipoActividad(), tipoActividadDao.getTipoActividad("" + sol.getIdTipoActividad()).getNombre());
 		}
 		model.addAttribute("solicitudes", diccionario);
+		model.addAttribute("tipos", diccionario2);
 		return "admin/solicitudes";
 	}
 	
