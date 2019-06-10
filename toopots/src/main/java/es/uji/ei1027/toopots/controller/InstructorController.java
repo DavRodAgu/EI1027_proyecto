@@ -84,6 +84,13 @@ public class InstructorController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/perfil");
+			return "login";
+		}
+		
 		model.addAttribute("instructor", instructorDao.getInstructor(usuario.getUsuario()));
 		return "instructor/perfil";
 	}
@@ -97,6 +104,14 @@ public class InstructorController {
 			session.setAttribute("nextUrl", "instructor/perfil");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/perfil");
+			return "login";
+		}
+		
 		if (bindingResult.hasErrors()) {
 			redirectAttributes.addFlashAttribute("message", "Error al actualizar su perfil");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
@@ -114,6 +129,12 @@ public class InstructorController {
 	@RequestMapping(value = "/perfil/password")
 	public String processChangePassword(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/perfil");
+			return "login";
+		}
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("instructor")) {
 			model.addAttribute("user", new Login());
 			session.setAttribute("nextUrl", "instructor/perfil");
 			return "login";
@@ -154,6 +175,13 @@ public class InstructorController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			model.addAttribute("nextUrl", "instructor/actividades");
+			return "login";
+		}
+		
 		// model.addAttribute("actividades", actividadDao.getActividadesByInstructor(usuario.getUsuario()));
 		model.addAttribute("actividades", instructorService.getNumReservas(usuario.getUsuario()));
 		return "instructor/actividades";
@@ -166,6 +194,14 @@ public class InstructorController {
 			model.addAttribute("nextUrl", "instructor/actividades");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/actividades");
+			return "login";
+		}
+		
 		model.addAttribute("actividad", actividadDao.getActividad(idActividad));
 		model.addAttribute("asistentes", reservaDao.getNumReservasActividad(Integer.valueOf(idActividad)).size());
 		Actividad actividad = actividadDao.getActividad(idActividad);
@@ -188,6 +224,14 @@ public class InstructorController {
 			model.addAttribute("nextUrl", "instructor/modificar");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/modificar");
+			return "login";
+		}
+		
 		model.addAttribute("actividad", actividadDao.getActividad(idActividad));
 		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
 		return "instructor/modificar";
@@ -211,6 +255,12 @@ public class InstructorController {
 	@RequestMapping(value = "/actividad/add")
 	public String addActividad(HttpSession session, Model model) {
 		Login usuario = (Login)session.getAttribute("user");
+		
+		if (!usuario.getRol().equals("instructor")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "instructor/add");
+			return "login";
+		}
 		model.addAttribute("actividad", new Actividad());
 		model.addAttribute("tipos", tipoActividadDao.getTipoActividadesInstructor(usuario.getUsuario()));
 		return "instructor/add";

@@ -81,6 +81,11 @@ public class ClienteController {
 		}
 		
 		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/");
+			return "login";
+		}
 		// Comprobar que tipo de vista a seleccionado el usuario
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), true));
 		model.addAttribute("preferencias", true);
@@ -96,6 +101,11 @@ public class ClienteController {
 		}
 		
 		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/");
+			return "login";
+		}
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), preferencias));
 		model.addAttribute("preferencias", preferencias);
 		return "cliente/actividades";
@@ -109,6 +119,11 @@ public class ClienteController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/");
+			return "login";
+		}
 		model.addAttribute("reservas", clienteService.getReservaByClient(usuario.getUsuario()));
 		return "cliente/reservas";
 	}
@@ -121,6 +136,11 @@ public class ClienteController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/");
+			return "login";
+		}
 		model.addAttribute("cliente", clienteDao.getCliente(usuario.getUsuario()));
 		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
 		List<Prefiere> prefiere = prefiereDao.getPreferenciasCliente(usuario.getUsuario());
@@ -179,6 +199,14 @@ public class ClienteController {
 			session.setAttribute("nextUrl", "cliente/perfil");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/");
+			return "login";
+		}
+		
 		return "cliente/perfil/password";
 	}
 	
