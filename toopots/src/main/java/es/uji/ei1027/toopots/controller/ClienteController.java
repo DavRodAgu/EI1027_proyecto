@@ -234,4 +234,22 @@ public class ClienteController {
 		}
 		return "redirect:../perfil/password";
 	}
+	
+	
+	   @RequestMapping(value="/add") 
+		public String addCliente(Model model) {
+			model.addAttribute("cliente", new Cliente());
+			model.addAttribute("login", new Login());
+			return "cliente/add";
+		}
+
+	   @RequestMapping(value="/add", method=RequestMethod.POST) 
+	   public String processAddSubmit(@ModelAttribute("cliente") Cliente cliente, @ModelAttribute("login") Login login, 
+	                                   BindingResult bindingResult) {  
+	   	 if (bindingResult.hasErrors()) 
+	   			return "cliente/add";
+	   	 clienteDao.addCliente(cliente, login);
+	   	 return "redirect:.."; 
+	    }
+	
 }

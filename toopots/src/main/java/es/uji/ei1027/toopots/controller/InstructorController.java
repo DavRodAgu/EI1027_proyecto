@@ -20,7 +20,6 @@ import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
-import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Reserva;
@@ -276,4 +275,23 @@ public class InstructorController {
 		System.out.println(actividad.getIdActividad());
 		return "redirect:/actividades";
 	}
+	
+	
+	   @RequestMapping(value="/addInstructor") 
+		public String addCliente(Model model) {
+			model.addAttribute("instructor", new Instructor());
+			model.addAttribute("login", new Login());
+			return "instructor/addInstructor";
+		}
+
+	   @RequestMapping(value="/addInstructor", method=RequestMethod.POST) 
+	   public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor, @ModelAttribute("login") Login login, 
+	                                   BindingResult bindingResult) {  
+	   	 if (bindingResult.hasErrors()) 
+	   			return "instructor/addInstructor";
+	   	 instructorDao.addInstructor(instructor, login);
+	   	 return "redirect:.."; 
+	    }
+	
+	
 }

@@ -2,6 +2,8 @@ package es.uji.ei1027.toopots.dao;
 
 
 import es.uji.ei1027.toopots.model.Instructor;
+import es.uji.ei1027.toopots.model.Login;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +23,13 @@ public class InstructorDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void addInstructor(Instructor instructor) {
+    public void addInstructor(Instructor instructor, Login login) {
         jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
-                instructor.getIdInstructor(), instructor.getEstado(), instructor.getNombre(),
+                instructor.getIdInstructor(), "pendiente", instructor.getNombre(),
                 instructor.getEmail(), instructor.getIban(), instructor.getFoto());
+        
+        jdbcTemplate.update("INSERT INTO Login VALUES(?, ?, ?)",
+                instructor.getIdInstructor() ,login.getContraseña(), "instructor");
     }
 
     public void deleteInstructor(Instructor instructor) {

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Registro de instructor</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"       
+     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+    <h2>Nuevo Instructor</h2>
+    <form action="#" th:action="@{/instructor/addInstructor}"
+                     th:object="${instructor}" method="post">
+      <table>
+        <tr>
+            <td><label>Usuario(NIF)</label></td>
+            <td><input type="text" th:field="*{idInstructor}" /></td>
+        </tr>
+        <div th:object="${login}">
+        <tr>
+            <td><label>Contraseña</label></td>
+            <td><input type="password" th:field="*{contraseña}" /></td>
+        </tr>
+        </div>
+        <tr>
+            <td><label>Nombre</label></td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+        </tr>
+        <tr>
+            <td><label>Email</label></td>
+            <td><input type="text" th:field="*{email}" /></td>
+        </tr>
+        <tr>
+            <td><label>Iban</label></td>
+            <td><input type="text" th:field="*{iban}" /></td>
+        </tr>
+        <tr>
+            <td><label>Foto</label></td>
+            <td><input type="file" th:field="*{foto}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Añadir Instructor" /></td>
+        </tr>
+      </table>
+    </form>
+</body>
+</html>
