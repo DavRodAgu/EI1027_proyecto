@@ -13,25 +13,25 @@
       <table>
         <tr>
             <td><label>Usuario(NIF)</label></td>
-            <td><input type="text" th:field="*{idCliente}" /></td>
+            <td><input type="text" th:field="*{idCliente}" required/></td>
         </tr>
         <div th:object="${login}" >
         <tr>
             <td><label>Contraseña</label></td>
-            <td><input type="password" th:field="*{contraseña}" /></td>
+            <td><input type="password" th:field="*{contraseña}" required /></td>
         </tr>
         </div>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
+            <td><input type="text" th:field="*{nombre}" required /></td>
         </tr>
         <tr>
             <td><label>Email</label></td>
-            <td><input type="email" th:field="*{email}" /></td>
+            <td><input type="email" th:field="*{email}" required /></td>
         </tr>        
         <tr>
             <td><label>Sexo</label></td>
-            <td><select class="form_control" type="text" th:field="*{sexo}" >
+            <td><select class="form_control" type="text" th:field="*{sexo}" required>
 					<option value="F">Femenino</option>
 					<option value="M">Masculino</option>
 		    	</select>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td><label>Fecha de nacimiento</label></td>
-            <td><input type="date" th:field="*{fechaNacimiento}" /></td>
+            <td><input type="date" th:field="*{fechaNacimiento}" required /></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Añadir cliente" /></td>

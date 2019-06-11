@@ -13,29 +13,29 @@
       <table>
         <tr>
             <td><label>Usuario(NIF)</label></td>
-            <td><input type="text" th:field="*{idInstructor}" /></td>
+            <td><input type="text" th:field="*{idInstructor}" required /></td>
         </tr>
         <div th:object="${login}">
         <tr>
             <td><label>Contraseña</label></td>
-            <td><input type="password" th:field="*{contraseña}" /></td>
+            <td><input type="password" th:field="*{contraseña}" required /></td>
         </tr>
         </div>
         <tr>
             <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" /></td>
+            <td><input type="text" th:field="*{nombre}" required /></td>
         </tr>
         <tr>
             <td><label>Email</label></td>
-            <td><input type="text" th:field="*{email}" /></td>
+            <td><input type="text" th:field="*{email}" required /></td>
         </tr>
         <tr>
             <td><label>Iban</label></td>
-            <td><input type="text" th:field="*{iban}" /></td>
+            <td><input type="text" th:field="*{iban}" required /></td>
         </tr>
         <tr>
             <td><label>Foto</label></td>
-            <td><input type="file" th:field="*{foto}" /></td>
+            <td><input type="file" th:field="*{foto}" required /></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="Añadir Instructor" /></td>
