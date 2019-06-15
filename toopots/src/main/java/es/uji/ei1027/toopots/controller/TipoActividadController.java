@@ -1,5 +1,7 @@
 package es.uji.ei1027.toopots.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
+import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.TipoActividad;
 
 
@@ -25,13 +28,25 @@ public class TipoActividadController {
    }
 
    @RequestMapping("/list")
-   public String listTipoActividades(Model model) {
+   public String listTipoActividades(HttpSession session, Model model) {
+	   Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/tiposActividad");
+			return "login";
+		}
       model.addAttribute("tipoActividades", tipoActividadDao.getTipoActividades());
       return "admin/tiposActividad";
    }
 
    @RequestMapping(value="/add") 
-	public String addTipoActividad(Model model) {
+	public String addTipoActividad(HttpSession session, Model model) {
+	   Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/anadirTipoActividad");
+			return "login";
+		}
 		model.addAttribute("tipoActividad", new TipoActividad());
 		return "admin/anadirTipoActividad";
 	}

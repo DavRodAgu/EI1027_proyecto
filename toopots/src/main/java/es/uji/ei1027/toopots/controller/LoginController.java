@@ -87,4 +87,10 @@ public class LoginController {
 		session.invalidate(); 
 		return "redirect:/";
 	}
+	
+	@RequestMapping("registro")
+	public String registrar(Model model) {
+		return "registro"; 
+	}
+	
 }

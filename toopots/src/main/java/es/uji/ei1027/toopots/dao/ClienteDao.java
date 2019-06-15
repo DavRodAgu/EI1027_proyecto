@@ -2,6 +2,8 @@ package es.uji.ei1027.toopots.dao;
 
 
 import es.uji.ei1027.toopots.model.Cliente;
+import es.uji.ei1027.toopots.model.Login;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +23,14 @@ public class ClienteDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void addCliente(Cliente cliente) {
+    public void addCliente(Cliente cliente, Login login) {
         jdbcTemplate.update("INSERT INTO Cliente VALUES(?, ?, ?, ?, ?)",
                 cliente.getIdCliente(), cliente.getNombre(), cliente.getEmail(),
                 cliente.getSexo(),cliente.getFechaNacimiento());
+        
+        jdbcTemplate.update("INSERT INTO Login VALUES(?, ?, ?)",
+                cliente.getIdCliente() ,login.getContraseña(), "cliente");
+        
     }
 
     public void deleteCliente(Cliente cliente) {

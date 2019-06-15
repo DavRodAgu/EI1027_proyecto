@@ -134,7 +134,7 @@ td input[type="number"] {
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="hora-actividad">Hora</label></td>
-											<td class="text-left"><input class="form-control" type="time" id="hora-actividad" th:field="*{horaDeEncuentro}"/></td>
+											<td class="text-left"><input class="form-control" type="text" id="hora-actividad" th:field="*{horaDeEncuentro}"/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="lugar-actividad">Lugar</label></td>
@@ -154,7 +154,7 @@ td input[type="number"] {
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="duracion-actividad">Duración</label></td>
-											<td class="text-left"><input class="form-control" type="time" min="1:00" max="6:00" value="00:00:00" id="duracion-actividad" th:field="*{duracion}"/></td>
+											<td class="text-left"><input class="form-control" type="text" min="1:00" max="6:00" value="00:00:00" id="duracion-actividad" th:field="*{duracion}"/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="tipo-actividad">Tipo Actividad</label></td>
@@ -175,6 +175,10 @@ td input[type="number"] {
 										<tr>
 											<td class="field-label text-right"><label for="duracion-actividad">Descripción</label></td>
 											<td class="text-left"><input class="form-control" type="text" id="tipo-actividad" th:field="*{descripcion}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="nombre-actividad">DNI</label></td>
+											<td class="text-left"><input class="form-control" th:value="${session.user.usuario}" id="idInstructor" name="idInstructor" type="text" readonly/></td>
 										</tr>
 										<tr><td></td></tr>
 										<tr>

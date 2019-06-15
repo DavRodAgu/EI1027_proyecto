@@ -77,6 +77,14 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/solicitudes");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/solicitudes");
+			return "login";
+		}
+		
 		List<Acredita> solicitudes = acreditaDao.getAcreditaciones();
 		LinkedHashMap<Acredita, Acreditacion> diccionario = new LinkedHashMap<Acredita, Acreditacion>();
 		LinkedHashMap<Integer, String> diccionario2 = new LinkedHashMap<Integer, String>();
@@ -96,6 +104,14 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/clientes");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/clientes");
+			return "login";
+		}
+		
 		model.addAttribute("clientes", clienteDao.getClientes());
 		return "admin/clientes";
 	}
@@ -107,6 +123,14 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/instructores");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/instructores");
+			return "login";
+		}
+		
 		model.addAttribute("instructores", instructorDao.getInstructores());
 		return "admin/instructores";
 	}
@@ -118,6 +142,14 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/actividades");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/actividades");
+			return "login";
+		}
+		
 		model.addAttribute("actividades", actividadDao.getActividades());
 		return "admin/actividades";
 	}
@@ -129,6 +161,14 @@ public class AdminController {
 			session.setAttribute("nextUrl", "admin/reservas");
 			return "login";
 		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("administrador")) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "admin/reservas");
+			return "login";
+		}
+		
 		model.addAttribute("reservas", reservaDao.getReservasActividad(idActividad));
 		return "admin/reservas";
 	}

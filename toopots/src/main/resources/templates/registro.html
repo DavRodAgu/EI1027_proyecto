@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link th:href="@{/css/index.css}" href="/css/index.css" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+	crossorigin="anonymous">
+
+<title>TooPots - Registro</title>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+	<!-- Navbar -->
+	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	      <a class="navbar-brand" href="/">TooPots</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="navbar-toggler-icon"></span>
+	      </button>
+	    </div>
+  	</nav>
+	<!-- /Navbar -->
+
+	<!-- Main -->
+  <!-- Carousel -->
+  <main>
+    <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-pause="false">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="assets/imagen5.jpg" class="d-block w-100" alt="Imagen 1">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen2.jpg" class="d-block w-100" alt="Imagen 2">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen6.jpg" class="d-block w-100" alt="Imagen 3">
+        </div>
+        <div class="carousel-item">
+          <img src="assets/imagen9.jpg" class="d-block w-100" alt="Imagen 4">
+        </div>
+        <div class="overlay carousel-caption">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-6 offset-md-6 text-center text-md-right">
+                <h1>TooPots - Deportes de riesgo</h1>
+				<a class="btn btn-primary" href="/cliente/add">Registrarse como cliente</a>
+				<a class="btn btn-success" href="/instructor/addInstructor">Registrarse como instructor</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
