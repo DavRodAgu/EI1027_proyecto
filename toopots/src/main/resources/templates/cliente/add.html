@@ -1,50 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> 
+<html>
 <head>
-   <title>Registro de cliente</title>
-   <meta charset="UTF-8" />
-   <link rel="stylesheet"       
-     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link th:href="@{/css/index.css}" href="/css/index.css" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+	crossorigin="anonymous">
+
+<title>Registro de cliente</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.body-wrapper:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+td input[type="text"], input[type="email"] {
+	width: 350px;
+}
+
+td input[type="date"] {
+	width: 180px;
+}
+
+.field-label {
+	width: 380px;
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+
+</style>
+<meta charset="UTF-8" />
+
 </head>
 <body>
-    <h2>Nuevo cliente</h2>
-    <form action="#" th:action="@{/cliente/add}"
-                     th:object="${cliente}" method="post">
-      <table>
-        <tr>
-            <td><label>Usuario(NIF)</label></td>
-            <td><input type="text" th:field="*{idCliente}" required/></td>
-        </tr>
-        <div th:object="${login}" >
-        <tr>
-            <td><label>Contraseña</label></td>
-            <td><input type="password" th:field="*{contraseña}" required /></td>
-        </tr>
-        </div>
-        <tr>
-            <td><label>Nombre</label></td>
-            <td><input type="text" th:field="*{nombre}" required /></td>
-        </tr>
-        <tr>
-            <td><label>Email</label></td>
-            <td><input type="email" th:field="*{email}" required /></td>
-        </tr>        
-        <tr>
-            <td><label>Sexo</label></td>
-            <td><select class="form_control" type="text" th:field="*{sexo}" required>
-					<option value="F">Femenino</option>
-					<option value="M">Masculino</option>
-		    	</select>
-		    </td>
-        </tr>
-        <tr>
-            <td><label>Fecha de nacimiento</label></td>
-            <td><input type="date" th:field="*{fechaNacimiento}" required /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Añadir cliente" /></td>
-        </tr>
-      </table>
-    </form>
+	<!-- Navbar -->
+	<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
+	    <div class="container">
+	      <a class="navbar-brand" href="/">TooPots</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="navbar-toggler-icon"></span>
+	      </button>
+	    </div>
+  	</nav>
+	<!-- /Navbar -->
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Nuevo cliente </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="profile-body">
+							    <form action="#" th:action="@{/cliente/add}"
+							                     th:object="${cliente}" method="post">
+							      <table>
+							        <tr>
+							            <td><label>Usuario(NIF)</label></td>
+							            <td><input type="text" th:field="*{idCliente}" required/></td>
+							        </tr>
+							        <div th:object="${login}" >
+							        <tr>
+							            <td><label>Contraseña</label></td>
+							            <td><input type="password" th:field="*{contraseña}" required /></td>
+							        </tr>
+							        </div>
+							        <tr>
+							            <td><label>Nombre</label></td>
+							            <td><input type="text" th:field="*{nombre}" required /></td>
+							        </tr>
+							        <tr>
+							            <td><label>Email</label></td>
+							            <td><input type="email" th:field="*{email}" required /></td>
+							        </tr>        
+							        <tr>
+							            <td><label>Sexo</label></td>
+							            <td><select class="form_control" type="text" th:field="*{sexo}" required>
+												<option value="F">Femenino</option>
+												<option value="M">Masculino</option>
+									    	</select>
+									    </td>
+							        </tr>
+							        <tr>
+							            <td><label>Fecha de nacimiento</label></td>
+							            <td><input type="date" th:field="*{fechaNacimiento}" required /></td>
+							        </tr>
+							        <tr>
+							            <td colspan="2"><input type="submit" value="Añadir cliente" /></td>
+							        </tr>
+							      </table>
+							    </form>							    
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
