@@ -27,7 +27,11 @@ public class ActividadDao {
                 actividad.getDescripcion(), actividad.getDuracion(), actividad.getFecha(),
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),
-                actividad.getTextoCliente(), actividad.getIdTipoActividad(), actividad.getIdInstructor());
+                "", actividad.getIdTipoActividad(), actividad.getIdInstructor());
+        
+       
+        jdbcTemplate.update("INSERT INTO ImagenPromocional VALUES(nextval('imagenpromocional_idimagen_seq'), ?, (select last_value from actividad_idactividad_seq))", 
+				"");
     }
 
     public void deleteActividad(Actividad actividad) {

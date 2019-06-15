@@ -273,7 +273,7 @@ public class InstructorController {
 		actividadDao.addActividad(actividad);
 		// Crear objeto ImagenPromocional
 		System.out.println(actividad.getIdActividad());
-		return "redirect:/actividades";
+		return "redirect:../actividades";
 	}
 	
 	
