@@ -1,7 +1,9 @@
 package es.uji.ei1027.toopots.model;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class Actividad implements Comparable<Actividad> {
@@ -9,14 +11,17 @@ public class Actividad implements Comparable<Actividad> {
 	private String estado;
 	private String nombre;
 	private String descripcion;
-	private Time duracion;
-	private Date fecha;
+	@DateTimeFormat(pattern="HH:mm")
+	private LocalTime duracion;
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+	private LocalDate fecha;
 	private float precio;
 	private int minAsistentes;
 	private int maxAsistentes;
 	private String lugar;
 	private String puntoDeEncuentro;
-	private Time horaDeEncuentro;
+	@DateTimeFormat(pattern="HH:mm")
+	private LocalTime horaDeEncuentro;
 	private String textoCliente;
 	private int idTipoActividad;
 	private String idInstructor;
@@ -54,18 +59,18 @@ public class Actividad implements Comparable<Actividad> {
 	}
 	
 	
-	public Time getDuracion() {
+	public LocalTime getDuracion() {
 		return duracion;
 	}
-	public void setDuracion(Time duracion) {
+	public void setDuracion(LocalTime duracion) {
 		this.duracion = duracion;
 	}
 	
 	
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 	
@@ -110,10 +115,10 @@ public class Actividad implements Comparable<Actividad> {
 	}
 	
 	
-	public Time getHoraDeEncuentro() {
+	public LocalTime getHoraDeEncuentro() {
 		return horaDeEncuentro;
 	}
-	public void setHoraDeEncuentro(Time horaDeEncuentro) {
+	public void setHoraDeEncuentro(LocalTime horaDeEncuentro) {
 		this.horaDeEncuentro = horaDeEncuentro;
 	}
 	

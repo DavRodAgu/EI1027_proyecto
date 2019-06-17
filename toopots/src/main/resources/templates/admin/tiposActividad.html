@@ -3,22 +3,24 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/estilos-admin.css"
+	th:href="@{/css/estilos-admin.css}" />
 <link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
 	th:href="@{/css/estilos-tabla.css}" />
-<title>Mis Actividades</title>
+<title>TooPots - Tipos de Actividad</title>
 <style>
-body {
-	background-color: #f0f0f0;
-}
 
-#main {
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
-
-.add-actividad {
+.add-tipo {
 	padding-top: 6px;
 	float: right;
+}
+
+.add-tipo:hover {
+	text-decoration: none;
+}
+
+.color-svg {
+    fill: #7df68b;
 }
 
 tbody>tr>th, td {
@@ -35,21 +37,31 @@ tbody>tr>th, td {
 		<!-- Main -->
 		<div id="main">
 			<div class="container">
-				<div th:if="${#lists.isEmpty(tipoActividades)}">No has creado
-					ningun tipo de actividad</div>
-				<div th:unless="${#lists.isEmpty(tipoActividades)}">
-					<div class="titulo_form">
-						<header class="table-header">
-							<span class="header-title">Tipos de Actividad</span> <a
-								href="add"> <span
-								class="far fa-plus-square add-actividad"> Añadir Tipo de
-									Actividad </span></a>
-						</header>
-					</div>
+				<div class="titulo_form">
+					<header class="table-header">
+						<span class="header-title">Tipos de Actividad</span> <a
+							class="add-tipo" href="/admin/tiposActividad/add"> <span class="link-icon"> <svg
+									aria-hidden="true" focusable="false" width="20" height="20"
+									data-prefix="fas" data-icon="plus-square"
+									class="svg-inline--fa fa-plus-square fa-w-14" role="img"
+									xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path class="color-svg"
+										d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-32 252c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92H92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z">
+                                        </path>
+                                    </svg>
+						</span> <span class="link-text"> Añadir Tipo de Actividad </span>
+						</a>
+					</header>
+				</div>
 
-					<div class="row">
-						<div class="col-12">
-							<table class="table table-hover">
+				<div class="row">
+					<div class="col-12">
+						<div class="body-wrapper">
+							<div class="empty" th:if="${#lists.isEmpty(tipoActividades)}">No
+								hay ningún tipo de actividad registrado</div>
+							<!-- TODO: Modificar la condicion -->
+							<table th:unless="${#lists.isEmpty(tipoActividades)}"
+								class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">Nombre</th>

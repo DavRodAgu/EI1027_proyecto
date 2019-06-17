@@ -2,6 +2,8 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
+	th:href="@{/css/estilos-tabla.css}" />
 <meta charset="UTF-8">
 <title>Información Actividad</title>
 <style>
@@ -15,7 +17,7 @@ body {
 }
 
 .header-wrapper {
-	background-color: #fff;
+	background-color: #f8f9fa;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border: 1.5px solid #dee2e6;
@@ -29,7 +31,7 @@ body {
 	color: #343a40;
 }
 
-.body-wrapper {
+.body-wrapper2 {
 	background-color: #fff;
 	border: 1.5px solid #dee2e6;
 	padding: 1rem;
@@ -71,7 +73,7 @@ td {
 }
 
 .field-label {
-	width: 380px;
+	width: 50%;
 	padding-right: 10px;
 	font-size: 18px;
 	font-weight: bold;
@@ -81,7 +83,9 @@ td {
 	margin-bottom: 0px;
 }
 
-
+.no-reservas {
+	padding: 1rem;
+}
 </style>
 </head>
 <body>
@@ -96,7 +100,7 @@ td {
 								<span class="header-title"> Información de la actividad</span>
 							</header>
 						</div>
-						<div class="body-wrapper">
+						<div class="body-wrapper2">
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto de la actividad correspondiente -->
@@ -121,7 +125,8 @@ td {
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Fecha y Hora:</label></td>
-											<td class="text-left campo-actividad" th:text="${#dates.format(actividad.fecha, 'dd/MM/yyyy') + ' - ' + #dates.format(actividad.horaDeEncuentro, 'HH:mm')}"></td>
+<!-- 											<td class="text-left campo-actividad" th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy') + ' - ' + #temporals.format(actividad.horaDeEncuentro, 'HH:mm')}"></td> -->
+											<td class="text-left campo-actividad" th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy')} + ' - ' + ${{actividad.horaDeEncuentro}}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Min. Asistentes:</label></td>
@@ -149,10 +154,10 @@ td {
 										</tr>
 										<tr><td></td></tr>
 										<tr>
-											<td class="text-left" style="padding-bottom: 0;" colspan="2">
+											<td class="text-left pt-5" style="padding-bottom: 0;" colspan="2">
 												<a th:href="@{/instructor/actividades}" class="btn btn-primary" role="button">Volver</a> 
 											</td>
-											<td class="text-right" style="padding-bottom: 0;" colspan="2">
+											<td class="text-right pt-5" style="padding-bottom: 0;" colspan="2">
 												<a th:href="@{/instructor/actividad/{idActividad}/update(idActividad=${actividad.idActividad})}" class="btn btn-warning" role="button">Modificar datos</a> 
 											</td>
 										</tr>
@@ -161,41 +166,40 @@ td {
 						</div>
 					</div>
 				</div>
-				<div class="row pt-3 pb-10">
+				<div class="row pt-4">
 					<div class="col-12">
-						<div class="header-wrapper">
-							<header class="profile-header">
-								<span class="header-title"> Reservas de la actividad </span>
+						<div class="titulo_form">
+							<header class="table-header">
+								<span class="header-title">Reservas de la actividad </span>
 							</header>
 						</div>
 						<div class="body-wrapper">
-								<div th:if="${#lists.isEmpty(reservas)}">Esta actividad aún no tiene ninguna reserva</div>								
+							<div class="no-reservas" th:if="${reservas.isEmpty()}">Esta actividad aún no tiene ninguna reserva</div>								
+							<table th:if="${!reservas.isEmpty()}" class="table table-hover">
+								<thead class="tbl-header">
+									<tr>
+										<th scope="col">Cliente</th>
+										<th class="text-center" >Fecha de la reserva</th>
+										<th class="text-center">Núm. Asistentes</th>
+										<th class="text-center" >Estado</th>
+										<th class="text-center">Precio</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="reserva: ${#lists.sort(reservas.keySet())}">
+										<th th:text="${reservas.get(reserva)}" scope="row"></th>
+										<td
+											th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}"
+											class="text-center"></td>
+										<td th:text="${reserva.numAsistentes}" class="text-center"></td>
+										<td th:text="${reserva.estadoPago}" class="text-center"></td>
+										<td
+											th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €"
+											class="text-center"></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<table th:unless="${#lists.isEmpty(reservas)}" class="table table-hover">
-							<thead class="tbl-header">
-								<tr>
-									<th scope="col">Cliente</th>
-									<th class="text-center" scope="col">Fecha de la reserva</th>
-									<th class="text-center" scope="col">Núm. Asistentes</th>
-									<th class="text-center" scope="col">Estado</th>
-									<th class="text-center" scope="col">Precio</th>
-									<th scope="col"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="reserva: ${#lists.sort(reservas.keySet())}">
-									<th th:text="${reservas.get(reserva)}" scope="row"></th>
-									<td
-										th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}"
-										class="text-center"></td>
-									<td th:text="${reserva.numAsistentes}" class="text-center"></td>
-									<td th:text="${reserva.estadoPago}" class="text-center"></td>
-									<td
-										th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €"
-										class="text-center"></td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</div>

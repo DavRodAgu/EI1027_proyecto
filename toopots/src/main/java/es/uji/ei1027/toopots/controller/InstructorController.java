@@ -1,11 +1,17 @@
 package es.uji.ei1027.toopots.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +26,24 @@ import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
+import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Reserva;
 import es.uji.ei1027.toopots.model.TipoActividad;
 import es.uji.ei1027.toopots.services.InstructorService;
+
+class InstructorValidator implements Validator { 
+	@Override
+	public boolean supports(Class<?> cls) { 
+		return Instructor.class.isAssignableFrom(cls);
+	}
+	@Override 
+	public void validate(Object obj, Errors errors) {
+		Instructor instructor = (Instructor)obj;
+		// TODO: Añadir comprobaciones
+	}
+}
 
 @Controller
 @RequestMapping("/instructor")
@@ -85,9 +104,7 @@ public class InstructorController {
 		Login usuario = (Login) session.getAttribute("user");
 		
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/perfil");
-			return "login";
+			return "error/error";
 		}
 		
 		model.addAttribute("instructor", instructorDao.getInstructor(usuario.getUsuario()));
@@ -106,9 +123,7 @@ public class InstructorController {
 		
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/perfil");
-			return "login";
+			return "error/error";
 		}
 		
 		if (bindingResult.hasErrors()) {
@@ -134,9 +149,7 @@ public class InstructorController {
 		}
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/perfil");
-			return "login";
+			return "error/error";
 		}
 		return "instructor/perfil/password";
 	}
@@ -176,12 +189,9 @@ public class InstructorController {
 		Login usuario = (Login) session.getAttribute("user");
 		
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			model.addAttribute("nextUrl", "instructor/actividades");
-			return "login";
+			return "error/error";
 		}
 		
-		// model.addAttribute("actividades", actividadDao.getActividadesByInstructor(usuario.getUsuario()));
 		model.addAttribute("actividades", instructorService.getNumReservas(usuario.getUsuario()));
 		return "instructor/actividades";
 	}
@@ -196,9 +206,7 @@ public class InstructorController {
 		
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/actividades");
-			return "login";
+			return "error/error";
 		}
 		
 		model.addAttribute("actividad", actividadDao.getActividad(idActividad));
@@ -226,9 +234,7 @@ public class InstructorController {
 		
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("instructor")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/modificar");
-			return "login";
+			return "error/error";
 		}
 		
 		model.addAttribute("actividad", actividadDao.getActividad(idActividad));
@@ -253,12 +259,15 @@ public class InstructorController {
 	
 	@RequestMapping(value = "/actividad/add")
 	public String addActividad(HttpSession session, Model model) {
-		Login usuario = (Login)session.getAttribute("user");
-		
-		if (!usuario.getRol().equals("instructor")) {
+		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "instructor/add");
+			model.addAttribute("nextUrl", "actividad/add");
 			return "login";
+		}
+		
+		Login usuario = (Login)session.getAttribute("user");
+		if (!(usuario.getRol().equals("instructor"))) {
+			return "error/error";
 		}
 		model.addAttribute("actividad", new Actividad());
 		model.addAttribute("tipos", tipoActividadDao.getTipoActividadesInstructor(usuario.getUsuario()));
@@ -266,32 +275,63 @@ public class InstructorController {
 	}
 	
 	@RequestMapping(value = "/actividad/add", method = RequestMethod.POST)
-	public String processAddSubmit(@ModelAttribute("actividad") Actividad actividad, BindingResult bindingResult) {
+	public String processAddSubmit(HttpSession session, @ModelAttribute("actividad") Actividad actividad, BindingResult bindingResult,
+			@RequestParam("imagenPromocional") String imagen, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			return "instructor/add";
 		}
+		
+		// TODO: Crear objeto ImagenPromocional
+		// System.out.println(imagen);
+		actividad.setEstado("abierta");
+		Login usuario = (Login) session.getAttribute("user");
+		actividad.setIdInstructor(usuario.getUsuario());
 		actividadDao.addActividad(actividad);
-		// Crear objeto ImagenPromocional
-		System.out.println(actividad.getIdActividad());
+		
+		redirectAttributes.addFlashAttribute("message", "Actividad " + actividad.getNombre() + " creada satisfactoriamente");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../actividades";
 	}
-	
-	
-	   @RequestMapping(value="/addInstructor") 
-		public String addCliente(Model model) {
-			model.addAttribute("instructor", new Instructor());
-			model.addAttribute("login", new Login());
-			return "instructor/addInstructor";
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult,
+			@RequestParam("contraseña-instructor") String passwd,
+			@RequestParam("contraseña-instructor-rep") String passwdRep, RedirectAttributes redirectAttributes) {
+		
+		// Establecer el estado del instructor a 'pendiante'
+		instructor.setEstado("pendiente");
+		
+		// Crear objeto Login
+		Login login = new Login();
+		login.setUsuario(instructor.getIdInstructor());
+		login.setContraseña(passwd);
+		login.setRol("instructor");
+
+		// Crear el objeto validator
+		InstructorValidator instructorValidator = new InstructorValidator();
+		instructorValidator.validate(instructor, bindingResult);
+
+		if (!(passwd.equals(passwdRep))) {
+			redirectAttributes.addFlashAttribute("errorPasswd", "Las contraseñas no coinciden");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			// return "redirect:/register";
+			return "registro";
 		}
 
-	   @RequestMapping(value="/addInstructor", method=RequestMethod.POST) 
-	   public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor, @ModelAttribute("login") Login login, 
-	                                   BindingResult bindingResult) {  
-	   	 if (bindingResult.hasErrors()) 
-	   			return "instructor/addInstructor";
-	   	 instructorDao.addInstructor(instructor, login);
-	   	 return "redirect:.."; 
-	    }
-	
-	
+		if (bindingResult.hasErrors()) {
+			return "registro";
+		}
+
+		// Añadir la información en la base de datos
+		// clienteDao.addCliente(cliente);
+		// loginDao.addLogin(login);
+		System.out.println(instructor);
+		System.out.println(login);
+
+		// TODO: Modificar este codigo
+		redirectAttributes.addFlashAttribute("register",
+				"Su cuenta ha sido creada. Inicie sesión para empezar a reservar sus actividades.");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:/login";
+	}
 }

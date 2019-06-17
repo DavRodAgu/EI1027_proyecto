@@ -1,6 +1,3 @@
-body {
-	background-color: #f0f0f0;
-}
 .dropdown-menu {
 	background-color: #343a40;
 }
@@ -14,7 +11,8 @@ body {
     background: rgba(255, 255, 255, .2);
     color: #fff;
 }
+
 #main {
 	margin-top: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 80px;
 }

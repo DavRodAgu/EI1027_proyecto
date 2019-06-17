@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ERROR</title>
+</head>
+<body>
+	<h2>No se pudo acceder a la dirección web solicitada</h2>
+	<div th:object="${session}">
+		<div th:switch="*{user.rol}">
+			  <div th:case="'cliente'">
+			  	<a th:href="@{/cliente/actividades}">Volver a la página de inicio</a>
+			  </div>
+			  <div th:case="'administrador'">
+			  	<a th:href="@{/administrador/solicitudes}">Volver a la página de inicio</a>
+			  </div>
+			  <div th:case="'instructor'">
+			  	<a th:href="@{/instructor/actividades}">Volver a la página de inicio</a>
+			  </div>
+			  <div th:case="*">
+			  	<a href="/"></a>
+			  </div>
+		</div>
+	</div>
+</body>
+</html>

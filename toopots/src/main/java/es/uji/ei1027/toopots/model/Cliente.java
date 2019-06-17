@@ -1,13 +1,16 @@
 package es.uji.ei1027.toopots.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Cliente implements Comparable<Cliente> {
 	private String idCliente;
 	private String nombre;
 	private String email;
 	private String sexo;
-	private Date fechaNacimiento;
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+	private LocalDate fechaNacimiento;
 	
 	
 	public String getIdCliente() {
@@ -34,10 +37,10 @@ public class Cliente implements Comparable<Cliente> {
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	

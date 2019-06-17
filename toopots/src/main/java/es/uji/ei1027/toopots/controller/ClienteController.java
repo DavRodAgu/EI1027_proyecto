@@ -1,11 +1,13 @@
 package es.uji.ei1027.toopots.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,19 @@ import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.services.ClienteService;
+
+class ClienteValidator implements Validator { 
+	@Override
+	public boolean supports(Class<?> cls) { 
+		return Cliente.class.isAssignableFrom(cls);
+	}
+	@Override 
+	public void validate(Object obj, Errors errors) {
+		Cliente cliente = (Cliente)obj;
+		// TODO: Añadir comprobaciones
+	}
+}
+
 
 @Controller
 @RequestMapping("/cliente")
@@ -81,10 +96,8 @@ public class ClienteController {
 		}
 		
 		Login usuario = (Login) session.getAttribute("user");
-		if (!usuario.getRol().equals("cliente")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/");
-			return "login";
+		if (!(usuario.getRol().equals("cliente"))) {
+			return "error/error";
 		}
 		// Comprobar que tipo de vista a seleccionado el usuario
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), true));
@@ -102,9 +115,7 @@ public class ClienteController {
 		
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("cliente")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/");
-			return "login";
+			return "error/error";
 		}
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), preferencias));
 		model.addAttribute("preferencias", preferencias);
@@ -120,9 +131,7 @@ public class ClienteController {
 		}
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("cliente")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/");
-			return "login";
+			return "error/error";
 		}
 		model.addAttribute("reservas", clienteService.getReservaByClient(usuario.getUsuario()));
 		return "cliente/reservas";
@@ -137,9 +146,7 @@ public class ClienteController {
 		}
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("cliente")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/");
-			return "login";
+			return "error/error";
 		}
 		model.addAttribute("cliente", clienteDao.getCliente(usuario.getUsuario()));
 		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
@@ -202,9 +209,7 @@ public class ClienteController {
 		
 		Login usuario = (Login) session.getAttribute("user");
 		if (!usuario.getRol().equals("cliente")) {
-			model.addAttribute("user", new Login());
-			session.setAttribute("nextUrl", "cliente/");
-			return "login";
+			return "error/error";
 		}
 		
 		return "cliente/perfil/password";
@@ -234,22 +239,42 @@ public class ClienteController {
 		}
 		return "redirect:../perfil/password";
 	}
-	
-	
-	   @RequestMapping(value="/add") 
-		public String addCliente(Model model) {
-			model.addAttribute("cliente", new Cliente());
-			model.addAttribute("login", new Login());
-			return "cliente/add";
-		}
 
-	   @RequestMapping(value="/add", method=RequestMethod.POST) 
-	   public String processAddSubmit(@ModelAttribute("cliente") Cliente cliente, @ModelAttribute("login") Login login, 
-	                                   BindingResult bindingResult) {  
-	   	 if (bindingResult.hasErrors()) 
-	   			return "cliente/add";
-	   	 clienteDao.addCliente(cliente, login);
-	   	 return "redirect:.."; 
-	    }
-	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String processAddSubmit(@ModelAttribute("cliente") Cliente cliente, BindingResult bindingResult,
+			@RequestParam("contraseña-cliente") String passwd, @RequestParam("contraseña-cliente-rep") String passwdRep, 
+			RedirectAttributes redirectAttributes) {
+			
+		// Crear objeto Login
+		Login login = new Login();
+		login.setUsuario(cliente.getIdCliente());
+		login.setContraseña(passwd);
+		login.setRol("cliente");
+		
+		// Crear el objeto validator
+		ClienteValidator userValidator = new ClienteValidator(); 
+		userValidator.validate(cliente, bindingResult);
+		
+		if (!(passwd.equals(passwdRep))) {
+			redirectAttributes.addFlashAttribute("errorPasswd", "Las contraseñas no coinciden");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			//return "redirect:/register";
+			return "registro";
+		}
+		
+		if (bindingResult.hasErrors()) {
+			return "registro";
+		} 
+		
+		// Añadir la información en la base de datos
+		//clienteDao.addCliente(cliente);
+		//loginDao.addLogin(login);
+		System.out.println(cliente);
+		System.out.println(login);
+		
+		redirectAttributes.addFlashAttribute("register", "Su cuenta ha sido creada. Inicie sesión para empezar a reservar sus actividades.");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:/login";
+	}
+
 }

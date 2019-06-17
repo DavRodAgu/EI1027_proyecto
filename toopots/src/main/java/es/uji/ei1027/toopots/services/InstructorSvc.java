@@ -35,12 +35,14 @@ public class InstructorSvc implements InstructorService {
 		// Se obtienen los asistentes de cada actividad
 		int numAsistentes;
 		for (Actividad actv : actividades) {
-			List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actv.getIdActividad());
-			numAsistentes = 0;
-			for (Reserva rsrv: reservasActividad) {
-				numAsistentes += rsrv.getNumAsistentes();
+			if (!(actv.getEstado().equals("cancelada"))) {
+				List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actv.getIdActividad());
+				numAsistentes = 0;
+				for (Reserva rsrv: reservasActividad) {
+					numAsistentes += rsrv.getNumAsistentes();
+				}
+				asistentesActividad.put(actv,  numAsistentes);
 			}
-			asistentesActividad.put(actv,  numAsistentes);
 		}
 		return asistentesActividad;
 	}

@@ -142,7 +142,7 @@ body {
 											th:text="${actividad.lugar}"></span></li>
 										<li><span class="actividad-field">Fecha y Hora: </span><span
 											th:text="${actividad.fecha}"></span> <span
-											th:text="${#dates.format(actividad.horaDeEncuentro, 'HH:mm')}"></span></li>
+											th:text="${actividad.horaDeEncuentro}"></span></li>
 										<li><span class="actividad-field">Precio: </span><span
 											th:text="${actividad.precio + '€ (por persona)'}"></span></li>
 									</ul>
@@ -217,7 +217,6 @@ body {
 													<input type="hidden" name="preferencias" id="pref" th:value="${preferencias}" />
 												</div>
 												<div class="form-group">
-													<!-- 									TODO: Ajustar al número de plazas disponibles -->
 													<label for="numTickets">Número de tickets:</label>
 													<select class="selectpicker"
 														name="nPersonas" id="numTickets">

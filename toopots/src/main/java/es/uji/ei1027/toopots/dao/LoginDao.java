@@ -18,6 +18,12 @@ public class LoginDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
+	public void addLogin(Login login) {
+
+		jdbcTemplate.update("INSERT INTO Login VALUES(?, ?, ?)", login.getUsuario(), login.getContraseña(),
+				login.getRol());
+	}
+	
 	public Login getLogin(String usuario, String contraseña) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * from Login WHERE usuario=? AND contraseña=?",

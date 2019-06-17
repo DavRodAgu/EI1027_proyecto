@@ -14,18 +14,18 @@
 		<!-- Main -->
 		<div id="main">
 			<div class="container">
-				<div th:if="${#lists.isEmpty(solicitudes)}">No hay ninguna
-					solicitud</div>
-				<div th:unless="${#lists.isEmpty(solicitudes)}">
-					<div class="titulo_form">
-						<header class="table-header">
-							<span class="header-title">Solicitudes</span>
-						</header>
-					</div>
-
-					<div class="row">
-						<div class="col-12">
-							<table class="table table-hover">
+				<div class="titulo_form">
+					<header class="table-header">
+						<span class="header-title">Solicitudes</span>
+					</header>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="body-wrapper">
+							<div th:if="${#lists.isEmpty(solicitudes)}">No hay ninguna
+								solicitud</div>
+							<table th:unless="${#lists.isEmpty(solicitudes)}"
+								class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">Instructor</th>
@@ -43,7 +43,7 @@
 											class="text-center"></td>
 										<td>
 											<!-- <button type="button"
-												class="open-detalles btn btn-info" href="#">Detalles</button> -->
+													class="open-detalles btn btn-info" href="#">Detalles</button> -->
 											<a
 											th:href="@{/acreditacion/acepta/{idAcreditacion}(idAcreditacion=${solicitud.key.idAcreditacion})}"
 											class="btn btn-success">Aceptar</a> <a

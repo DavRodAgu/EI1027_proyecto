@@ -1,0 +1,59 @@
+body {
+	background-color: #f9f9f9;
+	font-size: 15px;
+	overflow: visible;
+}
+
+.register {
+	margin-top: 3%;
+	padding: 3%;	
+}
+
+.register-tabs {
+	background: #f0f0f0;
+	border: 2px solid #eee;
+	border-bottom: none;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	padding: 0;
+}
+
+.register-tabs .nav-link {
+	height: 60px;
+	font-size: 1.5rem;
+	color: rgba(0,0,0,.45);
+	transition: .3s;
+}
+
+.register-forms {
+	background: #f0f0f0;
+	border: 2px solid #eee;
+	border-top: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 0;
+}
+
+.body-wrapper {
+	padding: 2rem;
+	background: #fff;
+}
+
+.register-header {
+	text-align: center;
+	margin-top: 1%;
+	margin-bottom: 5%;
+	color: #495057
+}
+
+.tab-content {
+	padding: 1.5rem;
+	background: #fdfdfd;
+	border-radius: 5px;
+	border: 1.5px solid #eee;
+}
+
+.input-group-text {
+	width: 43px;
+	height: 38px;
+}

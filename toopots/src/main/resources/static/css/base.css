@@ -1,3 +1,8 @@
+body {
+	background-color: #f0f0f0;
+	font-size: 15px;
+}
+
 @media only screen and (min-width: 991px) {
     .navbar {
         padding-top: 0;

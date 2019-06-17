@@ -16,7 +16,7 @@ body {
 }
 
 .header-wrapper {
-	background-color: #fff;
+	background-color: #f8f9fa;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border: 1.5px solid #dee2e6;
@@ -118,23 +118,12 @@ td input[type="number"] {
 											<td class="text-left"><input class="form-control" type="text" id="nombre-actividad" th:field="*{nombre}" required/></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="estado-actividad">Estado</label></td>
-											<td class="text-left">
-												<select class="selectpicker" type="text" id="estado-actividad" th:field="*{estado}">
-													<option value="abierta">abierta</option>
-													<option value="cerrada">cerrada</option>
-													<option value="completa">completa</option>
-													<option value="cancelada">cancelada</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
 											<td class="field-label text-right"><label for="fecha-actividad">Fecha</label></td>
 											<td class="text-left"><input class="form-control" type="date" id="fecha-actividad" th:field="*{fecha}" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="hora-actividad">Hora</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="hora-actividad" th:field="*{horaDeEncuentro}"/></td>
+											<td class="text-left"><input class="form-control" type="time" id="hora-actividad" th:field="*{horaDeEncuentro}" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="lugar-actividad">Lugar</label></td>
@@ -143,6 +132,10 @@ td input[type="number"] {
 										<tr>
 											<td class="field-label text-right"><label for="punto-actividad">Punto de Encuentro</label></td>
 											<td class="text-left"><input class="form-control" type="text" id="punto-actividad" th:field="*{puntoDeEncuentro}" required/></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label for="precio-actividad">Precio(€)</label></td>
+											<td class="text-left"><input class="form-control" type="number" step="0.01" id="precio-actividad" th:field="*{precio}" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="min-actividad">Min. Asistentes</label></td>
@@ -154,12 +147,12 @@ td input[type="number"] {
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="duracion-actividad">Duración</label></td>
-											<td class="text-left"><input class="form-control" type="text" min="1:00" max="6:00" value="00:00:00" id="duracion-actividad" th:field="*{duracion}"/></td>
+											<td class="text-left"><input class="form-control" type="time" id="duracion-actividad" th:field="*{duracion}" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="tipo-actividad">Tipo Actividad</label></td>
 											<td><select class="selectpicker" name="tipo" data-live-search="true" th:field="*{idTipoActividad}"
-												id="tipo-actividad" title="Ningún tipo seleccionado">
+												id="tipo-actividad" title="Ningún tipo seleccionado" required>
 													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
 													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
 											</select>
@@ -168,17 +161,13 @@ td input[type="number"] {
 										<tr>
 											<td class="field-label text-right"><label for="imagen">Imagen</label></td>
 											<td class="custom-file text-left">
-												<input class="custom-file-input" type="file" id="imagen"/>
-												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Archivo</label>
+												<input class="custom-file-input" type="file" id="imagen" name="imagenPromocional"/>
+												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Imagen</label>
 											</td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="duracion-actividad">Descripción</label></td>
 											<td class="text-left"><input class="form-control" type="text" id="tipo-actividad" th:field="*{descripcion}" required/></td>
-										</tr>
-										<tr>
-											<td class="field-label text-right"><label for="nombre-actividad">DNI</label></td>
-											<td class="text-left"><input class="form-control" th:value="${session.user.usuario}" id="idInstructor" name="idInstructor" type="text" readonly/></td>
 										</tr>
 										<tr><td></td></tr>
 										<tr>

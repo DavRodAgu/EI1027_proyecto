@@ -13,6 +13,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import es.uji.ei1027.toopots.dao.LoginDao;
+import es.uji.ei1027.toopots.model.Cliente;
+import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Login;
 
 class UserValidator implements Validator { 
@@ -39,9 +41,24 @@ public class LoginController {
 	private LoginDao loginDao;
 
 	@RequestMapping("/login")
-	public String login(Model model) {
-		model.addAttribute("user", new Login());
-		return "login";
+	public String login(Model model, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			Login user = (Login) session.getAttribute("user");
+			switch (user.getRol()) {
+				case "cliente":
+					return "redirect:/cliente/actividades";
+				case "administrador":
+					return "redirect:/admin/solicitudes";
+				case "instructor":
+					return "redirect:/instructor/actividades";
+				default:
+					// TODO: Devolver página de error
+					return null;
+			}
+		} else {
+			model.addAttribute("user", new Login());
+			return "login";
+		}
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -59,7 +76,7 @@ public class LoginController {
 			bindingResult.rejectValue("contraseña", "badpw", "Usuario y/o contraseña incorrectos"); 
 			return "login";
 		}
-//		System.out.println("-------------" + user.toString());
+		
 		// Autenticats correctament. 
 		// Guardem les dades de l'usuari autenticat a la sessió
 		session.setAttribute("user", user);
@@ -70,12 +87,12 @@ public class LoginController {
         }
 		
 		switch (user.getRol()) {
-		case "cliente":
-			return "redirect:/cliente/actividades";
-		case "administrador":
-			return "redirect:/admin/solicitudes";
-		case "instructor":
-			return "redirect:/instructor/actividades";
+			case "cliente":
+				return "redirect:/cliente/actividades";
+			case "administrador":
+				return "redirect:/admin/solicitudes";
+			case "instructor":
+				return "redirect:/instructor/actividades";
 		}
 			
 		// Torna a la pàgina principal
@@ -88,8 +105,10 @@ public class LoginController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping("registro")
+	@RequestMapping("/register")
 	public String registrar(Model model) {
+		model.addAttribute("cliente", new Cliente());
+		model.addAttribute("instructor", new Instructor());
 		return "registro"; 
 	}
 	

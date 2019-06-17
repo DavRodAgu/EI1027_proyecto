@@ -23,13 +23,10 @@ public class ClienteDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void addCliente(Cliente cliente, Login login) {
+    public void addCliente(Cliente cliente) {
         jdbcTemplate.update("INSERT INTO Cliente VALUES(?, ?, ?, ?, ?)",
                 cliente.getIdCliente(), cliente.getNombre(), cliente.getEmail(),
                 cliente.getSexo(),cliente.getFechaNacimiento());
-        
-        jdbcTemplate.update("INSERT INTO Login VALUES(?, ?, ?)",
-                cliente.getIdCliente() ,login.getContraseña(), "cliente");
         
     }
 

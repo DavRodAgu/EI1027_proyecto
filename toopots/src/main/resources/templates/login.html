@@ -10,8 +10,6 @@
 <title>Login</title>
 <meta charset="UTF-8" />
 
-<!-- Login --!>
-
 </head>
 <body>
 	 <!-- Navbar -->
@@ -25,7 +23,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link btn btn-outline-success" href="registro">Registrarse</a>
+                <a class="nav-link btn btn-outline-success" href="register">Registrarse</a>
               </li>
             </ul>
           </div>
@@ -37,8 +35,8 @@
 	<!-- Login -->
 	<div class="modal-dialog modal-dialog-centered text-center">
 		<div class="col-sm-9 main-section">
+			<div th:class="${'alert ' + alertClass}" role="alert" th:if="${register}" th:text="${register}"></div>
 			<div class="modal-content">
-
 				<div class="col-12 user-icon">
 					<img src="/icons/user-icon.png" alt="user">
 				</div>

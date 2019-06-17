@@ -16,7 +16,7 @@ body {
 }
 
 .header-wrapper {
-	background-color: #fff;
+	background-color: #f8f9fa;;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border: 1.5px solid #dee2e6;
@@ -176,12 +176,12 @@ td input[type="number"] {
 										</tr>
 										<tr><td></td></tr>
 										<tr>
-											<td class="text-left">
+											<td class="text-left" style="padding-bottom: 0;" colspan="2">
 												<a th:href="@{/instructor/actividad/{idActividad}(idActividad=${actividad.idActividad})}" class="btn btn-primary" role="button">Volver</a>
 											</td>
 											<td class="text-right" style="padding-bottom: 0;" colspan="2">
-											<input class="btn btn-warning"
-												type="submit" value="Modificar datos" /></td>
+												<input class="btn btn-success" type="submit" value="Guardar"/>
+											</td>
 										</tr>
 									</table>
 								</form>

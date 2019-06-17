@@ -21,6 +21,14 @@ body {
 	float: right;
 }
 
+.add-actividad:hover {
+	text-decoration: none;
+}
+
+.color-svg {
+    fill: #7df68b;
+}
+
 tbody > tr > th, td {
 	text-transform: capitalize;
 }
@@ -35,20 +43,26 @@ tbody > tr > th, td {
 		<!-- Main -->
 		<div id="main">
 			<div class="container">
+			<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
 				<div th:if="${#lists.isEmpty(actividades)}">No has creado ninguna actividad</div>
 				<div th:unless="${#lists.isEmpty(actividades)}">
 					<div class="titulo_form">
 						<header class="table-header">
 							<span class="header-title">Mis Actividades</span>
-							<a href="actividad/add">
-								<span class="far fa-plus-square add-actividad">
-                                	Añadir Actividad
-                            	</span></a>
+							<a class="add-actividad" href="actividad/add">
+								<span class="link-icon">
+									<svg aria-hidden="true" focusable="false" width="20" height="20" data-prefix="fas" data-icon="plus-square" class="svg-inline--fa fa-plus-square fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <path class="color-svg" d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-32 252c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92H92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z">
+                                        </path>
+                                    </svg>
+								</span>
+								<span class="link-text">Añadir Actividad</span>	
+							</a>
 						</header>
 					</div>
-
 					<div class="row">
 						<div class="col-12">
+							<div class="body-wrapper">
 							<table class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
@@ -63,9 +77,7 @@ tbody > tr > th, td {
 								<tbody >
 									<tr th:each="actividad: ${#lists.sort(actividades.keySet())}" th:if="${actividad.estado == 'abierta'}">
 										<th th:text="${actividad.nombre}" scope="row"></th>
-										<td
-											th:text="${#dates.format(actividad.fecha, 'dd/MM/yyyy') + ' ' + #dates.format(actividad.horaDeEncuentro, 'HH:mm')}"
-											class="text-center"></td>
+										<td class="text-center" th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy')} + ' ' + ${{actividad.horaDeEncuentro}}"></td>
 										<td th:text="${actividad.estado}" class="text-center"></td>
 										<td th:text="${actividad.minAsistentes}" class="text-center"></td>
 										<td
@@ -101,10 +113,10 @@ tbody > tr > th, td {
 																th:text="${actividad.nombre}"></span>" con
 															fecha "<span
 																style="font-weight: bold; text-transform: capitalize;"
-																th:text="${#dates.format(actividad.fecha, 'dd/MM/yyyy')}"></span>"
+																th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy')}"></span>"
 															y hora "<span
 																style="font-weight: bold; text-transform: capitalize;"
-																th:text="${#dates.format(actividad.horaDeEncuentro, 'HH:mm')}"></span>"?.
+																th:text="${{actividad.horaDeEncuentro}}"></span>"?.
 															</div>
 													</div>
 													<div class="modal-footer">
@@ -120,6 +132,7 @@ tbody > tr > th, td {
 									</tr>
 								</tbody>
 							</table>
+						</div>
 						</div>
 					</div>
 				</div>

@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public final class ClienteRowMapper implements RowMapper<Cliente> {
     public Cliente mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -13,7 +14,8 @@ public final class ClienteRowMapper implements RowMapper<Cliente> {
         cliente.setNombre(rs.getString("nombre"));
         cliente.setEmail(rs.getString("email"));
         cliente.setSexo(rs.getString("sexo"));
-        cliente.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+        // cliente.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+        cliente.setFechaNacimiento(rs.getObject("fechaNacimiento", LocalDate.class));
         return cliente;
     }
 }

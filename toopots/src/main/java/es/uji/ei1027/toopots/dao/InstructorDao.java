@@ -23,13 +23,10 @@ public class InstructorDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void addInstructor(Instructor instructor, Login login) {
+    public void addInstructor(Instructor instructor) {
         jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
                 instructor.getIdInstructor(), "pendiente", instructor.getNombre(),
                 instructor.getEmail(), instructor.getIban(), instructor.getFoto());
-        
-        jdbcTemplate.update("INSERT INTO Login VALUES(?, ?, ?)",
-                instructor.getIdInstructor() ,login.getContraseña(), "instructor");
     }
 
     public void deleteInstructor(Instructor instructor) {

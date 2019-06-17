@@ -1,5 +1,5 @@
 .titulo_form {
-	background-color: #fff;
+	background-color: #f8f9fa;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border: 1.5px solid #dee2e6;
@@ -16,20 +16,39 @@
 }
 
 .tbl-header {
-    background-color: #e9ecef;
-    border: 1.5px solid #dee2e6;
-    border-bottom: 2px solid #dee2e6;
+    background-color: #fdfdfd;
 }
 
 .tbl-header th:last-child {
     width: 350px;
 }
 
-.table tbody {
-    border: 1px solid #dee2e6;
+.body-wrapper {
+    background-color: #fff;
+    border: 1.5px solid #dee2e6;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: hidden;
+}
+
+.empty {
+	padding: 1rem;
+}
+
+.table {
+	margin-bottom: 0;
+}
+
+.table thead th {
+	border-bottom: none;
+	font-size: 17px;
+}
+
+.table tbody tr {
+	height: 70px;
+	line-height: 3.3rem;
 }
 
 tr td:last-child {
     text-align: right;
-
 }
