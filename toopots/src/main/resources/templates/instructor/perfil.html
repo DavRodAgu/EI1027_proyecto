@@ -105,14 +105,14 @@ td input[type="file"] {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto del instructor correspondiente -->
-									<img th:src="${instructor.foto}" alt="foto-perfil" width="250" height="250">
+									<img th:attr="src=@{'../../../media/' + ${instructor.foto}}" alt="foto-perfil" width="250" height="250">
 								</div>
 								<form action="#" th:action="@{/instructor/perfil/{idInstructor}(idInstructor=${instructor.idInstructor})}"
-									th:object="${instructor}" method="post">
+									th:object="${instructor}" method="post" enctype="multipart/form-data">
 									<table class="user-details">
 										<tr>
 											<td class="field-label text-right"><label for="nombre-usuario">Nombre</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="nombre-instructor" th:field="*{nombre}" required/></td>
+											<td class="text-left"><input class="form-control" type="text" id="nombre-instructor" th:field="*{nombre}" name="nombre" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="estado-usuario">Estado solicitud</label></td>
@@ -120,23 +120,23 @@ td input[type="file"] {
 												<span th:case="'pendiente'" class="badge badge-warning" th:text="*{estado}"></span>
 												<span th:case="'aceptada'" class="badge badge-success" th:text="*{estado}"></span>
 												<span th:case="'rechazada'" class="badge badge-danger" th:text="*{estado}"></span>
-												<input type="hidden" th:field="*{estado}" />
+												<input type="hidden" th:field="*{estado}" name="estado" />
 											</td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="email-usuario">Email</label></td>
-											<td class="text-left"><input class="form-control" type="email" id="email-instructor" th:field="*{email}" required/></td>
+											<td class="text-left"><input class="form-control" type="email" id="email-instructor" th:field="*{email}" name="email" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="iban-instructor">IBAN</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="iban-instructor" th:field="*{iban}" required/>
+											<td class="text-left"><input class="form-control" type="text" id="iban-instructor" th:field="*{iban}" name="iban" required/>
 												<small>Ejemplo: ES60 0049 1500 0512 3456 7892</small>
 											</td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="foto-instructor">Foto</label></td>
 											<td class="custom-file text-left">
-												<input class="custom-file-input" type="file" id="foto-instructor"/>
+												<input class="custom-file-input" type="file" name="afoto" id="foto-instructor"/>
 												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Archivo</label>
 											</td>
 										</tr>
