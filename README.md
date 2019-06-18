@@ -1,1 +1,1 @@
-# EI1027_proyecto
+# Proyecto de la asignatura EI1027
