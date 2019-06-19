@@ -134,6 +134,7 @@ public class ClienteController {
 			return "error/error";
 		}
 		model.addAttribute("reservas", clienteService.getReservaByClient(usuario.getUsuario()));
+		model.addAttribute("actividades", clienteService.getActividadByClient(usuario.getUsuario()));
 		return "cliente/reservas";
 	}
 	

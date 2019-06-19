@@ -91,5 +91,17 @@ public class ClienteSvc implements ClienteService {
 		}
 		return actividadByReserva;
 	}
+	
+	
+	@Override
+	public Map<Integer, Actividad> getActividadByClient(String idCliente) {
+		List<Reserva> reservas = reservaDao.getReservasUsuario(idCliente);
+		HashMap<Integer, Actividad> idActividad_Actividad = new HashMap<Integer, Actividad>();
+		for (Reserva rsrv : reservas) {
+			Actividad actividad = actividadDao.getActividad(Integer.toString(rsrv.getIdActividad()));
+			idActividad_Actividad.put(rsrv.getIdActividad(), actividad);
+		}
+		return idActividad_Actividad;
+	}
 
 }
