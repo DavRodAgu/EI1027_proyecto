@@ -1,5 +1,6 @@
 package es.uji.ei1027.toopots.services;
 
+import java.awt.color.CMMException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
+import es.uji.ei1027.toopots.dao.ComentarioDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
+import es.uji.ei1027.toopots.model.Comentario;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.model.Reserva;
 
@@ -34,6 +37,9 @@ public class ClienteSvc implements ClienteService {
 	
 	@Autowired
 	private TipoActividadDao tipoActividadDao;
+	
+	@Autowired
+	private ComentarioDao comentarioDao;
 	
 	@Override
 	public Map<Reserva, List<Object>> getReservaByClient(String idCliente) {
@@ -100,6 +106,29 @@ public class ClienteSvc implements ClienteService {
 		for (Reserva rsrv : reservas) {
 			Actividad actividad = actividadDao.getActividad(Integer.toString(rsrv.getIdActividad()));
 			idActividad_Actividad.put(rsrv.getIdActividad(), actividad);
+		}
+		return idActividad_Actividad;
+	}
+	
+	@Override
+	public List<Comentario> getComentariosByCliente(String idCliente) {
+		List<Comentario> comentarios = comentarioDao.getComentarios();
+		
+		List<Comentario> comentariosCliente = new ArrayList<Comentario>();
+		for (Comentario coment : comentarios) {
+			if (coment.getIdCliente().equals(idCliente))
+				comentariosCliente.add(coment);
+		}
+		return comentariosCliente;
+	}
+	
+	@Override
+	public Map<Integer, Actividad> getActividadConComentario(String idCliente) {
+		List<Comentario> comentarios = this.getComentariosByCliente(idCliente);
+		HashMap<Integer, Actividad> idActividad_Actividad = new HashMap<Integer, Actividad>();
+		for (Comentario com : comentarios) {
+			Actividad actividad = actividadDao.getActividad(Integer.toString(com.getIdActividad()));
+			idActividad_Actividad.put(com.getIdActividad(), actividad);
 		}
 		return idActividad_Actividad;
 	}

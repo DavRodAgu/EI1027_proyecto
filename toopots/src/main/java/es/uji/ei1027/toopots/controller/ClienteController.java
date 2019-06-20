@@ -23,11 +23,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
+import es.uji.ei1027.toopots.dao.ComentarioDao;
 import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
+import es.uji.ei1027.toopots.model.Actividad;
 import es.uji.ei1027.toopots.model.Cliente;
+import es.uji.ei1027.toopots.model.Comentario;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.services.ClienteService;
@@ -55,6 +58,7 @@ public class ClienteController {
 	private LoginDao loginDao;
 	private TipoActividadDao tipoActividadDao;
 	private PrefiereDao prefiereDao;
+	private ComentarioDao comentarioDao;
 	
 	@Autowired
 	public void setClienteDao(ClienteDao clienteDao) {
@@ -84,6 +88,11 @@ public class ClienteController {
 	@Autowired
 	public void setPrefiereDao(PrefiereDao prefiereDao) {
 		this.prefiereDao = prefiereDao;
+	}
+	
+	@Autowired
+	public void setComentarioDao(ComentarioDao comentarioDao) {
+		this.comentarioDao = comentarioDao;
 	}
 
 	
@@ -276,6 +285,59 @@ public class ClienteController {
 		redirectAttributes.addFlashAttribute("register", "Su cuenta ha sido creada. Inicie sesión para empezar a reservar sus actividades.");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:/login";
+	}
+	
+	
+	@RequestMapping("/comentarios")
+	public String processComentarios(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			model.addAttribute("nextUrl", "cliente/comentarios");
+			return "login";
+		}
+		Login usuario = (Login) session.getAttribute("user");
+		
+		if (!usuario.getRol().equals("cliente")) {
+			return "error/error";
+		}
+		
+		model.addAttribute("comentarios", clienteService.getComentariosByCliente(usuario.getUsuario()));
+		model.addAttribute("actividades", clienteService.getActividadConComentario(usuario.getUsuario()));
+		return "cliente/comentarios";
+	}
+	
+	
+	@RequestMapping(value = "/comentario/add")
+	public String addComentario(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			model.addAttribute("nextUrl", "comentario/add");
+			return "login";
+		}
+		
+		Login usuario = (Login)session.getAttribute("user");
+		if (!(usuario.getRol().equals("cliente"))) {
+			return "error/error";
+		}
+		model.addAttribute("comentario", new Comentario());
+		model.addAttribute("actividades", actividadDao.getActividades());
+		return "cliente/add";
+	}
+	
+	@RequestMapping(value = "/comentario/add", method = RequestMethod.POST)
+	public String processAddSubmit(HttpSession session, @ModelAttribute("comentario") Comentario comentario, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "cliente/add";
+		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		comentario.setIdCliente(usuario.getUsuario());
+		comentarioDao.addComentario(comentario);
+		
+		redirectAttributes.addFlashAttribute("message", "Comentario creado satisfactoriamente");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		return "redirect:../comentarios";
 	}
 
 }

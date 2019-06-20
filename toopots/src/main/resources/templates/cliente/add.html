@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+   <title>Crear nuevo comentario</title>
+   <meta charset="UTF-8" />
+   <link rel="stylesheet"       
+     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+    <h2>Nuevo comentario</h2>
+    <form action="#" th:action="@{/cliente/comentario/add}"
+                     th:object="${comentario}" method="post">
+      <table>
+        <tr>
+            <td><label>Comentario</label></td>
+            <td>
+            	<textarea rows="4" cols="50" th:field="*{comentario}">
+            	</textarea>
+		    </td>
+        </tr>
+        <tr>
+            <td><label>Valoración</label></td>
+            <td><select th:field="*{valoracion}" required>
+            	<option value="1">1</option>
+            	<option value="2">2</option>
+            	<option value="3">3</option>
+            	<option value="4">4</option>
+            	<option value="5">5</option>
+            </select> 
+            </td>
+        </tr>
+        <tr>
+            <td><label>Actividad</label></td>
+<!--             <td><input th:type="text" th:field="*{idActividad}"/></td> -->
+            <td><select class="selectpicker" name="idActividad" data-live-search="true" th:field="*{idActividad}"
+												id="idActividad" title="Ningún tipo seleccionado" required>
+													<option th:each="actividad: ${actividades}" th:value="${actividad.idActividad}"
+													th:text="${actividad.nombre}"></option>
+				</select>
+			</td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Añadir Comentario" /></td>
+        </tr>
+      </table>
+    </form>
+</body>
+</html>

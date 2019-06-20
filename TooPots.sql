@@ -53,8 +53,7 @@ CREATE TABLE Comentario (
     comentario varchar(50)  NOT NULL,
     valoracion int  NOT NULL,
     idCliente varchar(10)  NOT NULL,
-    idActividad int  NULL,
-    idInstructor varchar(10)  NULL,
+    idActividad int NOT NULL,
     CONSTRAINT valoracion CHECK (valoracion >= 1 and valoracion <= 5) NOT DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT Comentario_pk PRIMARY KEY (idComentario)
 );
@@ -172,15 +171,6 @@ ALTER TABLE Comentario ADD CONSTRAINT Comentario_Actividad
 ALTER TABLE Comentario ADD CONSTRAINT Comentario_Cliente
     FOREIGN KEY (idCliente)
     REFERENCES Cliente (idCliente)
-    ON DELETE  RESTRICT 
-    ON UPDATE  CASCADE 
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE Comentario ADD CONSTRAINT Comentario_Instructor
-    FOREIGN KEY (idInstructor)
-    REFERENCES Instructor (idInstructor)
     ON DELETE  RESTRICT 
     ON UPDATE  CASCADE 
     NOT DEFERRABLE 

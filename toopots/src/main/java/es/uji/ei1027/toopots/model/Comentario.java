@@ -6,7 +6,6 @@ public class Comentario {
 	private int valoracion;
 	private String idCliente;
 	private int idActividad;
-	private String idInstructor;
 	
 	
 	public int getIdComentario() {
@@ -39,18 +38,13 @@ public class Comentario {
 	public void setIdActividad(int idActividad) {
 		this.idActividad = idActividad;
 	}
-	public String getIdInstructor() {
-		return idInstructor;
-	}
-	public void setIdInstructor(String idInstructor) {
-		this.idInstructor = idInstructor;
-	}
+
 	
 	
 	@Override
 	public String toString() {
 		return "Comentario [idComentario=" + idComentario + ", comentario=" + comentario + ", valoracion=" + valoracion
-				+ ", idCliente=" + idCliente + ", idActividad=" + idActividad + ", idInstructor=" + idInstructor + "]";
+				+ ", idCliente=" + idCliente + ", idActividad=" + idActividad + ", idInstructor=" + "]";
 	}
 	
 	

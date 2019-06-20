@@ -17,7 +17,6 @@ public class ComentarioRowMapper implements  RowMapper<Comentario>{
         comentario.setValoracion(rs.getInt("valoracion"));
         comentario.setIdCliente(rs.getString("idCliente"));
         comentario.setIdActividad(rs.getInt("idActividad"));
-        comentario.setIdInstructor(rs.getString("idInstructor"));
         return comentario;
 	}
 }

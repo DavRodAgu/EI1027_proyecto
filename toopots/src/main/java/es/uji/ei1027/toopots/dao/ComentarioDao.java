@@ -23,10 +23,10 @@ public class ComentarioDao {
 	    }
 
 	    public void addComentario(Comentario comentario) {
-	        jdbcTemplate.update("INSERT INTO Comentario VALUES(nextval('comentario_idcomentario_seq'), ?, ?, ?, ?, ?)",
+	        jdbcTemplate.update("INSERT INTO Comentario VALUES(nextval('comentario_idcomentario_seq'), ?, ?, ?, ?)",
 	                comentario.getComentario(),
 	                comentario.getValoracion(), comentario.getIdCliente(),
-	                comentario.getIdActividad(), comentario.getIdInstructor());
+	                comentario.getIdActividad());
 	    }
 
 	    public void deleteComentario(Comentario comentario) {
