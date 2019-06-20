@@ -31,7 +31,7 @@ insert into Login values ('87613518D', '87613518D', 'cliente');
 insert into Login values ('58348212H', '58348212H', 'cliente');
 
 
-insert into Login values ('admin', 'admin', 'administrador');
+insert into Login values ('manel', 'manel', 'administrador');
 
 
 alter sequence tipoactividad_idtipoactividad_seq restart;
