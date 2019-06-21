@@ -303,6 +303,7 @@ public class ClienteController {
 		
 		model.addAttribute("comentarios", clienteService.getComentariosByCliente(usuario.getUsuario()));
 		model.addAttribute("actividades", clienteService.getActividadConComentario(usuario.getUsuario()));
+		model.addAttribute("instructores", clienteService.getInstructorByActividad());
 		return "cliente/comentarios";
 	}
 	
@@ -321,6 +322,7 @@ public class ClienteController {
 		}
 		model.addAttribute("comentario", new Comentario());
 		model.addAttribute("actividades", actividadDao.getActividades());
+		model.addAttribute("instructores", clienteService.getInstructorByActividad());
 		return "cliente/add";
 	}
 	

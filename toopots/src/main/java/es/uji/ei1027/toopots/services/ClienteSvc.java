@@ -17,6 +17,7 @@ import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
 import es.uji.ei1027.toopots.model.Comentario;
+import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.model.Reserva;
 
@@ -131,6 +132,18 @@ public class ClienteSvc implements ClienteService {
 			idActividad_Actividad.put(com.getIdActividad(), actividad);
 		}
 		return idActividad_Actividad;
+	}
+	
+	
+	@Override
+	public Map<Integer, Instructor> getInstructorByActividad() {
+		List<Actividad> actividades = actividadDao.getActividades();
+		HashMap<Integer, Instructor> idActividad_Instructor = new HashMap<Integer, Instructor>();
+		for (Actividad act : actividades) {
+			Instructor instructor = instructorDao.getInstructor(act.getIdInstructor());
+			idActividad_Instructor.put(act.getIdActividad(), instructor);
+		}
+		return idActividad_Instructor;
 	}
 
 }

@@ -133,7 +133,7 @@ tr td:last-child {
 										<td></td>
 										<td class="text-center" th:text="${comentario.valoracion}"></td>
 										<td class="text-center" th:text="${actividades.get(comentario.idActividad).nombre}"></td>
-										<td></td>
+										<td class="text-center" th:text="${instructores.get(comentario.idActividad).nombre}"></td>
 										<td><a href="#" class="open-modal btn btn-danger"
 											data-toggle="modal" data-target="#modal-borrar"
 											th:attr="data-target='#modal-borrar'+${comentario.idComentario}">Borrar</a>

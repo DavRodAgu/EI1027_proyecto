@@ -4,6 +4,7 @@ import java.util.Map;
 
 import es.uji.ei1027.toopots.model.Actividad;
 import es.uji.ei1027.toopots.model.Comentario;
+import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Reserva;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface ClienteService {
 	Map<Integer, Actividad> getActividadByClient(String idCliente);
 	List<Comentario> getComentariosByCliente(String idCliente);
 	Map<Integer, Actividad> getActividadConComentario(String idCliente);
+	Map<Integer, Instructor> getInstructorByActividad();
 }
