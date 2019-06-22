@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<meta charset="UTF-8">
+<title>Solicitar Acreditación</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.header-wrapper {
+	background-color: #f8f9fa;;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.passwd-details {
+	width: 100%;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+.field-label {
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+td input[type="password"] {
+	width: 350px;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+				<div class="row">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="passwd-header">
+								<span class="header-title">Solicitar Acreditación</span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="passwd-body">
+								<form action="#" th:action="@{/instructor/solicitar}" method="post" enctype="multipart/form-data">
+									<div class="form-row justify-content-center">
+										<div class="col-6 col-offset-3">
+											<div class="form-group input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-hiking"></i>
+													</span>
+												</div>
+												<select class="selectpicker" name="tipo-actividad" data-live-search="true" data-size=8
+													id="tipo-actividad" title="Tipo de Actividad" required>
+														<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
+														th:if="${!#lists.contains(tiposacreditados, tipo.idTipoActividad)}"
+														th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-row justify-content-center">
+										<div class="col-6 col-offset-3">
+											 <div class="form-group input-group">
+										    	<div class="input-group-prepend">
+												    <span class="input-group-text"> <i class="fas fa-certificate"></i> </span>
+												</div>
+												<div class="custom-file">
+													<input class="custom-file-input" type="file" name="certificado-instructor" id="cert-instructor" required/>
+													<label class="custom-file-label" for="cert-instructor" data-browse="Elegir">Seleccionar Certificado</label>
+												</div>
+												<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+										    </div>
+										</div>
+									</div>
+									<div class="form-row pt-5">
+										<div class="col">
+											<a class="btn btn-primary" href="../instructor/perfil">Volver</a>
+										</div>
+										<div class="col">
+											<input class="btn btn-success" style="float: right;"
+												type="submit" value="Solicitar" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="script">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	</th:block>
+</body>
+</html>

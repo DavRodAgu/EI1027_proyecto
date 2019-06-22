@@ -42,6 +42,15 @@ public class AcreditaDao {
 			return null;
 		}
 	}
+	
+	public Acredita getAcredita(int idAcreditacion) {
+		try {
+			return jdbcTemplate.queryForObject("SELECT * from Acredita WHERE idAcreditacion=?",
+					new AcreditaRowMapper(), idAcreditacion);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 
 	public List<Acredita> getAcreditaciones() {
 		try {

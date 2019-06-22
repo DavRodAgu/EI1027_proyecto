@@ -63,6 +63,18 @@ public class ActividadDao {
         }
     }
 
+    public Actividad getActividad(Actividad actividad) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * from Actividad WHERE nombre=? AND duracion=? AND fecha=? AND horaDeEncuentro=? AND"
+            		+ " idTipoActividad=? AND idInstructor=?",
+                    new ActividadRowMapper(), actividad.getNombre(), actividad.getDuracion(), actividad.getFecha(), actividad.getHoraDeEncuentro(),
+                    actividad.getIdTipoActividad(), actividad.getIdInstructor());
+        }
+        catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+    
     public List<Actividad> getActividades() {
         try {
             return jdbcTemplate.query("SELECT * from Actividad",

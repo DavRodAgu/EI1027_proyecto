@@ -31,7 +31,7 @@ public class ComentarioController {
 
 	@RequestMapping(value = "/add")
 	public String addComentario(Model model) {
-		model.addAttribute("comentario", new Comentario());
+		model.addAttribute("nadador", new Comentario());
 		return "comentario/add";
 	}
 
@@ -64,6 +64,6 @@ public class ComentarioController {
 	@RequestMapping(value = "/delete/{idComentario}")
 	public String processDelete(@PathVariable String idComentario) {
 		comentarioDao.deleteComentario(idComentario);
-		return "redirect:../../cliente/comentarios";
+		return "redirect:../list";
 	}
 }

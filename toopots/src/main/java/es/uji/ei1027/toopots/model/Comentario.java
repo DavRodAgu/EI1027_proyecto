@@ -38,13 +38,12 @@ public class Comentario {
 	public void setIdActividad(int idActividad) {
 		this.idActividad = idActividad;
 	}
-
 	
 	
 	@Override
 	public String toString() {
 		return "Comentario [idComentario=" + idComentario + ", comentario=" + comentario + ", valoracion=" + valoracion
-				+ ", idCliente=" + idCliente + ", idActividad=" + idActividad + ", idInstructor=" + "]";
+				+ ", idCliente=" + idCliente + ", idActividad=" + idActividad + "]";
 	}
 	
 	

@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import es.uji.ei1027.toopots.dao.LoginDao;
+import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Login;
@@ -37,9 +38,17 @@ class UserValidator implements Validator {
 
 @Controller
 public class LoginController {
+	
+	private TipoActividadDao tipoActividadDao;
+	
 	@Autowired
 	private LoginDao loginDao;
 
+	@Autowired
+	public void setTipoActividadDao(TipoActividadDao tipoActividadDao) {
+		this.tipoActividadDao = tipoActividadDao;
+	}
+	
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		if (session.getAttribute("user") != null) {
@@ -109,6 +118,7 @@ public class LoginController {
 	public String registrar(Model model) {
 		model.addAttribute("cliente", new Cliente());
 		model.addAttribute("instructor", new Instructor());
+		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
 		return "registro"; 
 	}
 	

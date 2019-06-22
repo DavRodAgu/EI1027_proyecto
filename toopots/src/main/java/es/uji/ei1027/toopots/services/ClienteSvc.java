@@ -1,6 +1,5 @@
 package es.uji.ei1027.toopots.services;
 
-import java.awt.color.CMMException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.uji.ei1027.toopots.dao.ActividadDao;
+import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.ComentarioDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
@@ -17,7 +17,6 @@ import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
 import es.uji.ei1027.toopots.model.Actividad;
 import es.uji.ei1027.toopots.model.Comentario;
-import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.model.Reserva;
 
@@ -41,6 +40,9 @@ public class ClienteSvc implements ClienteService {
 	
 	@Autowired
 	private ComentarioDao comentarioDao;
+	
+	@Autowired
+	private ClienteDao clienteDao;
 	
 	@Override
 	public Map<Reserva, List<Object>> getReservaByClient(String idCliente) {
@@ -76,74 +78,54 @@ public class ClienteSvc implements ClienteService {
 		int numReservas;
 		// Se comprueba que actividades están ya reservadas
 		for (Actividad actv : actividades) {
-			if(reservaDao.getIfReservada(idCliente, actv.getIdActividad()) == null) {
-				objetos.add(false);
-			} else {
-				objetos.add(true);
+			if (!(actv.getEstado().equals("cancelada"))) {
+				if(reservaDao.getIfReservada(idCliente, actv.getIdActividad()) == null) {
+					objetos.add(false);
+				} else {
+					objetos.add(true);
+				}
+				objetos.add(instructorDao.getInstructor(actv.getIdInstructor()).getNombre());
+				// Obtener número de reservas
+				List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actv.getIdActividad());
+				numReservas = 0;
+				for (Reserva rsrv: reservasActividad) {
+					numReservas += rsrv.getNumAsistentes();
+				}
+				objetos.add(numReservas);
+				// Obtener nombre tipo de actividad
+				objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNombre());
+				// Obtener nivel del tipo de actividad
+				objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNivel());
+				actividadByReserva.put(actv, new ArrayList<Object>(objetos));
+				objetos.clear();
 			}
-			objetos.add(instructorDao.getInstructor(actv.getIdInstructor()).getNombre());
-			// Obtener número de reservas
-			List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actv.getIdActividad());
-			numReservas = 0;
-			for (Reserva rsrv: reservasActividad) {
-				numReservas += rsrv.getNumAsistentes();
-			}
-			objetos.add(numReservas);
-			// Obtener nombre tipo de actividad
-			objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNombre());
-			// Obtener nivel del tipo de actividad
-			objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNivel());
-			actividadByReserva.put(actv, new ArrayList<Object>(objetos));
-			objetos.clear();
 		}
 		return actividadByReserva;
 	}
-	
-	
+
 	@Override
-	public Map<Integer, Actividad> getActividadByClient(String idCliente) {
-		List<Reserva> reservas = reservaDao.getReservasUsuario(idCliente);
-		HashMap<Integer, Actividad> idActividad_Actividad = new HashMap<Integer, Actividad>();
-		for (Reserva rsrv : reservas) {
-			Actividad actividad = actividadDao.getActividad(Integer.toString(rsrv.getIdActividad()));
-			idActividad_Actividad.put(rsrv.getIdActividad(), actividad);
-		}
-		return idActividad_Actividad;
-	}
-	
-	@Override
-	public List<Comentario> getComentariosByCliente(String idCliente) {
-		List<Comentario> comentarios = comentarioDao.getComentarios();
+	public List<Object> getActividad(String idCliente, String idActividad) {
+		Actividad actividad = actividadDao.getActividad(idActividad);
+		List<Object> res = new ArrayList<Object>();
 		
-		List<Comentario> comentariosCliente = new ArrayList<Comentario>();
-		for (Comentario coment : comentarios) {
-			if (coment.getIdCliente().equals(idCliente))
-				comentariosCliente.add(coment);
-		}
-		return comentariosCliente;
+		res.add(actividad);
+		res.add(tipoActividadDao.getTipoActividad(Integer.toString(actividad.getIdTipoActividad())));
+		res.add(instructorDao.getInstructor(actividad.getIdInstructor()));
+		res.add(reservaDao.getNumReservasActividad(Integer.parseInt(idActividad)).size());
+		res.add(reservaDao.getIfReservada(idCliente, Integer.parseInt(idActividad)));
+		
+		return res;
 	}
-	
+
 	@Override
-	public Map<Integer, Actividad> getActividadConComentario(String idCliente) {
-		List<Comentario> comentarios = this.getComentariosByCliente(idCliente);
-		HashMap<Integer, Actividad> idActividad_Actividad = new HashMap<Integer, Actividad>();
-		for (Comentario com : comentarios) {
-			Actividad actividad = actividadDao.getActividad(Integer.toString(com.getIdActividad()));
-			idActividad_Actividad.put(com.getIdActividad(), actividad);
+	public Map<Comentario, String> getComentarios(String idActividad) {
+		List<Comentario> comentarios = comentarioDao.getComentariosActividad(Integer.parseInt(idActividad));
+		Map<Comentario, String> res = new HashMap<Comentario, String>();
+		
+		for (Comentario comentario: comentarios) {
+			res.put(comentario, clienteDao.getCliente(comentario.getIdCliente()).getNombre());
 		}
-		return idActividad_Actividad;
-	}
-	
-	
-	@Override
-	public Map<Integer, Instructor> getInstructorByActividad() {
-		List<Actividad> actividades = actividadDao.getActividades();
-		HashMap<Integer, Instructor> idActividad_Instructor = new HashMap<Integer, Instructor>();
-		for (Actividad act : actividades) {
-			Instructor instructor = instructorDao.getInstructor(act.getIdInstructor());
-			idActividad_Instructor.put(act.getIdActividad(), instructor);
-		}
-		return idActividad_Instructor;
+		return res;
 	}
 
 }

@@ -101,8 +101,4 @@ public class ReservaDao {
     		return new ArrayList<Reserva>();
     	}
     }
-
-	public void pagarReserva(int idReserva) {
-		jdbcTemplate.update("UPDATE reserva SET estadoPago=? where idReserva=?", "pagado", idReserva);		
-	}
 }

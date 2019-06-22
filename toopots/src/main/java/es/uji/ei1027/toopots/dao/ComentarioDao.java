@@ -61,4 +61,15 @@ public class ComentarioDao {
 	            return new ArrayList<Comentario>();
 	        }
 	    }
+
+	    public List<Comentario> getComentariosActividad(int idActividad) {
+	    	try {
+	            return jdbcTemplate.query("SELECT * from Comentario WHERE idActividad=?",
+	                    new ComentarioRowMapper(), idActividad);
+	        }
+	        catch(EmptyResultDataAccessException e) {
+	            return new ArrayList<Comentario>();
+	        }
+	    }
+
 }

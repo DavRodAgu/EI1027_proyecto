@@ -23,10 +23,11 @@ public class InstructorDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // Modificado orden getFoto() y getIban()
     public void addInstructor(Instructor instructor) {
         jdbcTemplate.update("INSERT INTO Instructor VALUES(?, ?, ?, ?, ?, ?)",
                 instructor.getIdInstructor(), "pendiente", instructor.getNombre(),
-                instructor.getEmail(), instructor.getIban(), instructor.getFoto());
+                instructor.getEmail(), instructor.getFoto(), instructor.getIban());
     }
 
     public void deleteInstructor(Instructor instructor) {

@@ -95,8 +95,8 @@ tr td:last-child {
 				<div class="row">
 					<div class="col-12">
 						<div class="body-wrapper">
-							<div class="sin-reservas" th:if="${reservas.isEmpty()}">No tienes todavía ninguna reserva</div>
-							<table  th:if="${!reservas.isEmpty()}"
+							<div class="sin-reservas" th:if="${reservas.isEmpty()}">Todavía no has hecho ninguna reserva</div>
+							<table th:if="${!reservas.isEmpty()}"
 								class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
@@ -117,43 +117,8 @@ tr td:last-child {
 											  aria-expanded="false" aria-controls="multiCollapse"></a>
 										</td>
 										<td th:text="${#dates.format(reserva.fecha, 'dd/MMM/yyyy HH:mm')}" class="text-center"></td>
-										<td th:text="${reserva.estadoPago}" class="text-center"></td>
+										<td th:text="${reserva.estadoPago}" class="text-center text-capitalize font-italic"></td>
 										<td th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €" class="text-center"></td>
-										<td><a th:if="${reserva.estadoPago == 'pendiente' and actividades.get(reserva.idActividad).estado == 'cerrada'}" href="#" class="open-modal btn btn-primary"
-											data-toggle="modal" data-target="#modal-pagar"
-											th:attr="data-target='#modal-pagar'+${reserva.idReserva }">Pagar</a></td>
-										<!-- Modal -->
-										<div class="modal fade" tabindex="-1" role="dialog"
-											aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
-											th:id="modal-pagar+${reserva.idReserva }">
-											<div class="modal-dialog modal-dialog-centered"
-												role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalCenterTitle">Pagar
-															Reserva</h5>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">
-														¿Estás seguro de que quieres pagar la reserva de la actividad 
-														"<span style="font-weight: bold; text-transform: capitalize;" th:text="${reservas.get(reserva)[0].nombre}"></span>"
-														con fecha "<span style="font-weight: bold; text-transform: capitalize;" th:text="${#temporals.format(reservas.get(reserva)[0].fecha, 'dd/MM/yyyy')}"></span>"
-														 y hora "<span style="font-weight: bold; text-transform: capitalize;" th:text="${reservas.get(reserva)[0].horaDeEncuentro}"></span>"?.
-													</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">No</button>
-														<a
-															th:href="@{/reserva/pagar/{idReserva}(idReserva=${reserva.idReserva})}"
-															class="btn btn-danger"> Si </a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- /Modal -->
 										<td><a href="#" class="open-modal btn btn-danger"
 											data-toggle="modal" data-target="#modal-cancelar"
 											th:attr="data-target='#modal-cancelar'+${reserva.idReserva }">Cancelar</a>

@@ -7,6 +7,16 @@
 	th:href="@{/css/estilos-admin.css}" />
 <link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
 	th:href="@{/css/estilos-tabla.css}" />
+
+<style type="text/css">
+.tbl-header th:last-child {
+    width: auto;
+}
+
+tbody td {
+	text-transform: capitalize;
+}
+</style>
 <title>Solicitudes</title>
 </head>
 <body>
@@ -14,6 +24,43 @@
 		<!-- Main -->
 		<div id="main">
 			<div class="container">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-end">
+						<li class="page-item" th:if="${tipo != 'nuevas'}">
+							<a class="page-link" th:href="@{../../admin/solicitudes/{tipo}(tipo=${'nuevas'})}">
+                           		Nuevas
+                        	</a>
+						</li>
+						<li class="page-item active" th:if="${tipo == 'nuevas'}">
+							<span class="page-link">
+								Nuevas 
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+						<li class="page-item" th:if="${tipo != 'aceptadas'}">
+							<a class="page-link" th:href="@{../../admin/solicitudes/{tipo}(tipo=${'aceptadas'})}">
+								Aceptadas 
+							</a>
+						</li>
+						<li class="page-item active" th:if="${tipo == 'aceptadas'}">
+							<span class="page-link">
+								Aceptadas 
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+						<li class="page-item" th:if="${tipo != 'rechazadas'}">
+							<a class="page-link" th:href="@{../../admin/solicitudes/{tipo}(tipo=${'rechazadas'})}">
+								Rechazadas 
+							</a>
+						</li>
+						<li class="page-item active" th:if="${tipo == 'rechazadas'}">
+							<span class="page-link">
+								Rechazadas 
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+					</ul>
+				</nav>
 				<div class="titulo_form">
 					<header class="table-header">
 						<span class="header-title">Solicitudes</span>
@@ -22,34 +69,124 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="body-wrapper">
-							<div th:if="${#lists.isEmpty(solicitudes)}">No hay ninguna
-								solicitud</div>
-							<table th:unless="${#lists.isEmpty(solicitudes)}"
+							<div class="empty" th:if="${solicitudes.isEmpty()}">
+								<div th:if="${tipo == 'nuevas'}">
+									No hay solicitudes nuevas
+								</div>
+								<div th:if="${tipo == 'aceptadas'}">
+									Todavía no has aceptado ninguna solicitud
+								</div>
+								<div th:if="${tipo == 'rechazadas'}">
+									Todavía no has rechazado ninguna solicitud
+								</div>
+							</div>
+							<table th:if="${!solicitudes.isEmpty()}"
 								class="table table-hover">
 								<thead class="tbl-header">
 									<tr>
 										<th scope="col">Instructor</th>
+										<th class="text-center" scope="col">DNI</th>
 										<th class="text-center" scope="col">Estado</th>
 										<th class="text-center" scope="col">Tipo actividad</th>
+										<th class="text-center" scope="col">Certificado</th>
 										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
-									<!-- Ordenar las solicitudes por fecha -->
-									<tr th:each="solicitud: ${solicitudes}">
-										<th th:text="${solicitud.value.idInstructor}" scope="row"></th>
-										<td th:text="${solicitud.value.estado}" class="text-center"></td>
-										<td th:text="${tipos.get(solicitud.key.idTipoActividad)}"
-											class="text-center"></td>
-										<td>
-											<!-- <button type="button"
-													class="open-detalles btn btn-info" href="#">Detalles</button> -->
-											<a
-											th:href="@{/acreditacion/acepta/{idAcreditacion}(idAcreditacion=${solicitud.key.idAcreditacion})}"
-											class="btn btn-success">Aceptar</a> <a
-											th:href="@{/acreditacion/rechaza/{idAcreditacion}(idAcreditacion=${solicitud.key.idAcreditacion})}"
-											class="open-modal btn btn-danger">Cancelar</a>
+									<tr th:each="acreditacion: ${solicitudes.keySet()}">
+										<th th:if="${solicitudes.get(acreditacion)[0].estado == 'pendiente'}" scope="row"> 
+											<a th:href="@{/admin/instructor/{idInstructor}(idInstructor=${solicitudes.get(acreditacion)[0].idInstructor})}">
+												<span th:text="${solicitudes.get(acreditacion)[0].nombre}"></span>
+											</a>
+											<span class="badge badge-info">Nuevo</span>
+										</th>
+										<th th:if="${solicitudes.get(acreditacion)[0].estado != 'pendiente'}" scope="row"> 
+											<a th:href="@{/admin/instructor/{idInstructor}(idInstructor=${solicitudes.get(acreditacion)[0].idInstructor})}">
+												<span th:text="${solicitudes.get(acreditacion)[0].nombre}"></span>
+											</a>
+										</th>
+										<td class="text-center" th:text="${solicitudes.get(acreditacion)[0].idInstructor}"></td>
+										<td class="text-center font-italic" th:text="${acreditacion.estado}"></td>
+										<td class="text-center" th:text="${solicitudes.get(acreditacion)[1].nombre + ' - ' + solicitudes.get(acreditacion)[1].nivel}"></td>
+										<td class="text-center"><a th:href="@{/admin/solicitudes/{idAcreditacion}/certificado(idAcreditacion=${acreditacion.idAcreditacion})}" target="_blank">Ver Certificado</a></td>
+										<td th:if="${acreditacion.estado == 'pendiente'}" class="text-center">
+											<a href="#" class="open-modal btn btn-success" data-toggle="modal" data-target="#modal-aceptar"
+												th:attr="data-target='#modal-aceptar'+${acreditacion.idAcreditacion}">Aceptar</a>
+											
+<!-- 											<a th:href="@{'/admin/solicitudes/' + ${acreditacion.idAcreditacion} + '/aceptar'}" class="btn btn-success">Aceptar</a> -->
+											
+											<a href="#" class="open-modal btn btn-danger" data-toggle="modal" data-target="#modal-rechazar"
+												th:attr="data-target='#modal-rechazar'+${acreditacion.idAcreditacion}">Rechazar</a>
+											
+<!-- 											<a th:href="@{'/admin/solicitudes/' + ${acreditacion.idAcreditacion} + '/rechazar'}" class="btn btn-danger">Rechazar</a> -->
 										</td>
+										<td th:if="${acreditacion.estado == 'aceptada'}" class="text-center">
+											<a href="#" class="open-modal btn btn-danger" data-toggle="modal" data-target="#modal-rechazar"
+												th:attr="data-target='#modal-rechazar'+${acreditacion.idAcreditacion}">Rechazar</a>										</td>
+										<td th:if="${acreditacion.estado == 'rechazada'}" class="text-center">
+										</td>
+										<!-- Modal para aceptar solicitud -->
+										<div class="modal fade" tabindex="-1" role="dialog"
+											aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+											th:id="modal-aceptar+${acreditacion.idAcreditacion}">
+											<div class="modal-dialog modal-dialog-centered"
+												role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar Solicitud</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														¿Estás seguro de que quieres aceptar la solicitud del instructor
+														"<span style="font-weight: bold; text-transform: capitalize;" th:text="${solicitudes.get(acreditacion)[0].nombre}"></span>"
+														para el tipo de actividad "<span style="font-weight: bold; text-transform: capitalize;" th:text="${solicitudes.get(acreditacion)[1].nombre + ' - ' + solicitudes.get(acreditacion)[1].nivel}"></span>"
+														?.
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Cancelar</button>
+														<a
+															th:href="@{'/admin/solicitudes/' + ${acreditacion.idAcreditacion} + '/aceptar'}"
+															class="btn btn-success"> Aceptar </a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /Modal -->
+										<!-- Modal para rechazar solicitud -->
+										<div class="modal fade" tabindex="-1" role="dialog"
+											aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+											th:id="modal-rechazar+${acreditacion.idAcreditacion}">
+											<div class="modal-dialog modal-dialog-centered"
+												role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalCenterTitle">Rechazar Solicitud</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														¿Estás seguro de que quieres rechazar la solicitud del instructor
+														"<span style="font-weight: bold; text-transform: capitalize;" th:text="${solicitudes.get(acreditacion)[0].nombre}"></span>"
+														para el tipo de actividad "<span style="font-weight: bold; text-transform: capitalize;" th:text="${solicitudes.get(acreditacion)[1].nombre + ' - ' + solicitudes.get(acreditacion)[1].nivel}"></span>"
+														?.
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Cancelar</button>
+														<a
+															th:href="@{'/admin/solicitudes/' + ${acreditacion.idAcreditacion} + '/rechazar'}"
+															class="btn btn-danger"> Rechazar </a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /Modal -->
 									</tr>
 								</tbody>
 							</table>

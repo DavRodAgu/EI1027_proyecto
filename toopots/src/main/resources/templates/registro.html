@@ -12,6 +12,8 @@
 	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
 	crossorigin="anonymous">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
 <!-- Register CSS -->
 <link rel="stylesheet" type="text/css" href="/css/register.css"
 	th:href="@{/css/register.css}" />
@@ -30,7 +32,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link btn btn-outline-success" href="login">Iniciar Sesión</a>
+                <a class="nav-link btn btn-primary" href="login">Iniciar Sesión</a>
               </li>
             </ul>
           </div>
@@ -113,7 +115,7 @@
 										</div>
 									</div>
 									<div class="col col-lg-3">
-										<div class="form-group input-group">
+										<div class="form-group input-group" style="height: 38px;">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
 													<i class="fas fa-calendar-alt"></i>
@@ -147,14 +149,14 @@
 								</div>
 								<div class="row justify-content-center pt-4">
 									<div class="form-group">
-								        <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
+								        <button type="submit" class="btn btn-success btn-block">Crear Cuenta</button>
 								    </div>
 								   </div>
 							</form>
 						</div>
 						<div class="tab-pane fase show" id="instructor-form" role="tabpanel" aria-labelledby="instructor-tab">
 							<h3 class="register-header">Registrarse como Instructor</h3>
-							<form action="#" th:action="@{/instructor/add}" th:object="${instructor}" method="post">
+							<form action="#" th:action="@{/instructor/add}" th:object="${instructor}" enctype="multipart/form-data" method="post">
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
@@ -196,6 +198,63 @@
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
+										<div class="form-froup input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fas fa-credit-card"></i>
+												</span>
+											</div>
+											<input class="form-control" type="text" id="iban-instructor" th:field="*{iban}" required/>
+										</div>
+										<small>Ejemplo: ES60 0049 1500 0512 3456 7892</small>
+									</div>
+								</div>
+								<div class="form-row justify-content-center">
+									<div class="col-6 col-offset-3">
+										 <div class="form-group input-group">
+									    	<div class="input-group-prepend">
+											    <span class="input-group-text"> <i class="fas fa-file-image"></i> </span>
+											</div>
+											<div class="custom-file">
+												<input class="custom-file-input" type="file" name="foto-instructor" id="foto-instructor" required/>
+												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Foto</label>
+											</div>
+<!-- 											<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div> -->
+									    </div>
+									</div>
+								</div>
+								<div class="form-row justify-content-center">
+									<div class="col-6 col-offset-3">
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fas fa-hiking"></i>
+												</span>
+											</div>
+											<select class="selectpicker" name="tipo-actividad-acreditado" data-live-search="true" data-size=5 
+												id="tipo-actividad" title="Tipo de Actividad" required>
+													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
+													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-row justify-content-center">
+									<div class="col-6 col-offset-3">
+										 <div class="form-group input-group">
+									    	<div class="input-group-prepend">
+											    <span class="input-group-text"> <i class="fas fa-certificate"></i> </span>
+											</div>
+											<div class="custom-file">
+												<input class="custom-file-input" type="file" name="certificado-instructor" id="cert-instructor" required/>
+												<label class="custom-file-label" for="cert-instructor" data-browse="Elegir">Seleccionar Certificado</label>
+											</div>
+											<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
+									    </div>
+									</div>
+								</div>
+								<div class="form-row justify-content-center">
+									<div class="col-6 col-offset-3">
 										 <div class="form-group input-group">
 									    	<div class="input-group-prepend">
 											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
@@ -207,6 +266,7 @@
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
 										 <div class="form-group input-group">
+										 <div th:class="${'alert ' + alertClass}" role="alert" th:if="${errorPasswd}" th:text="${errorPasswd}"></div>
 									    	<div class="input-group-prepend">
 											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
 											</div>
@@ -215,10 +275,10 @@
 									</div>
 								</div>
 								<div class="row justify-content-center pt-4">
-									<div class="form-group">
-								        <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
-								    </div>
-								   </div>
+										<div class="form-group">
+									        <button type="submit" class="btn btn-success btn-block">Crear Cuenta</button>
+									    </div>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -229,7 +289,7 @@
 	<!-- /Main -->
     
     <!-- Footer -->
-    <footer id="footer" class="fixed-bottom">
+    <footer id="footer">
         <div class="container">
             <div class="row text-muted text-center">
                 <div class="col-12 col-lg">
@@ -245,5 +305,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 </body>
 </html>

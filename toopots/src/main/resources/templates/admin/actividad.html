@@ -113,56 +113,61 @@ td {
 									<table class="actividad-details">
 										<tr>
 											<td class="field-label text-right"><label>Nombre:</label></td>
-											<td class="text-left campo-actividad" th:text="${actividad.nombre}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[0].nombre}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label>Instructor:</label></td>
+											<td class="text-left campo-actividad">
+												<a th:href="@{/admin/instructor/{idInstructor}(idInstructor=${actividad[0].idInstructor})}">
+													<span th:text="${actividad[2].nombre}"></span>
+												</a>
+											</td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Tipo Actividad:</label></td>
-											<td class="text-left campo-actividad text-capitalize" th:text="${tipoactividad + ' ' + nivel}"></td>
+											<td class="text-left campo-actividad text-capitalize" th:text="${actividad[1].nombre + ' ' + actividad[1].nivel}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Estado:</label></td>
-											<td class="text-left campo-actividad" th:switch="${actividad.estado}">
-												<span th:case="'abierta'" class="badge badge-primary" th:text="${actividad.estado}"></span>
-												<span th:case="'cerrada'" class="badge badge-dark" th:text="${actividad.estado}"></span>
-												<span th:case="'completa'" class="badge badge-success" th:text="${actividad.estado}"></span>
+											<td class="text-left campo-actividad" th:switch="${actividad[0].estado}">
+												<span th:case="'abierta'" class="badge badge-primary" th:text="${actividad[0].estado}"></span>
+												<span th:case="'cerrada'" class="badge badge-dark" th:text="${actividad[0].estado}"></span>
+												<span th:case="'completa'" class="badge badge-success" th:text="${actividad[0].estado}"></span>
+												<span th:case="'cancelada'" class="badge badge-danger" th:text="${actividad[0].estado}"></span>
 											</td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Fecha y Hora:</label></td>
-<!-- 											<td class="text-left campo-actividad" th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy') + ' - ' + #temporals.format(actividad.horaDeEncuentro, 'HH:mm')}"></td> -->
-											<td class="text-left campo-actividad" th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy')} + ' - ' + ${{actividad.horaDeEncuentro}}"></td>
+											<td class="text-left campo-actividad" th:text="${#temporals.format(actividad[0].fecha, 'dd/MM/yyyy')} + ' - ' + ${{actividad[0].horaDeEncuentro}}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Min. Asistentes:</label></td>
-											<td class="text-left campo-actividad" th:text="${actividad.minAsistentes}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[0].minAsistentes}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Asistentes:</label></td>
-											<td class="text-left campo-actividad" th:text="${asistentes + '/'+ actividad.maxAsistentes}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[3] + '/'+ actividad[0].maxAsistentes}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Lugar y Punto de encuentro:</label></td>
-											<td class="text-left campo-actividad" th:text="${actividad.lugar + ', ' + actividad.puntoDeEncuentro}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[0].lugar + ', ' + actividad[0].puntoDeEncuentro}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Duración (horas):</label></td>
-											<td class="text-left campo-actividad" th:text="${actividad.duracion}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[0].duracion}"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Precio:</label></td>
-											<td class="text-left campo-actividad" th:text="${#numbers.formatDecimal(actividad.precio, 0, 2)}+ €"></td>
+											<td class="text-left campo-actividad" th:text="${#numbers.formatDecimal(actividad[0].precio, 0, 2)}+ €"></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label>Descripción:</label></td>
-											<td class="text-left campo-actividad" th:text="${actividad.descripcion}"></td>
+											<td class="text-left campo-actividad" th:text="${actividad[0].descripcion}"></td>
 										</tr>
 										<tr><td></td></tr>
 										<tr>
 											<td class="text-left pt-5" style="padding-bottom: 0;" colspan="2">
-												<a th:href="@{/instructor/actividades}" class="btn btn-primary" role="button">Volver</a> 
-											</td>
-											<td class="text-right pt-5" style="padding-bottom: 0;" colspan="2">
-												<a th:href="@{/instructor/actividad/{idActividad}/update(idActividad=${actividad.idActividad})}" class="btn btn-warning" role="button">Modificar datos</a> 
+												<a th:href="@{/admin/actividades}" class="btn btn-primary" role="button">Volver</a> 
 											</td>
 										</tr>
 									</table>
@@ -187,7 +192,6 @@ td {
 										<th class="text-center">Núm. Asistentes</th>
 										<th class="text-center" >Estado</th>
 										<th class="text-center">Precio</th>
-										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -201,51 +205,6 @@ td {
 										<td
 											th:text="${#numbers.formatDecimal((reserva.precioPorPersona * reserva.numAsistentes), 0, 2)}+ €"
 											class="text-center"></td>
-										<td class="text-right">
-											<a href="#" class="btn btn-success" th:if="${reserva.estadoPago != 'pagado'}"
-											data-toggle="modal"
-											data-target="#modal-confirmar"
-											th:attr="data-target='#modal-confirmar'+${reserva.idReserva}">Confirmar</a>
-										</td>
-											<!-- Modal -->
-											<div class="modal fade" tabindex="-1" role="dialog"
-												aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
-												th:id="modal-confirmar+${reserva.idReserva}">
-												<div class="modal-dialog modal-dialog-centered"
-													role="document">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalCenterTitle">Confirmar
-																Reserva</h5>
-															<button type="button" class="close" data-dismiss="modal"
-																aria-label="Close">
-																<span aria-hidden="true">&times;</span>
-															</button>
-														</div>
-														<div class="modal-body text-left">
-																¿Confirmar la reserva del usuario
-																	"<span style="font-weight: bold; text-transform: capitalize;"
-																	th:text="${reservas.get(reserva)}"></span>" para la actividad "<span
-																	style="font-weight: bold; text-transform: capitalize;"
-																	th:text="${actividad.nombre}"></span>" con fecha "<span
-																	style="font-weight: bold; text-transform: capitalize;"
-																	th:text="${#temporals.format(actividad.fecha, 'dd/MM/yyyy')}"></span>"
-																y hora "<span
-																	style="font-weight: bold; text-transform: capitalize;"
-																	th:text="${{actividad.horaDeEncuentro}}"></span>"?.
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary"
-																data-dismiss="modal">Cancelar</button>
-															<a th:if="${actividad.estado != 'cancelada'}"
-																th:href="@{/instructor/actividad/{idActividad}/reserva/{idReserva}/confirmar(idActividad=${actividad.idActividad},idReserva=${reserva.idReserva})}"
-																class="btn btn-success"> Confirmar </a>
-														</div>
-													</div>
-												</div>
-											</div>
-												<!-- /Modal -->
-										
 									</tr>
 								</tbody>
 							</table>

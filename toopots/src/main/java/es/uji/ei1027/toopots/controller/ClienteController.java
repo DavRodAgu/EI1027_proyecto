@@ -1,7 +1,9 @@
 package es.uji.ei1027.toopots.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.ComentarioDao;
+import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
@@ -33,6 +36,7 @@ import es.uji.ei1027.toopots.model.Cliente;
 import es.uji.ei1027.toopots.model.Comentario;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Prefiere;
+import es.uji.ei1027.toopots.model.Reserva;
 import es.uji.ei1027.toopots.services.ClienteService;
 
 class ClienteValidator implements Validator { 
@@ -58,6 +62,8 @@ public class ClienteController {
 	private LoginDao loginDao;
 	private TipoActividadDao tipoActividadDao;
 	private PrefiereDao prefiereDao;
+	private ImagenPromocionalDao imagenPromocionalDao;
+	private ReservaDao reservaDao;
 	private ComentarioDao comentarioDao;
 	
 	@Autowired
@@ -89,12 +95,22 @@ public class ClienteController {
 	public void setPrefiereDao(PrefiereDao prefiereDao) {
 		this.prefiereDao = prefiereDao;
 	}
+
+	@Autowired
+	public void setImagenPromocionalDao(ImagenPromocionalDao imagenPromocionalDao) {
+		this.imagenPromocionalDao = imagenPromocionalDao;
+	}
+	
+	@Autowired
+	public void setReservaDao(ReservaDao reservaDao) {
+		this.reservaDao = reservaDao;
+	}
 	
 	@Autowired
 	public void setComentarioDao(ComentarioDao comentarioDao) {
 		this.comentarioDao = comentarioDao;
 	}
-
+	
 	
 	@RequestMapping("/actividades")
 	public String listActividades(HttpSession session, Model model) {
@@ -131,6 +147,85 @@ public class ClienteController {
 		return "cliente/actividades";
 	}
 	
+	@RequestMapping("/actividad/{idActividad}")
+	public String infoActividad(@PathVariable String idActividad, HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/actividad/" + idActividad);
+			return "login";
+		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			return "error/error";
+		}
+		
+		model.addAttribute("actividad", clienteService.getActividad(usuario.getUsuario(), idActividad));
+		model.addAttribute("imagen", imagenPromocionalDao.getImagen(idActividad));
+		model.addAttribute("comentarios", clienteService.getComentarios(idActividad));
+		return "cliente/actividad";
+	}
+	
+	@RequestMapping(value = "/anadirReserva", method = RequestMethod.POST)
+	public String processAñadirSubmit(Model model, HttpSession session, @ModelAttribute("reserva") Reserva reserva,
+			@RequestParam(name = "idActividad") String idActividad, @RequestParam(name = "nPersonas") int nPersonas,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/actividades");
+			return "login";
+		}
+		if (bindingResult.hasErrors()) {
+			redirectAttributes.addFlashAttribute("message", "Error reservando actividad");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "cliente/actividades";
+		}
+
+		Actividad actividad = actividadDao.getActividad(idActividad);
+		reserva.setNumAsistentes(nPersonas);
+		Login usuario = (Login) session.getAttribute("user");
+		reserva.setIdCliente(usuario.getUsuario());
+		reserva.setEstadoPago("pendiente");
+		Date date = new Date();
+		Timestamp ts = new Timestamp(date.getTime());
+		reserva.setFecha(ts);
+		reserva.setPrecioPorPersona(actividad.getPrecio());
+		reservaDao.addReserva(reserva);
+		
+		redirectAttributes.addFlashAttribute("message", "Se ha reservado la actividad \"" + actividad.getNombre() + "\"");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:../cliente/actividad/" + idActividad;
+	}
+	
+	@RequestMapping(value = "/actividad/{idActividad}/comentario", method = RequestMethod.POST)
+	public String añadirComentario(HttpSession session, Model model, @PathVariable String idActividad, @RequestParam("valoracion") int valoracion, 
+			@RequestParam("comment") String comment, RedirectAttributes redirectAttributes) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			session.setAttribute("nextUrl", "cliente/actividad/" + idActividad);
+			return "login";
+		}
+		
+		Login usuario = (Login) session.getAttribute("user");
+		if (!usuario.getRol().equals("cliente")) {
+			return "error/error";
+		}
+		
+		Comentario comentario = new Comentario();
+		comentario.setIdActividad(Integer.parseInt(idActividad));
+		comentario.setValoracion(valoracion);
+		comentario.setComentario(comment);
+		comentario.setIdCliente(usuario.getUsuario());
+		
+		comentarioDao.addComentario(comentario);
+		
+		redirectAttributes.addFlashAttribute("message", "Comentario añadido");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:/cliente/actividad/" + idActividad;
+	}
+	
 	@RequestMapping("/reservas")
 	public String listReservas(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
@@ -143,7 +238,6 @@ public class ClienteController {
 			return "error/error";
 		}
 		model.addAttribute("reservas", clienteService.getReservaByClient(usuario.getUsuario()));
-		model.addAttribute("actividades", clienteService.getActividadByClient(usuario.getUsuario()));
 		return "cliente/reservas";
 	}
 	
@@ -277,69 +371,12 @@ public class ClienteController {
 		} 
 		
 		// Añadir la información en la base de datos
-		//clienteDao.addCliente(cliente);
-		//loginDao.addLogin(login);
-		System.out.println(cliente);
-		System.out.println(login);
+		clienteDao.addCliente(cliente);
+		loginDao.addLogin(login);
 		
 		redirectAttributes.addFlashAttribute("register", "Su cuenta ha sido creada. Inicie sesión para empezar a reservar sus actividades.");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:/login";
-	}
-	
-	
-	@RequestMapping("/comentarios")
-	public String processComentarios(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) {
-			model.addAttribute("user", new Login());
-			model.addAttribute("nextUrl", "cliente/comentarios");
-			return "login";
-		}
-		Login usuario = (Login) session.getAttribute("user");
-		
-		if (!usuario.getRol().equals("cliente")) {
-			return "error/error";
-		}
-		
-		model.addAttribute("comentarios", clienteService.getComentariosByCliente(usuario.getUsuario()));
-		model.addAttribute("actividades", clienteService.getActividadConComentario(usuario.getUsuario()));
-		model.addAttribute("instructores", clienteService.getInstructorByActividad());
-		return "cliente/comentarios";
-	}
-	
-	
-	@RequestMapping(value = "/comentario/add")
-	public String addComentario(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) {
-			model.addAttribute("user", new Login());
-			model.addAttribute("nextUrl", "comentario/add");
-			return "login";
-		}
-		
-		Login usuario = (Login)session.getAttribute("user");
-		if (!(usuario.getRol().equals("cliente"))) {
-			return "error/error";
-		}
-		model.addAttribute("comentario", new Comentario());
-		model.addAttribute("actividades", actividadDao.getActividades());
-		model.addAttribute("instructores", clienteService.getInstructorByActividad());
-		return "cliente/add";
-	}
-	
-	@RequestMapping(value = "/comentario/add", method = RequestMethod.POST)
-	public String processAddSubmit(HttpSession session, @ModelAttribute("comentario") Comentario comentario, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
-		if (bindingResult.hasErrors()) {
-			return "cliente/add";
-		}
-		
-		Login usuario = (Login) session.getAttribute("user");
-		comentario.setIdCliente(usuario.getUsuario());
-		comentarioDao.addComentario(comentario);
-		
-		redirectAttributes.addFlashAttribute("message", "Comentario creado satisfactoriamente");
-		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-		return "redirect:../comentarios";
 	}
 
 }

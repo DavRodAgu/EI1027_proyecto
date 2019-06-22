@@ -1,8 +1,13 @@
 package es.uji.ei1027.toopots.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +16,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,13 +35,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.InstructorDao;
+import es.uji.ei1027.toopots.dao.AcreditaDao;
+import es.uji.ei1027.toopots.dao.AcreditacionDao;
 import es.uji.ei1027.toopots.dao.ActividadDao;
+import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.dao.LoginDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
+import es.uji.ei1027.toopots.model.Acredita;
+import es.uji.ei1027.toopots.model.Acreditacion;
 import es.uji.ei1027.toopots.model.Actividad;
 import es.uji.ei1027.toopots.model.Cliente;
+import es.uji.ei1027.toopots.model.ImagenPromocional;
 import es.uji.ei1027.toopots.model.Instructor;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Reserva;
@@ -61,7 +77,15 @@ public class InstructorController {
 	private ReservaDao reservaDao;
 	private TipoActividadDao tipoActividadDao;
 	private ImagenPromocionalDao imagenPromocionalDao;
+	private AcreditacionDao acreditacionDao;
+	private AcreditaDao acreditaDao;
+	private ClienteDao clienteDao;
 	
+	@Value("${upload.certificate.directory}")
+	private String uploadDirectory;
+	
+	@Value("${upload.imagen.directory}")
+	private String imageDirectory;
 	
 	@Autowired
 	public void setImagenPromocionalDao(ImagenPromocionalDao imagenPromocionalDao) {
@@ -98,6 +122,20 @@ public class InstructorController {
 		this.tipoActividadDao = tipoActividadDao;
 	}
 	
+	@Autowired
+	public void setAcreditacionDao(AcreditacionDao acreditacionDao) {
+		this.acreditacionDao = acreditacionDao;
+	}
+	
+	@Autowired
+	public void setAcreditaDao(AcreditaDao acreditaDao) {
+		this.acreditaDao = acreditaDao;
+	}
+	
+	@Autowired
+	public void setClienteDao(ClienteDao clienteDao) {
+		this.clienteDao = clienteDao;
+	}
 	
 	@RequestMapping("/perfil")
 	public String perfilInstructor(HttpSession session, Model model) {
@@ -107,12 +145,18 @@ public class InstructorController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		Instructor instructor = instructorDao.getInstructor(usuario.getUsuario());
 		
 		if (!usuario.getRol().equals("instructor")) {
 			return "error/error";
 		}
 		
-		model.addAttribute("instructor", instructorDao.getInstructor(usuario.getUsuario()));
+		if (instructor.getEstado().equals("pendiente")) {
+			return "redirect:/instructor/actividades";
+		}
+		
+		model.addAttribute("instructor", instructor);
+		model.addAttribute("solicitudes", instructorService.getSolicitudesByInstructor(usuario.getUsuario()));
 		return "instructor/perfil";
 	}
 
@@ -125,12 +169,42 @@ public class InstructorController {
 		return convFile;
 	}
 
+	@RequestMapping(value = "/{idAcreditacion}/certificado")
+	public ResponseEntity<byte[]> MostrarCertificado(@PathVariable int idAcreditacion) throws FileNotFoundException {
+		HttpHeaders headers = new HttpHeaders();
+
+	    headers.setContentType(MediaType.parseMediaType("application/pdf"));
+	    String filename = acreditacionDao.getAcreditacion(idAcreditacion).getCertificado();
+	    
+	    // Para mostrar PDF en el navegador
+	    headers.add("content-disposition", "inline;filename=" + filename);
+	    // Para descargar el PDF
+	    // headers.add("Content-Disposition", "attachment; filename=" + filename);
+	    
+	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+	    
+	    // Convertir File a byte[]
+	    File file = new File(filename);
+	    byte[] bytesArray = new byte[(int) file.length()];
+	    
+	    FileInputStream fis = new FileInputStream(file);
+	    try {
+			fis.read(bytesArray);
+			fis.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	      
+	    ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(bytesArray, headers, HttpStatus.OK);
+	    return response;
+	}
+	
 	@RequestMapping(value = "/perfil/{idInstructor}", method = RequestMethod.POST)
 	public String updatePerfilInstructor(HttpSession session, Model model, @RequestParam("afoto") MultipartFile foto,
 			@PathVariable String idInstructor, @RequestParam("nombre") String nombre,
 			@RequestParam("estado") String estado, @RequestParam("email") String email,
-			@RequestParam("iban") String iban, @ModelAttribute("instructor") Instructor instructor
-	/* BindingResult bindingResult, RedirectAttributes redirectAttributes */) throws IOException {
+			@RequestParam("iban") String iban, @ModelAttribute("instructor") Instructor instructor,
+	/* BindingResult bindingResult,*/ RedirectAttributes redirectAttributes) throws IOException {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
 			session.setAttribute("nextUrl", "instructor/perfil");
@@ -188,8 +262,8 @@ public class InstructorController {
 		ins.setIban(iban);
 		ins.setFoto(destination.getName());
 		instructorDao.updateInstructor(ins);
-		//redirectAttributes.addFlashAttribute("message", "Cambios guardados");
-		//redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		redirectAttributes.addFlashAttribute("message", "Cambios guardados");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../perfil";
 	}
 
@@ -201,9 +275,16 @@ public class InstructorController {
 			return "login";
 		}
 		Login usuario = (Login) session.getAttribute("user");
+		Instructor instructor = instructorDao.getInstructor(usuario.getUsuario());
+		
 		if (!usuario.getRol().equals("instructor")) {
 			return "error/error";
 		}
+		
+		if (instructor.getEstado().equals("pendiente")) {
+			return "redirect:/instructor/actividades";
+		}
+		
 		return "instructor/perfil/password";
 	}
 
@@ -232,6 +313,80 @@ public class InstructorController {
 		return "redirect:../perfil/password";
 	}
 
+	@RequestMapping(value = "/solicitar")
+	public String solicitarAcreditacion(HttpSession session, Model model) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			model.addAttribute("nextUrl", "instructor/solicitar");
+			return "login";
+		}
+		Login usuario = (Login) session.getAttribute("user");
+		Instructor instructor = instructorDao.getInstructor(usuario.getUsuario());
+		
+		if (!usuario.getRol().equals("instructor")) {
+			return "error/error";
+		}
+		
+		if (instructor.getEstado().equals("pendiente")) {
+			return "redirect:/instructor/actividades";
+		}
+		
+		model.addAttribute("tipos", tipoActividadDao.getTipoActividades());
+		model.addAttribute("tiposacreditados", instructorService.getTipoActividadInstructor(usuario.getUsuario()));
+		return "instructor/perfil/solicitar";
+	}
+	
+	@RequestMapping(value = "/solicitar", method = RequestMethod.POST)
+	public String processSolicitarAcreditacion(HttpSession session, Model model, @RequestParam("tipo-actividad") int idTipoActividad,
+			@RequestParam("certificado-instructor") MultipartFile certificado, RedirectAttributes redirectAttributes) {
+		if (session.getAttribute("user") == null) {
+			model.addAttribute("user", new Login());
+			model.addAttribute("nextUrl", "instructor/solicitar");
+			return "login";
+		}
+		Login usuario = (Login) session.getAttribute("user");
+		
+		if (!usuario.getRol().equals("instructor")) {
+			return "error/error";
+		}
+		
+		// Obtener datos del pdf
+				try {
+					byte[] bytes = certificado.getBytes();
+					Path path = Paths.get(uploadDirectory + "certificates/" + usuario.getUsuario() + "-" + idTipoActividad + "-" + certificado.getOriginalFilename());
+					
+					Files.write(path, bytes);
+					
+					
+					// Crear objeto Acreditación y Acredita
+					Acreditacion acreditacion = new Acreditacion();
+					acreditacion.setCertificado(path.toString());
+					acreditacion.setEstado("pendiente");
+					acreditacion.setIdInstructor(usuario.getUsuario());
+					System.out.println(acreditacion);
+					
+					// Añadir la información en la base de datos
+					acreditacionDao.addAcreditacion(acreditacion);
+					
+					int idAcreditacion = acreditacionDao.getAcreditacion(usuario.getUsuario(), acreditacion.getCertificado()).getIdAcreditacion();
+					
+					// Objeto Acredita
+					Acredita acredita = new Acredita();
+					acredita.setIdTipoActividad(idTipoActividad);
+					acredita.setIdAcreditacion(idAcreditacion);
+					System.out.println(acredita);
+					acreditaDao.addAcredita(acredita);
+					
+					redirectAttributes.addFlashAttribute("register",
+							"Solicitud enviada, en breves será revisada por el administrador del sitio.");
+					redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+					return "redirect:/instructor/solicitar";
+				} catch (IOException e) {
+					e.printStackTrace();
+					return "/instructor/solicitar";
+				}
+	}
+	
 	@RequestMapping("/actividades")
 	public String processActividades(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
@@ -245,6 +400,7 @@ public class InstructorController {
 			return "error/error";
 		}
 		
+		model.addAttribute("instructor", instructorDao.getInstructor(usuario.getUsuario()));
 		model.addAttribute("actividades", instructorService.getNumReservas(usuario.getUsuario()));
 		return "instructor/actividades";
 	}
@@ -277,7 +433,20 @@ public class InstructorController {
 		return "instructor/actividad";
 	}
 	
-	@RequestMapping("/actividad/{idActividad}/update")
+	@RequestMapping(value = "/actividad/{idActividad}/reserva/{idReserva}/confirmar")
+	public String confirmReserva(@PathVariable String idActividad, @PathVariable String idReserva, RedirectAttributes redirectAttributes) {
+		Reserva reserva = reservaDao.getReserva(idReserva);
+		reserva.setEstadoPago("pagado");
+		reservaDao.updateReserva(reserva);
+		String nombre = clienteDao.getCliente(reserva.getIdCliente()).getNombre();
+		
+		redirectAttributes.addFlashAttribute("message", "El pago de la reserva del usuario " + nombre + " ha sido confirmado");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
+		return "redirect:/instructor/actividad/" + idActividad;
+	}
+	
+	@RequestMapping(value = "/actividad/{idActividad}/update")
 	public String updateActividad(HttpSession session, Model model, @PathVariable String idActividad) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
@@ -314,45 +483,76 @@ public class InstructorController {
 	public String addActividad(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
-			model.addAttribute("nextUrl", "actividad/add");
+			model.addAttribute("nextUrl", "instructor/actividad/add");
 			return "login";
 		}
 		
 		Login usuario = (Login)session.getAttribute("user");
+		Instructor instructor = instructorDao.getInstructor(usuario.getUsuario());
+		
 		if (!(usuario.getRol().equals("instructor"))) {
 			return "error/error";
 		}
+		
+		if (instructor.getEstado().equals("pendiente")) {
+			return "redirect:/instructor/actividades";
+		}
+		
+		
 		model.addAttribute("actividad", new Actividad());
-		model.addAttribute("tipos", tipoActividadDao.getTipoActividadesInstructor(usuario.getUsuario()));
+		model.addAttribute("tipos", instructorService.getTiposAcreditados(usuario.getUsuario()));
 		return "instructor/add";
 	}
 	
 	@RequestMapping(value = "/actividad/add", method = RequestMethod.POST)
 	public String processAddSubmit(HttpSession session, @ModelAttribute("actividad") Actividad actividad, BindingResult bindingResult,
-			@RequestParam("imagenPromocional") String imagen, RedirectAttributes redirectAttributes) {
+			@RequestParam("imagen") MultipartFile imagen, RedirectAttributes redirectAttributes) throws IOException {
 		if (bindingResult.hasErrors()) {
 			return "instructor/add";
 		}
 		
-		// TODO: Crear objeto ImagenPromocional
-		// System.out.println(imagen);
+		File archivo = convert(imagen);
+		archivo.createNewFile();
+		String directorio = archivo.getAbsolutePath();
+		directorio = directorio.substring(0, directorio.length() - archivo.getPath().length() - 1);
+		String nombreFoto = archivo.getName();
+
+		File destination = new File(directorio + imageDirectory + nombreFoto);
+
+		try {
+			FileUtils.copyFile(archivo, destination);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		destination.createNewFile();
+		archivo.delete();
+		
 		actividad.setEstado("abierta");
 		Login usuario = (Login) session.getAttribute("user");
 		actividad.setIdInstructor(usuario.getUsuario());
 		actividadDao.addActividad(actividad);
 		
-		redirectAttributes.addFlashAttribute("message", "Actividad " + actividad.getNombre() + " creada satisfactoriamente");
+		int idActividad = actividadDao.getActividad(actividad).getIdActividad();
+		
+		// Crear objeto ImagenPromocional
+		ImagenPromocional imagenPromocional = new ImagenPromocional();
+		imagenPromocional.setIdActividad(idActividad);
+		imagenPromocional.setImagen(destination.getName());
+		imagenPromocionalDao.addImagenPromocional(imagenPromocional);
+		
+		System.out.println(destination.getName());
+		
+		redirectAttributes.addFlashAttribute("message", "Actividad " + actividad.getNombre() + "ha sido creada satisfactoriamente");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../actividades";
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String processAddSubmit(@ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult,
-			@RequestParam("contraseña-instructor") String passwd,
-			@RequestParam("contraseña-instructor-rep") String passwdRep, RedirectAttributes redirectAttributes) {
-		
-		// Establecer el estado del instructor a 'pendiante'
-		instructor.setEstado("pendiente");
+			@RequestParam("contraseña-instructor") String passwd, @RequestParam("foto-instructor") MultipartFile foto,
+			@RequestParam("contraseña-instructor-rep") String passwdRep, @RequestParam("certificado-instructor") MultipartFile certificado, 
+			@RequestParam("tipo-actividad-acreditado") int idTipoActividad, RedirectAttributes redirectAttributes) {
 		
 		// Crear objeto Login
 		Login login = new Login();
@@ -367,24 +567,61 @@ public class InstructorController {
 		if (!(passwd.equals(passwdRep))) {
 			redirectAttributes.addFlashAttribute("errorPasswd", "Las contraseñas no coinciden");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			// return "redirect:/register";
 			return "registro";
 		}
 
+		if (certificado.isEmpty()) {
+			// Enviar mensaje de error porque no hay fichero seleccionado
+			redirectAttributes.addFlashAttribute("message", "Selecciona el certificado a subir");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+		}
+		
 		if (bindingResult.hasErrors()) {
 			return "registro";
 		}
+		
+		try {
+			// Certificado
+			byte[] bytes = certificado.getBytes();
+			Path path = Paths.get(uploadDirectory + "certificates/" + instructor.getIdInstructor() + "-" + idTipoActividad + "-" + certificado.getOriginalFilename());
+			
+			Files.write(path, bytes);
+			
+			// Foto
+			byte[] bytes2 = foto.getBytes();
+			Path path2 = Paths.get(imageDirectory + "/" + instructor.getIdInstructor() + "-" + foto.getOriginalFilename());
 
-		// Añadir la información en la base de datos
-		// clienteDao.addCliente(cliente);
-		// loginDao.addLogin(login);
-		System.out.println(instructor);
-		System.out.println(login);
-
-		// TODO: Modificar este codigo
-		redirectAttributes.addFlashAttribute("register",
-				"Su cuenta ha sido creada. Inicie sesión para empezar a reservar sus actividades.");
-		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-		return "redirect:/login";
+			Files.write(path2, bytes2);
+			
+			// Añadir ruta de la foto al objeto instructor
+			instructor.setFoto(path2.toString());
+			
+			// Crear objeto Acreditación y Acredita
+			Acreditacion acreditacion = new Acreditacion();
+			acreditacion.setCertificado(path.toString());
+			acreditacion.setEstado("pendiente");
+			acreditacion.setIdInstructor(instructor.getIdInstructor());
+			
+			// Añadir la información en la base de datos
+			instructorDao.addInstructor(instructor);
+			loginDao.addLogin(login);
+			acreditacionDao.addAcreditacion(acreditacion);
+			
+			int idAcreditacion = acreditacionDao.getAcreditacionByIdInstructor(instructor.getIdInstructor()).get(0).getIdAcreditacion();
+			
+			// Objeto Acredita
+			Acredita acredita = new Acredita();
+			acredita.setIdTipoActividad(idTipoActividad);
+			acredita.setIdAcreditacion(idAcreditacion);
+			acreditaDao.addAcredita(acredita);
+			
+			redirectAttributes.addFlashAttribute("register",
+					"Su cuenta ha sido creada. Puede iniciar sesión. Sin embargo, no podrá realizar ninguna acción hasta que su solicitud sea aceptada");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+			return "redirect:/login";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "registro";
+		}
 	}
 }

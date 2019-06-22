@@ -111,7 +111,7 @@ td input[type="number"] {
 						<div class="body-wrapper">
 							<div class="profile-body">
 								<form action="#" th:action="@{/instructor/actividad/add}"
-									th:object="${actividad}" method="post">
+									th:object="${actividad}" method="post" enctype="multipart/form-data">
 									<table class="actividad-details">
 										<tr>
 											<td class="field-label text-right"><label for="nombre-actividad">Nombre</label></td>
@@ -161,8 +161,8 @@ td input[type="number"] {
 										<tr>
 											<td class="field-label text-right"><label for="imagen">Imagen</label></td>
 											<td class="custom-file text-left">
-												<input class="custom-file-input" type="file" id="imagen" name="imagenPromocional"/>
-												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Imagen</label>
+												<input class="custom-file-input" type="file" id="imagen" name="imagen"/>
+												<label class="custom-file-label" for="imagen" data-browse="Elegir">Seleccionar Imagen</label>
 											</td>
 										</tr>
 										<tr>

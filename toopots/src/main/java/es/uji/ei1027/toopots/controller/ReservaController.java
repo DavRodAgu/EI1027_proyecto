@@ -127,11 +127,4 @@ public class ReservaController {
 		
 		return "redirect:../cliente/actividades/"+preferencias;
 	}
-	
-	@RequestMapping(value="/pagar/{idReserva}")
-	public String processPago(@PathVariable int idReserva) {
-          reservaDao.pagarReserva(idReserva);
-          return "redirect:../../cliente/reservas"; 
-	}
-	
 }

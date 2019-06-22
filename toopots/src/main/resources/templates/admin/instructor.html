@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html layout:decorate="~{fragments/base}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="/css/estilos-tabla.css"
+	th:href="@{/css/estilos-tabla.css}" />
+<meta charset="UTF-8">
+<title>Información Instructor</title>
+<style>
+body {
+	background-color: #f0f0f0;
+}
+
+#main {
+	margin-top: 30px;
+	margin-bottom: 90px;
+}
+
+.header-wrapper {
+	background-color: #f8f9fa;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-bottom: none;
+	padding: .95rem;
+}
+
+.header-title {
+	font-size: 22px;
+	font-weight: bold;
+	color: #343a40;
+}
+
+.body-wrapper2 {
+	background-color: #fff;
+	border: 1.5px solid #dee2e6;
+	padding: 1rem;
+	padding-top: 30px;
+}
+
+.tbl-header {
+    background-color: #fdfdfd;
+}
+
+.tbl-header th:last-child {
+    width: 350px;
+}
+
+.profile-picture img{
+	box-sizing: border-box;
+	border: 1px solid #dee2e6;
+	border-radius: 3px;
+}
+
+.body-wrapper2:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.footer-wrapper {
+	line-height: 2.1em;
+	height: 64.4px;
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1.5px solid #dee2e6;
+	border-top: none;
+	padding: .95rem;
+}
+
+.user-details, .sol-acreditacion {
+	width: 100%;
+}
+
+td {
+	padding-bottom: 25px;
+}
+
+.field-label {
+	width: 40%;
+	padding-right: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field-label label {
+	margin-bottom: 0px;
+}
+
+td input[type="text"], input[type="email"] {
+	width: 350px;
+}
+
+td input[type="file"] {
+	width: 500px;
+}
+
+.prueba {
+	padding-right: 75px;
+}
+
+.add-solicitud {
+	padding-top: 6px;
+	float: right;
+}
+
+.add-solicitud:hover {
+	text-decoration: none;
+}
+
+.color-svg {
+	fill: #7df68b;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="main">
+			<div class="container">
+				<div th:class="${'alert ' + alertClass}" role="alert"
+					th:if="${message}" th:text="${message}"></div>
+				<div class="row pb-3">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Información del Instructor - <span
+									th:text="${instructor.idInstructor}"></span>
+								</span>
+							</header>
+						</div>
+						<div class="body-wrapper2">
+							<div class="profile-body">
+								<div class="profile-picture text-center pb-5">
+									<!-- Añadir la foto del instructor correspondiente -->
+									<img th:attr="src=@{${instructor.foto}}"
+										alt="foto-perfil" width="250" height="250">
+								</div>
+									<table class="user-details">
+										<tr>
+											<td class="field-label text-right">Nombre</td>
+											<td class="text-left" th:text="${instructor.nombre}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right">DNI</td>
+											<td class="text-left" th:text="${instructor.idInstructor}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right">Estado</td>
+											<td th:if="${instructor.estado == 'pendiente'}" class="text-left badge badge-warning" th:text="${instructor.estado}"></td>
+											<td th:if="${instructor.estado == 'aceptada'}" class="text-left badge badge-primary" th:text="${instructor.estado}"></td>
+											<td th:if="${instructor.estado == 'rechazada'}" class="text-left badge badge-danger" th:text="${instructor.estado}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right">Email</td>
+											<td class="text-left" th:text="${instructor.email}"></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right">IBAN</td>
+											<td class="text-left" th:text="${instructor.iban}"></td>
+										</tr>
+										<tr>
+											<td class="text-left pt-5" style="padding-bottom: 0;" colspan="2">
+												<a th:href="@{/admin/instructores}" class="btn btn-primary" role="button">Volver</a> 
+											</td>
+										</tr>
+									</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row pt-3 pb-10">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Solicitudes </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="empty" th:if="${solicitudes.isEmpty()}">
+								Este instructor aún no ha realizado ninguna solicitud
+							</div>
+								<table th:if="${!solicitudes.isEmpty()}" class="table table-hover">
+									<thead class="tbl-header">
+										<tr>
+											<th scope="col">Tipo Actividad</th>
+											<th class="text-center" scope="col">Estado</th>
+											<th class="text-center" scope="col">Certificado</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="solicitud: ${solicitudes.keySet()}">
+											<th class="text-capitalize" th:text="${solicitudes.get(solicitud).nombre + ' - ' + solicitudes.get(solicitud).nivel}"></th>
+											<td class="text-center font-italic text-capitalize" th:text="${solicitud.estado}"></td>
+											<td class="text-center"><a th:href="@{/instructor/{idAcreditacion}/certificado(idAcreditacion=${solicitud.idAcreditacion})}" target="_blank">Ver Certificado</a></td>
+										</tr>
+									</tbody>
+								</table>
+						</div>
+					</div>
+				</div>
+				<div class="row pt-4 pb-10">
+					<div class="col-12">
+						<div class="header-wrapper">
+							<header class="profile-header">
+								<span class="header-title"> Actividades </span>
+							</header>
+						</div>
+						<div class="body-wrapper">
+							<div class="empty" th:if="${actividades.isEmpty()}">
+								Este instructor aún no ha creado ninguna actividad
+							</div>
+								<table class="table table-hover">
+									<thead th:if="${!actividades.isEmpty()}" class="tbl-header">
+										<tr>
+											<th scope="col">Nombre</th>
+											<th class="text-center" scope="col">Tipo Actividad</th>
+											<th class="text-center" scope="col">Asistentes</th>
+											<th class="text-center" scope="col">Precio</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="actividad: ${actividades.keySet()}">
+											<th scope="row">
+												<a th:href="@{/admin/actividad/{idActividad}(idActividad=${actividad.idActividad})}">
+													<span th:text="${actividad.nombre}"></span>
+												</a>
+											</th>
+											<td th:text="${actividades.get(actividad)[0].nombre + ' - ' + actividades.get(actividad)[0].nivel}" class="text-center text-capitalize"></td>
+											<td th:text="${actividades.get(actividad)[1] + '/' + actividad.maxAsistentes}" class="text-center"></td>
+											<td th:text="${#numbers.formatDecimal(actividad.precio, 0, 2)}+ €" class="text-center"></td>
+										</tr>
+									</tbody>
+								</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

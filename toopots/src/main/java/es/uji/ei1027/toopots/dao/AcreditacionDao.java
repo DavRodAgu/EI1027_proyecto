@@ -63,4 +63,22 @@ public class AcreditacionDao {
 			return new ArrayList<Acreditacion>();
 		}
 	}
+	
+	public List<Acreditacion> getAcreditacionByIdInstructor(String idInstructor) {
+		try {
+			return jdbcTemplate.query("SELECT * from Acreditacion WHERE idInstructor=?",
+					new AcreditacionRowMapper(), idInstructor);
+		} catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Acreditacion>();
+		}
+	}
+	
+	public Acreditacion getAcreditacion(String idInstructor, String certificado) {
+		try {
+			return jdbcTemplate.queryForObject("SELECT * from Acreditacion WHERE idInstructor=? AND certificado=?",
+					new AcreditacionRowMapper(), idInstructor, certificado);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 }
