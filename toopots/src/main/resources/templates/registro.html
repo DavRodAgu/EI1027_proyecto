@@ -62,6 +62,7 @@
 							<form action="#" th:action="@{/cliente/add}" th:object="${cliente}" method="post">
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
+										<div th:class="${'alert ' + alertClass}" role="alert" th:if="${errorDNI}" th:text="${errorDNI}"></div>
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text">
