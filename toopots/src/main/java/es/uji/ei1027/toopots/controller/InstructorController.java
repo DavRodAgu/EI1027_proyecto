@@ -449,7 +449,32 @@ public class InstructorController {
 			@RequestParam("tipo") int tipo, @ModelAttribute("actividad") Actividad actividad,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors())
-			return "actividad/" + idActividad + "update";
+			return "actividad/" + idActividad + "/update";
+		
+		if (actividad.getFecha().isBefore(LocalDate.now())) {
+			redirectAttributes.addFlashAttribute("errorFecha", "La fecha de la actividad no puede pertenecer al pasado");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/" + idActividad + "/update";	
+		}
+		
+		if (actividad.getMinAsistentes() > actividad.getMaxAsistentes()) {
+			redirectAttributes.addFlashAttribute("errorAsistentes", "El número mínimo de asistentes no puede ser mayor que el máximo");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/" + idActividad + "/update";	
+		}
+		
+		if (actividad.getMinAsistentes() < 1) {
+			redirectAttributes.addFlashAttribute("errorAsistentes", "El número mínimo de asistentes debe ser al menos 1");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/" + idActividad + "/update";	
+		}
+
+		if (actividad.getDuracion().toString().equals("00:00")) {
+			redirectAttributes.addFlashAttribute("errorDuracion", "La duración no puede ser 0");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/" + idActividad + "/update";	
+		}
+		
 		actividad.setIdTipoActividad(tipo);
 		actividad.setTextoCliente("");
 		Login usuario = (Login) session.getAttribute("user");
