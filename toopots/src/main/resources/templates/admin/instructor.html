@@ -132,7 +132,7 @@ td input[type="file"] {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto del instructor correspondiente -->
-									<img th:attr="src=@{${instructor.foto}}"
+									<img th:attr="src=@{'../../../media/' + ${instructor.foto}}"
 										alt="foto-perfil" width="250" height="250">
 								</div>
 									<table class="user-details">
