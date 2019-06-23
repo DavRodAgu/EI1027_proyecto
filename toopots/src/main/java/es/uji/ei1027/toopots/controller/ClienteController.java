@@ -127,10 +127,15 @@ public class ClienteController {
 		if (!(usuario.getRol().equals("cliente"))) {
 			return "error/error";
 		}
+		
+		HashMap<Integer, String> imagenes = new HashMap<Integer, String>();
+		for (ImagenPromocional imagen : imagenPromocionalDao.getImagenesPromocionales()) {
+			imagenes.put(imagen.getIdActividad(), imagen.getImagen());
+		}
 		// Comprobar que tipo de vista a seleccionado el usuario
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), true));
 		model.addAttribute("preferencias", true);
-		model.addAttribute("imagenes", imagenPromocionalDao.getImagenesPromocionales());
+		model.addAttribute("imagenes", imagenes);
 		return "cliente/actividades";
 	}
 	
