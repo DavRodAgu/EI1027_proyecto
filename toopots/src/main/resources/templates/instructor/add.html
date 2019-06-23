@@ -2,7 +2,8 @@
 <html layout:decorate="~{fragments/base}"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <meta charset="UTF-8">
 <title>Añadir Actividad</title>
 <style>
@@ -37,7 +38,7 @@ body {
 	padding-top: 30px;
 }
 
-.profile-picture img{
+.profile-picture img {
 	box-sizing: border-box;
 	border: 1px solid #dee2e6;
 	border-radius: 3px;
@@ -93,8 +94,6 @@ td input[type="number"] {
 .field-label label {
 	margin-bottom: 0px;
 }
-
-
 </style>
 </head>
 <body>
@@ -111,72 +110,128 @@ td input[type="number"] {
 						<div class="body-wrapper">
 							<div class="profile-body">
 								<form action="#" th:action="@{/instructor/actividad/add}"
-									th:object="${actividad}" method="post" enctype="multipart/form-data">
+									th:object="${actividad}" method="post"
+									enctype="multipart/form-data">
 									<table class="actividad-details">
 										<tr>
-											<td class="field-label text-right"><label for="nombre-actividad">Nombre</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="nombre-actividad" th:field="*{nombre}" required/></td>
+											<td class="field-label text-right"><label
+												for="nombre-actividad">Nombre</label></td>
+											<td class="text-left"><input class="form-control"
+												type="text" id="nombre-actividad" th:field="*{nombre}"
+												required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="fecha-actividad">Fecha</label></td>
-											<td class="text-left"><input class="form-control" type="date" id="fecha-actividad" th:field="*{fecha}" required/></td>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorFecha}"
+													th:text="${errorFecha}"></div></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="hora-actividad">Hora</label></td>
-											<td class="text-left"><input class="form-control" type="time" id="hora-actividad" th:field="*{horaDeEncuentro}" required/></td>
+											<td class="field-label text-right"><label
+												for="fecha-actividad">Fecha</label></td>
+											<td class="text-left"><input class="form-control"
+												type="date" id="fecha-actividad" th:field="*{fecha}"
+												required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="lugar-actividad">Lugar</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="lugar-actividad" th:field="*{lugar}" required/></td>
+											<td class="field-label text-right"><label
+												for="hora-actividad">Hora</label></td>
+											<td class="text-left"><input class="form-control"
+												type="time" id="hora-actividad"
+												th:field="*{horaDeEncuentro}" required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="punto-actividad">Punto de Encuentro</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="punto-actividad" th:field="*{puntoDeEncuentro}" required/></td>
+											<td class="field-label text-right"><label
+												for="lugar-actividad">Lugar</label></td>
+											<td class="text-left"><input class="form-control"
+												type="text" id="lugar-actividad" th:field="*{lugar}"
+												required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="precio-actividad">Precio(€)</label></td>
-											<td class="text-left"><input class="form-control" type="number" step="0.01" id="precio-actividad" th:field="*{precio}" required/></td>
+											<td class="field-label text-right"><label
+												for="punto-actividad">Punto de Encuentro</label></td>
+											<td class="text-left"><input class="form-control"
+												type="text" id="punto-actividad"
+												th:field="*{puntoDeEncuentro}" required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="min-actividad">Min. Asistentes</label></td>
-											<td class="text-left"><input class="form-control" type="number" id="min-actividad" th:field="*{minAsistentes}" required/></td>
+											<td class="field-label text-right"><label
+												for="precio-actividad">Precio(€)</label></td>
+											<td class="text-left"><input class="form-control"
+												type="number" step="0.01" id="precio-actividad"
+												th:field="*{precio}" required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="max-actividad">Max. Asistentes</label></td>
-											<td class="text-left"><input class="form-control" type="number" id="max-actividad" th:field="*{maxAsistentes}" required/></td>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorAsistentes}"
+													th:text="${errorAsistentes}"></div></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="duracion-actividad">Duración</label></td>
-											<td class="text-left"><input class="form-control" type="time" id="duracion-actividad" th:field="*{duracion}" required/></td>
+											<td class="field-label text-right"><label
+												for="min-actividad">Min. Asistentes</label></td>
+											<td class="text-left"><input class="form-control"
+												type="number" id="min-actividad" th:field="*{minAsistentes}"
+												required /></td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="tipo-actividad">Tipo Actividad</label></td>
-											<td><select class="selectpicker" name="tipo" data-live-search="true" th:field="*{idTipoActividad}"
-												id="tipo-actividad" title="Ningún tipo seleccionado" required>
-													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
-													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
-											</select>
-											</td>
+											<td class="field-label text-right"><label
+												for="max-actividad">Max. Asistentes</label></td>
+											<td class="text-left"><input class="form-control"
+												type="number" id="max-actividad" th:field="*{maxAsistentes}"
+												required /></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorDuracion}"
+													th:text="${errorDuracion}"></div></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label
+												for="duracion-actividad">Duración</label></td>
+											<td class="text-left"><input class="form-control"
+												type="time" id="duracion-actividad" th:field="*{duracion}"
+												required /></td>
+										</tr>
+										<tr>
+											<td class="field-label text-right"><label
+												for="tipo-actividad">Tipo Actividad</label></td>
+											<td><select class="selectpicker" name="tipo"
+												data-live-search="true" th:field="*{idTipoActividad}"
+												id="tipo-actividad" title="Ningún tipo seleccionado"
+												required>
+													<option th:each="tipo: ${tipos}"
+														th:value="${tipo.idTipoActividad}"
+														th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
+											</select></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="imagen">Imagen</label></td>
-											<td class="custom-file text-left">
-												<input class="custom-file-input" type="file" id="imagen" name="imagen"/>
-												<label class="custom-file-label" for="imagen" data-browse="Elegir">Seleccionar Imagen</label>
+											<td class="custom-file text-left"><input
+												class="custom-file-input" type="file" id="imagen"
+												name="imagen" /> <label class="custom-file-label"
+												for="imagen" data-browse="Elegir">Seleccionar Imagen</label>
 											</td>
 										</tr>
 										<tr>
-											<td class="field-label text-right"><label for="duracion-actividad">Descripción</label></td>
-											<td class="text-left"><input class="form-control" type="text" id="tipo-actividad" th:field="*{descripcion}" required/></td>
+											<td class="field-label text-right"><label
+												for="duracion-actividad">Descripción</label></td>
+											<td class="text-left"><input class="form-control"
+												type="text" id="tipo-actividad" th:field="*{descripcion}"
+												required /></td>
 										</tr>
-										<tr><td></td></tr>
+										<tr>
+											<td></td>
+										</tr>
 										<tr>
 											<td class="text-left" style="padding-bottom: 0;" colspan="2">
-												<a th:href="@{/instructor/actividades}" class="btn btn-primary" role="button">Volver</a>
+												<a th:href="@{/instructor/actividades}"
+												class="btn btn-primary" role="button">Volver</a>
 											</td>
 											<td class="text-right" style="padding-bottom: 0;" colspan="2">
-											<input class="btn btn-success"
-												type="submit" value="Añadir" /></td>
+												<input class="btn btn-success" type="submit" value="Añadir" />
+											</td>
 										</tr>
 									</table>
 								</form>
