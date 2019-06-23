@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +39,7 @@ import es.uji.ei1027.toopots.model.Comentario;
 import es.uji.ei1027.toopots.model.Login;
 import es.uji.ei1027.toopots.model.Prefiere;
 import es.uji.ei1027.toopots.model.Reserva;
+import es.uji.ei1027.toopots.model.ImagenPromocional;
 import es.uji.ei1027.toopots.services.ClienteService;
 
 class ClienteValidator implements Validator { 
@@ -127,6 +130,7 @@ public class ClienteController {
 		// Comprobar que tipo de vista a seleccionado el usuario
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), true));
 		model.addAttribute("preferencias", true);
+		model.addAttribute("imagenes", imagenPromocionalDao.getImagenesPromocionales());
 		return "cliente/actividades";
 	}
 	
@@ -142,8 +146,14 @@ public class ClienteController {
 		if (!usuario.getRol().equals("cliente")) {
 			return "error/error";
 		}
+		
+		HashMap<Integer, String> imagenes = new HashMap<Integer, String>();
+		for (ImagenPromocional imagen : imagenPromocionalDao.getImagenesPromocionales()) {
+			imagenes.put(imagen.getIdActividad(), imagen.getImagen());
+		}
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), preferencias));
 		model.addAttribute("preferencias", preferencias);
+		model.addAttribute("imagenes", imagenes);
 		return "cliente/actividades";
 	}
 	
@@ -359,11 +369,25 @@ public class ClienteController {
 		ClienteValidator userValidator = new ClienteValidator(); 
 		userValidator.validate(cliente, bindingResult);
 		
+		if (cliente.getIdCliente().length() != 9 || Character.isLetter(cliente.getIdCliente().charAt(8)) == false) {
+			redirectAttributes.addFlashAttribute("errorDNI", "Formato de DNI incorrecto, recuerda que debes introducir 8 dígitos y 1 letra");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/register";
+		}
+		
+		List<String> DNIs = clienteDao.getClientes().stream().map(Cliente::getIdCliente).collect(Collectors.toList());
+		
+		if (DNIs.contains(cliente.getIdCliente())) {
+			redirectAttributes.addFlashAttribute("errorDNI", "El DNI introducido ya se encuentra registrado");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/register";
+		}
+		
 		if (!(passwd.equals(passwdRep))) {
 			redirectAttributes.addFlashAttribute("errorPasswd", "Las contraseñas no coinciden");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			//return "redirect:/register";
-			return "registro";
+			return "redirect:/register";
+			//return "registro";
 		}
 		
 		if (bindingResult.hasErrors()) {

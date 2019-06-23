@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -532,11 +533,26 @@ public class InstructorController {
 		// Crear el objeto validator
 		InstructorValidator instructorValidator = new InstructorValidator();
 		instructorValidator.validate(instructor, bindingResult);
+		
+		List<String> DNIs = instructorDao.getInstructores().stream().map(Instructor::getIdInstructor).collect(Collectors.toList());
+		
+		if (DNIs.contains(instructor.getIdInstructor())) {
+			redirectAttributes.addFlashAttribute("errorDNI", "El DNI introducido ya se encuentra registrado");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/register";
+		}
 
+		if (instructor.getIdInstructor().length() != 9 || Character.isLetter(instructor.getIdInstructor().charAt(8)) == false) {
+			redirectAttributes.addFlashAttribute("errorDNI", "Formato de DNI incorrecto, recuerda que debes introducir 8 dígitos y 1 letra");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/register";
+		}
+		
 		if (!(passwd.equals(passwdRep))) {
 			redirectAttributes.addFlashAttribute("errorPasswd", "Las contraseñas no coinciden");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			return "registro";
+			return "redirect:/register";
+			//return "registro";
 		}
 
 		if (certificado.isEmpty()) {
@@ -546,7 +562,8 @@ public class InstructorController {
 		}
 
 		if (bindingResult.hasErrors()) {
-			return "registro";
+			return "redirect:/register";
+			//return "registro";
 		}
 
 		try {
