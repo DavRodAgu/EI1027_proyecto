@@ -126,7 +126,7 @@ body {
 									<span class="badge badge-danger" th:text="${actividades.get(actividad)[2] + '/'+ actividad.maxAsistentes}"></span>
 								</p>
 								<!-- Cambiar por las imagenes correspondientes -->
-								<img class="card-img-top" src="/assets/paracaidismo.jpg"
+								<img class="card-img-top" th:attr="src=@{'../../media/' + ${imagenes.get(actividad.idActividad)}}"
 									height="200" alt="imagen-actividad">
 							</div>
 							<div class="card-body">
