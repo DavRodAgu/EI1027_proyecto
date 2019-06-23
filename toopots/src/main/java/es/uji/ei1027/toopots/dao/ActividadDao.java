@@ -28,10 +28,6 @@ public class ActividadDao {
                 actividad.getPrecio(), actividad.getMinAsistentes(), actividad.getMaxAsistentes(),
                 actividad.getLugar(), actividad.getPuntoDeEncuentro(), actividad.getHoraDeEncuentro(),
                 "", actividad.getIdTipoActividad(), actividad.getIdInstructor());
-        
-       
-        jdbcTemplate.update("INSERT INTO ImagenPromocional VALUES(nextval('imagenpromocional_idimagen_seq'), ?, (select last_value from actividad_idactividad_seq))", 
-				"");
     }
 
     public void deleteActividad(Actividad actividad) {
