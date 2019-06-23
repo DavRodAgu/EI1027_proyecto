@@ -133,6 +133,12 @@ td input[type="number"] {
 											</td>
 										</tr>
 										<tr>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorFecha}"
+													th:text="${errorFecha}"></div></td>
+										</tr>
+										<tr>
 											<td class="field-label text-right"><label for="fecha-actividad">Fecha</label></td>
 											<td class="text-left"><input class="form-control" type="date" id="fecha-actividad" th:field="*{fecha}" required/></td>
 										</tr>
@@ -149,12 +155,24 @@ td input[type="number"] {
 											<td class="text-left"><input class="form-control" type="text" id="punto-actividad" th:field="*{puntoDeEncuentro}" required/></td>
 										</tr>
 										<tr>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorAsistentes}"
+													th:text="${errorAsistentes}"></div></td>
+										</tr>
+										<tr>
 											<td class="field-label text-right"><label for="min-actividad">Min. Asistentes</label></td>
 											<td class="text-left"><input class="form-control" type="number" id="min-actividad" th:field="*{minAsistentes}" required/></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="max-actividad">Max. Asistentes</label></td>
 											<td class="text-left"><input class="form-control" type="number" id="max-actividad" th:field="*{maxAsistentes}" required/></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><div th:class="${'alert ' + alertClass}"
+													role="alert" th:if="${errorDuracion}"
+													th:text="${errorDuracion}"></div></td>
 										</tr>
 										<tr>
 											<td class="field-label text-right"><label for="duracion-actividad">Duración</label></td>
