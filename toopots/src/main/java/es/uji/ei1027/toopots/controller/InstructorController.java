@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -489,14 +491,38 @@ public class InstructorController {
 		if (bindingResult.hasErrors()) {
 			return "instructor/add";
 		}
+		
+		if (actividad.getFecha().isBefore(LocalDate.now())) {
+			redirectAttributes.addFlashAttribute("errorFecha", "La fecha de la actividad no puede pertenecer al pasado");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/add";	
+		}
+		
+		if (actividad.getMinAsistentes() > actividad.getMaxAsistentes()) {
+			redirectAttributes.addFlashAttribute("errorAsistentes", "El número mínimo de asistentes no puede ser mayor que el máximo");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/add";			
+		}
+		
+		if (actividad.getMinAsistentes() < 1) {
+			redirectAttributes.addFlashAttribute("errorAsistentes", "El número mínimo de asistentes debe ser al menos 1");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/add";			
+		}
 
+		if (actividad.getDuracion().toString().equals("00:00")) {
+			redirectAttributes.addFlashAttribute("errorDuracion", "La duración no puede ser 0");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/instructor/actividad/add";
+		}
+		
 		actividad.setEstado("abierta");
 		Login usuario = (Login) session.getAttribute("user");
 		actividad.setIdInstructor(usuario.getUsuario());
 		actividadDao.addActividad(actividad);
 
 		int idActividad = actividadDao.getActividad(actividad).getIdActividad();
-
+		
 		// Crear objeto ImagenPromocional
 		byte[] bytes2 = imagen.getBytes();
 		String nombreImagen = imagen.getOriginalFilename();
