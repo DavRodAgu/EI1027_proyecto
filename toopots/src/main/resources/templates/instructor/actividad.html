@@ -108,7 +108,7 @@ td {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto de la actividad correspondiente -->
-									<img th:src="@{${imagen}}" alt="foto-promocional" width="350" height="250">
+									<img th:attr="src=@{'../../media/' + ${imagen}}" alt="foto-promocional" width="350" height="250">
 								</div>
 									<table class="actividad-details">
 										<tr>

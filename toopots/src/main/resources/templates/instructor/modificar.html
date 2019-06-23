@@ -112,7 +112,7 @@ td input[type="number"] {
 							<div class="profile-body">
 								<div class="profile-picture text-center pb-5">
 									<!-- Añadir la foto de la actividad correspondiente -->
-									<img src="/assets/paracaidismo.jpg" alt="foto-promocional" width="350" height="250">
+									<img th:attr="src=@{'../../../media/' + ${imagen}}" alt="foto-promocional" width="350" height="250">
 								</div>
 								<form action="#" th:action="@{/instructor/actividad/{idActividad}/update(idActividad=${actividad.idActividad})}"
 									th:object="${actividad}" method="post">
