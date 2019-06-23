@@ -30,6 +30,7 @@ import es.uji.ei1027.toopots.dao.AcreditaDao;
 import es.uji.ei1027.toopots.dao.AcreditacionDao;
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
+import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
 import es.uji.ei1027.toopots.dao.TipoActividadDao;
@@ -52,10 +53,16 @@ public class AdminController {
 	private AcreditacionDao acreditacionDao;
 	private ReservaDao reservaDao;
 	private AdminService adminService;
+	private ImagenPromocionalDao imagenPromocionalDao;
 	
 	@Autowired
 	public void setTipoActividadDao(TipoActividadDao tipoActividadDao) {
 		this.tipoActividadDao = tipoActividadDao;
+	}
+
+	@Autowired
+	public void setImagenPromocionalDao(ImagenPromocionalDao imagenPromocionalDao) {
+		this.imagenPromocionalDao = imagenPromocionalDao;
 	}
 	
 	@Autowired
@@ -320,7 +327,8 @@ public class AdminController {
 		if (!usuario.getRol().equals("administrador")) {
 			return "error/error";
 		}
-		
+
+		model.addAttribute("imagen", imagenPromocionalDao.getImagen(idActividad));
 		model.addAttribute("actividad", adminService.getActividad(idActividad));
 		model.addAttribute("reservas", adminService.getReservasActividad(idActividad));
 		return "admin/actividad";
