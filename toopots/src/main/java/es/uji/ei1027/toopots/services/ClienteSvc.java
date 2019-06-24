@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import es.uji.ei1027.toopots.dao.ActividadDao;
 import es.uji.ei1027.toopots.dao.ClienteDao;
 import es.uji.ei1027.toopots.dao.ComentarioDao;
+import es.uji.ei1027.toopots.dao.ImagenPromocionalDao;
 import es.uji.ei1027.toopots.dao.InstructorDao;
 import es.uji.ei1027.toopots.dao.PrefiereDao;
 import es.uji.ei1027.toopots.dao.ReservaDao;
@@ -43,6 +44,9 @@ public class ClienteSvc implements ClienteService {
 	
 	@Autowired
 	private ClienteDao clienteDao;
+	
+	@Autowired
+	private ImagenPromocionalDao imagenPromocionalDao;
 	
 	@Override
 	public Map<Reserva, List<Object>> getReservaByClient(String idCliente) {
@@ -96,6 +100,7 @@ public class ClienteSvc implements ClienteService {
 				objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNombre());
 				// Obtener nivel del tipo de actividad
 				objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actv.getIdTipoActividad())).getNivel());
+				objetos.add(imagenPromocionalDao.getImagen(Integer.toString(actv.getIdActividad())).getImagen());
 				actividadByReserva.put(actv, new ArrayList<Object>(objetos));
 				objetos.clear();
 			}
@@ -111,7 +116,12 @@ public class ClienteSvc implements ClienteService {
 		res.add(actividad);
 		res.add(tipoActividadDao.getTipoActividad(Integer.toString(actividad.getIdTipoActividad())));
 		res.add(instructorDao.getInstructor(actividad.getIdInstructor()));
-		res.add(reservaDao.getNumReservasActividad(Integer.parseInt(idActividad)).size());
+		List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(Integer.parseInt(idActividad));
+		int numReservas = 0;
+		for (Reserva rsrv: reservasActividad) {
+			numReservas += rsrv.getNumAsistentes();
+		}
+		res.add(numReservas);
 		res.add(reservaDao.getIfReservada(idCliente, Integer.parseInt(idActividad)));
 		
 		return res;

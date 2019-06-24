@@ -119,10 +119,16 @@ public class AdminSvc implements AdminService {
 		Map<Actividad, List<Object>> res = new HashMap<Actividad, List<Object>>();
 		
 		List<Object> objetos = new ArrayList<Object>();
+		int numReservas;
 		for (Actividad actividad: actividades) {
 			objetos.add(tipoActividadDao.getTipoActividad(Integer.toString(actividad.getIdTipoActividad())));
 			objetos.add(instructorDao.getInstructor(actividad.getIdInstructor()));
-			objetos.add(reservaDao.getNumReservasActividad(actividad.getIdActividad()).size());
+			List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actividad.getIdActividad());
+			numReservas = 0;
+			for (Reserva rsrv: reservasActividad) {
+				numReservas += rsrv.getNumAsistentes();
+			}
+			objetos.add(numReservas);
 			res.put(actividad, new ArrayList<Object>(objetos));
 			objetos.clear();
 		}
@@ -139,7 +145,12 @@ public class AdminSvc implements AdminService {
 		res.add(actividad);
 		res.add(tipo);
 		res.add(instructor);
-		res.add(reservaDao.getNumReservasActividad(actividad.getIdActividad()).size());
+		List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(actividad.getIdActividad());
+		int numReservas = 0;
+		for (Reserva rsrv: reservasActividad) {
+			numReservas += rsrv.getNumAsistentes();
+		}
+		res.add(numReservas);
 		return res;
 	}
 

@@ -127,14 +127,9 @@ public class ClienteController {
 			return "error/error";
 		}
 
-		HashMap<Integer, String> imagenes = new HashMap<Integer, String>();
-		for (ImagenPromocional imagen : imagenPromocionalDao.getImagenesPromocionales()) {
-			imagenes.put(imagen.getIdActividad(), imagen.getImagen());
-		}
 		// Comprobar que tipo de vista a seleccionado el usuario
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), true));
 		model.addAttribute("preferencias", true);
-		model.addAttribute("imagenes", imagenes);
 		return "cliente/actividades";
 	}
 
@@ -151,13 +146,8 @@ public class ClienteController {
 			return "error/error";
 		}
 
-		HashMap<Integer, String> imagenes = new HashMap<Integer, String>();
-		for (ImagenPromocional imagen : imagenPromocionalDao.getImagenesPromocionales()) {
-			imagenes.put(imagen.getIdActividad(), imagen.getImagen());
-		}
 		model.addAttribute("actividades", clienteService.getActividadByPreference(usuario.getUsuario(), preferencias));
 		model.addAttribute("preferencias", preferencias);
-		model.addAttribute("imagenes", imagenes);
 		return "cliente/actividades";
 	}
 
@@ -308,6 +298,9 @@ public class ClienteController {
 				}
 			}
 		}
+		redirectAttributes.addFlashAttribute("message", "Preferencias guardadas");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		
 		return "redirect:perfil";
 	}
 

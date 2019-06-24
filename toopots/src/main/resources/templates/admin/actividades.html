@@ -42,7 +42,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="actividad: ${actividades.keySet()}">
+										<tr th:each="actividad: ${#lists.sort(actividades.keySet())}">
 											<th scope="row">
 												<a th:href="@{/admin/actividad/{idActividad}(idActividad=${actividad.idActividad})}">
 													<span th:text="${actividad.nombre}"></span>

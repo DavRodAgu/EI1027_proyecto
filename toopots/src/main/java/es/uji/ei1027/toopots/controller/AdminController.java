@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.ei1027.toopots.dao.AcreditaDao;
 import es.uji.ei1027.toopots.dao.AcreditacionDao;
@@ -167,7 +168,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/solicitudes/{idAcreditacion}/{accion}")
-	public String aceptarSolicitud(HttpSession session, Model model, @PathVariable int idAcreditacion, @PathVariable String accion) {
+	public String aceptarSolicitud(HttpSession session, Model model, @PathVariable int idAcreditacion, @PathVariable String accion,
+			RedirectAttributes redirectAttributes) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
 			session.setAttribute("nextUrl", "admin/solicitudes");
@@ -187,6 +189,8 @@ public class AdminController {
 				instructor.setEstado("aceptada");
 			}
 			acr.setEstado("aceptada");
+			redirectAttributes.addFlashAttribute("message", "Solicitud del instructor " + instructor.getNombre() + " aceptada");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		}
 		
 		if (accion.equals("rechazar")) {
@@ -194,6 +198,8 @@ public class AdminController {
 				instructor.setEstado("rechazada");
 			}
 			acr.setEstado("rechazada");
+			redirectAttributes.addFlashAttribute("message", "Solicitud del instructor " + instructor.getNombre() + " rechazada");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 		}
 		
 		instructorDao.updateInstructor(instructor);

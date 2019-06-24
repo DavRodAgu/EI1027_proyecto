@@ -337,7 +337,6 @@ public class InstructorController {
 			acreditacion.setCertificado(path.toString());
 			acreditacion.setEstado("pendiente");
 			acreditacion.setIdInstructor(usuario.getUsuario());
-			System.out.println(acreditacion);
 
 			// Añadir la información en la base de datos
 			acreditacionDao.addAcreditacion(acreditacion);
@@ -349,13 +348,12 @@ public class InstructorController {
 			Acredita acredita = new Acredita();
 			acredita.setIdTipoActividad(idTipoActividad);
 			acredita.setIdAcreditacion(idAcreditacion);
-			System.out.println(acredita);
 			acreditaDao.addAcredita(acredita);
 
-			redirectAttributes.addFlashAttribute("register",
+			redirectAttributes.addFlashAttribute("message",
 					"Solicitud enviada, en breves será revisada por el administrador del sitio.");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-			return "redirect:/instructor/solicitar";
+			return "redirect:/instructor/perfil";
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "/instructor/solicitar";
@@ -384,7 +382,7 @@ public class InstructorController {
 	public String processReservas(HttpSession session, Model model, @PathVariable String idActividad) {
 		if (session.getAttribute("user") == null) {
 			model.addAttribute("user", new Login());
-			model.addAttribute("nextUrl", "instructor/actividades");
+			model.addAttribute("nextUrl", "instructor/actividad/" + idActividad);
 			return "login";
 		}
 
@@ -394,7 +392,12 @@ public class InstructorController {
 		}
 
 		model.addAttribute("actividad", actividadDao.getActividad(idActividad));
-		model.addAttribute("asistentes", reservaDao.getNumReservasActividad(Integer.valueOf(idActividad)).size());
+		List<Reserva> reservasActividad = reservaDao.getNumReservasActividad(Integer.parseInt(idActividad));
+		int numReservas = 0;
+		for (Reserva rsrv: reservasActividad) {
+			numReservas += rsrv.getNumAsistentes();
+		}
+		model.addAttribute("asistentes", numReservas);
 		Actividad actividad = actividadDao.getActividad(idActividad);
 		TipoActividad tipoActividad = tipoActividadDao
 				.getTipoActividad(Integer.toString(actividad.getIdTipoActividad()));
@@ -553,17 +556,15 @@ public class InstructorController {
 		String nombreImagen = imagen.getOriginalFilename();
 		Path path2 = Paths.get(imageDirectory + "/" + nombreImagen);
 
-		System.out.println("Nombre: " + nombreImagen);
 
 		Files.write(path2, bytes2);
 		ImagenPromocional imagenPromocional = new ImagenPromocional();
 		imagenPromocional.setIdActividad(idActividad);
 		imagenPromocional.setImagen(nombreImagen);
-		System.out.println(imagenPromocional);
 		imagenPromocionalDao.addImagenPromocional(imagenPromocional);
 
 		redirectAttributes.addFlashAttribute("message",
-				"Actividad " + actividad.getNombre() + "ha sido creada satisfactoriamente");
+				"Actividad " + actividad.getNombre() + " ha sido creada satisfactoriamente");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return "redirect:../actividades";
 	}
