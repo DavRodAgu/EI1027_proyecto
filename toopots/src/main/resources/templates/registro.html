@@ -12,7 +12,8 @@
 	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
 	crossorigin="anonymous">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 
 <!-- Register CSS -->
 <link rel="stylesheet" type="text/css" href="/css/register.css"
@@ -22,24 +23,27 @@
 </head>
 <body>
 	<!-- Navbar -->
-    <header>
-      <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="/">TooPots</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link btn btn-primary" href="login">Iniciar Sesión</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <!-- /Navbar -->
+	<header>
+		<nav id="header"
+			class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="/">TooPots</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link btn btn-primary"
+							href="login">Iniciar Sesión</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- /Navbar -->
 
 	<!-- Main -->
 	<div class="container register">
@@ -57,20 +61,23 @@
 			<div class="col-12 register-forms">
 				<div class="body-wrapper">
 					<div class="tab-content" id="myTabContent">
-						<div class="tab-pane fase show active" id="cliente-form" role="tabpanel" aria-labelledby="cliente-tab">
+						<div class="tab-pane fase show active" id="cliente-form"
+							role="tabpanel" aria-labelledby="cliente-tab">
 							<h3 class="register-header">Registrarse como Cliente</h3>
-							<form action="#" th:action="@{/cliente/add}" th:object="${cliente}" method="post">
+							<form action="#" th:action="@{/cliente/add}"
+								th:object="${cliente}" method="post">
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										<div th:class="${'alert ' + alertClass}" role="alert" th:if="${errorDNI}" th:text="${errorDNI}"></div>
+										<div th:class="${'alert ' + alertClass}" role="alert"
+											th:if="${errorDNI}" th:text="${errorDNI}"></div>
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-id-card"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-id-card"></i>
 												</span>
 											</div>
-											<input class="form-control" placeholder="DNI"
-												type="text" th:field="*{idCliente}" required>
+											<input class="form-control" placeholder="DNI" type="text"
+												th:field="*{idCliente}" required>
 										</div>
 									</div>
 								</div>
@@ -78,8 +85,7 @@
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa fa-user"></i>
+												<span class="input-group-text"> <i class="fa fa-user"></i>
 												</span>
 											</div>
 											<input class="form-control" placeholder="Nombre Completo"
@@ -91,12 +97,13 @@
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa fa-envelope"></i>
+												<span class="input-group-text"> <i
+													class="fa fa-envelope"></i>
 												</span>
 											</div>
-											<input class="form-control" placeholder="Dirección de correo electronico"
-												type="email" th:field="*{email}" required>
+											<input class="form-control"
+												placeholder="Dirección de correo electronico" type="email"
+												th:field="*{email}" required>
 										</div>
 									</div>
 								</div>
@@ -104,70 +111,82 @@
 									<div class=" col col-lg-3 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-venus-mars"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-venus-mars"></i>
 												</span>
 											</div>
-											<select class="custom-select" id="inputGroupSelect01" th:field="*{sexo}" required>
-<!-- 											    <option value="" disabled selected>Sexo</option> -->
-											    <option value="M">Hombre</option>
-											    <option value="F">Mujer</option>
+											<select class="custom-select" id="inputGroupSelect01"
+												th:field="*{sexo}" required>
+												<!-- 											    <option value="" disabled selected>Sexo</option> -->
+												<option value="M">Hombre</option>
+												<option value="F">Mujer</option>
 											</select>
 										</div>
 									</div>
 									<div class="col col-lg-3">
 										<div class="form-group input-group" style="height: 38px;">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-calendar-alt"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-calendar-alt"></i>
 												</span>
 											</div>
-											<input type="text" class="form-comtrol" placeholder="Fecha de nacimiento" onfocus="(this.type='date')" onblur="(this.type='text')"
+											<input type="text" class="form-comtrol"
+												placeholder="Fecha de nacimiento"
+												onfocus="(this.type='date')" onblur="(this.type='text')"
 												style="width: 183px;" th:field="*{fechaNacimiento}" required>
 										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
 											</div>
-									        <input name="contraseña-cliente" class="form-control" placeholder="Contraseña" type="password" required>
-									    </div>
+											<input name="contraseña-cliente" class="form-control"
+												placeholder="Contraseña" type="password" required>
+										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-										 	<div th:class="${'alert ' + alertClass}" role="alert" th:if="${errorPasswd}" th:text="${errorPasswd}"></div>
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+										<div class="form-group input-group">
+											<div th:class="${'alert ' + alertClass}" role="alert"
+												th:if="${errorPasswd}" th:text="${errorPasswd}"></div>
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
 											</div>
-									        <input name="contraseña-cliente-rep" class="form-control" placeholder="Confirmar Contraseña" type="password" required>
-									    </div>
+											<input name="contraseña-cliente-rep" class="form-control"
+												placeholder="Confirmar Contraseña" type="password" required>
+										</div>
 									</div>
 								</div>
 								<div class="row justify-content-center pt-4">
 									<div class="form-group">
-								        <button type="submit" class="btn btn-success btn-block">Crear Cuenta</button>
-								    </div>
-								   </div>
+										<button type="submit" class="btn btn-success btn-block">Crear
+											Cuenta</button>
+									</div>
+								</div>
 							</form>
 						</div>
-						<div class="tab-pane fase show" id="instructor-form" role="tabpanel" aria-labelledby="instructor-tab">
+						<div class="tab-pane fase show" id="instructor-form"
+							role="tabpanel" aria-labelledby="instructor-tab">
 							<h3 class="register-header">Registrarse como Instructor</h3>
-							<form action="#" th:action="@{/instructor/add}" th:object="${instructor}" enctype="multipart/form-data" method="post">
+							<form action="#" th:action="@{/instructor/add}"
+								th:object="${instructor}" enctype="multipart/form-data"
+								method="post">
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-id-card"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-id-card"></i>
 												</span>
 											</div>
-											<input class="form-control" placeholder="DNI"
-												type="text" th:field="*{idInstructor}" required>
+											<input class="form-control" placeholder="DNI" type="text"
+												th:field="*{idInstructor}" required>
 										</div>
 									</div>
 								</div>
@@ -175,8 +194,7 @@
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa fa-user"></i>
+												<span class="input-group-text"> <i class="fa fa-user"></i>
 												</span>
 											</div>
 											<input class="form-control" placeholder="Nombre Completo"
@@ -188,53 +206,63 @@
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fa fa-envelope"></i>
+												<span class="input-group-text"> <i
+													class="fa fa-envelope"></i>
 												</span>
 											</div>
-											<input class="form-control" placeholder="Dirección de correo electronico"
-												type="email" th:field="*{email}" required>
+											<input class="form-control"
+												placeholder="Dirección de correo electronico" type="email"
+												th:field="*{email}" required>
 										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
 										<div class="form-froup input-group">
+											<div th:class="${'alert ' + alertClass}" role="alert"
+												th:if="${errorIBAN}" th:text="${errorIBAN}"></div>
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-credit-card"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-credit-card"></i>
 												</span>
 											</div>
-											<input class="form-control" type="text" id="iban-instructor" th:field="*{iban}" required/>
+											<input class="form-control" type="text" id="iban-instructor"
+												th:field="*{iban}" required />
 										</div>
 										<small>Ejemplo: ES60 0049 1500 0512 3456 7892</small>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fas fa-file-image"></i> </span>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fas fa-file-image"></i>
+												</span>
 											</div>
 											<div class="custom-file">
-												<input class="custom-file-input" type="file" name="foto-instructor" id="foto-instructor" required/>
-												<label class="custom-file-label" for="foto-instructor" data-browse="Elegir">Seleccionar Foto</label>
+												<input class="custom-file-input" type="file"
+													name="foto-instructor" id="foto-instructor" required /> <label
+													class="custom-file-label" for="foto-instructor"
+													data-browse="Elegir">Seleccionar Foto</label>
 											</div>
-<!-- 											<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div> -->
-									    </div>
+											<!-- 											<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div> -->
+										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
 										<div class="form-group input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text">
-													<i class="fas fa-hiking"></i>
+												<span class="input-group-text"> <i
+													class="fas fa-hiking"></i>
 												</span>
 											</div>
-											<select class="selectpicker" name="tipo-actividad-acreditado" data-live-search="true" data-size=5 
-												id="tipo-actividad" title="Tipo de Actividad" required>
-													<option th:each="tipo: ${tipos}" th:value="${tipo.idTipoActividad}"
+											<select class="selectpicker" name="tipo-actividad-acreditado"
+												data-live-search="true" data-size=5 id="tipo-actividad"
+												title="Tipo de Actividad" required>
+												<option th:each="tipo: ${tipos}"
+													th:value="${tipo.idTipoActividad}"
 													th:text="${tipo.nombre}+ '   -   ' +${tipo.nivel}"></option>
 											</select>
 										</div>
@@ -242,43 +270,54 @@
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fas fa-certificate"></i> </span>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i
+													class="fas fa-certificate"></i>
+												</span>
 											</div>
 											<div class="custom-file">
-												<input class="custom-file-input" type="file" name="certificado-instructor" id="cert-instructor" required/>
-												<label class="custom-file-label" for="cert-instructor" data-browse="Elegir">Seleccionar Certificado</label>
+												<input class="custom-file-input" type="file"
+													name="certificado-instructor" id="cert-instructor" required />
+												<label class="custom-file-label" for="cert-instructor"
+													data-browse="Elegir">Seleccionar Certificado</label>
 											</div>
-											<div th:class="${'alert ' + alertClass}" role="alert" th:if="${message}" th:text="${message}"></div>
-									    </div>
+											<div th:class="${'alert ' + alertClass}" role="alert"
+												th:if="${message}" th:text="${message}"></div>
+										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+										<div class="form-group input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
 											</div>
-									        <input name="contraseña-instructor" class="form-control" placeholder="Contraseña" type="password" required>
-									    </div>
+											<input name="contraseña-instructor" class="form-control"
+												placeholder="Contraseña" type="password" required>
+										</div>
 									</div>
 								</div>
 								<div class="form-row justify-content-center">
 									<div class="col-6 col-offset-3">
-										 <div class="form-group input-group">
-										 <div th:class="${'alert ' + alertClass}" role="alert" th:if="${errorPasswd}" th:text="${errorPasswd}"></div>
-									    	<div class="input-group-prepend">
-											    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+										<div class="form-group input-group">
+											<div th:class="${'alert ' + alertClass}" role="alert"
+												th:if="${errorPasswd}" th:text="${errorPasswd}"></div>
+											<div class="input-group-prepend">
+												<span class="input-group-text"> <i class="fa fa-lock"></i>
+												</span>
 											</div>
-									        <input name="contraseña-instructor-rep" class="form-control" placeholder="Confirmar Contraseña" type="password" required>
-									    </div>
+											<input name="contraseña-instructor-rep" class="form-control"
+												placeholder="Confirmar Contraseña" type="password" required>
+										</div>
 									</div>
 								</div>
 								<div class="row justify-content-center pt-4">
-										<div class="form-group">
-									        <button type="submit" class="btn btn-success btn-block">Crear Cuenta</button>
-									    </div>
+									<div class="form-group">
+										<button type="submit" class="btn btn-success btn-block">Crear
+											Cuenta</button>
+									</div>
 								</div>
 							</form>
 						</div>
@@ -288,25 +327,33 @@
 		</div>
 	</div>
 	<!-- /Main -->
-    
-    <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="row text-muted text-center">
-                <div class="col-12 col-lg">
-                    Proyecto para la asignatura EI1027 - Curso 18/19
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- /Footer -->
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="container">
+			<div class="row text-muted text-center">
+				<div class="col-12 col-lg">Proyecto para la asignatura EI1027
+					- Curso 18/19</div>
+			</div>
+		</div>
+	</footer>
+	<!-- /Footer -->
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 </body>
 </html>
