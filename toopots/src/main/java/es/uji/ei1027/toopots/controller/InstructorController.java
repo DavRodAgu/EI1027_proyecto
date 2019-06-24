@@ -585,6 +585,12 @@ public class InstructorController {
 		InstructorValidator instructorValidator = new InstructorValidator();
 		instructorValidator.validate(instructor, bindingResult);
 		
+		if (instructor.getIban().length() != 29) {
+			redirectAttributes.addFlashAttribute("errorIBAN", "Formato de IBAN incorrecto, recuerda que debe ser del estilo: ES60 0049 1500 0512 3456 7892");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+			return "redirect:/register";
+		}
+		
 		List<String> DNIs = instructorDao.getInstructores().stream().map(Instructor::getIdInstructor).collect(Collectors.toList());
 		
 		if (DNIs.contains(instructor.getIdInstructor())) {
